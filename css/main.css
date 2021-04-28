@@ -1,0 +1,101 @@
+html {
+    font-size: 2vw;
+}
+
+body {
+    margin: 1rem;
+    text-align: justify;
+    font: .65em Courier, serif;
+}
+
+article header {
+    display: flex;
+    justify-content: space-between;
+     color: rgb(124, 0, 124);
+}
+
+article {
+    margin: 0 0 1em;
+   
+}
+
+article:first-of-type {
+    margin: .5em 0;
+    border-bottom: solid 1px;
+}
+
+article:first-of-type header{
+    color: black;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+ul.key {
+    display: block;
+}
+
+header ul {
+}
+
+header li:first-child,  header li:last-child, footer li:first-child,  footer li:last-child{
+    border: solid 1px;
+    width: 2rem;
+    height: 2rem;
+}
+
+header li:first-child{
+    border-width: 0 1px 1px 0;
+}
+header li:last-child {
+     border-width: 0 0 1px 1px;
+}
+
+footer li {
+    opacity: .99;
+     margin: 1em 0 0;
+}
+footer li:first-child{
+    border-width: 1px 1px 0 0;
+    opacity: 1; 
+    margin: 0;
+}
+footer li:last-child {
+     border-width: 1px 0 0 1px;
+    opacity: 1; 
+    margin: 0;
+}
+
+
+footer:before {
+    content: '_';
+    display: block;
+    color: white;
+    background: white;
+    opacity: .99;
+    margin: 0 1.6rem -.4rem;
+}
+
+.wrapper {
+    margin: 0 1.6rem;
+    background-color: lemonchiffon;
+    font: 1em Lora, Arial, sans-serif;
+}
+
+main {
+    margin: 0 .4rem;
+}
+
+header h1 {
+    margin: -.4rem 1.6rem 0;
+    opacity: .99;
+    color: white;
+    background-color: red;
+}
+
