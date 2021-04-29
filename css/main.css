@@ -5,7 +5,8 @@ html {
 body {
     margin: 1rem;
     text-align: justify;
-    font: .65em Courier, serif;
+    display: flex;
+  flex-direction: column;
 }
 
 article header {
@@ -41,7 +42,9 @@ ul.key {
     display: block;
 }
 
-header ul {
+body > header {
+        font: .65em Courier, serif;
+
 }
 
 header li:first-child,  header li:last-child, footer li:first-child,  footer li:last-child{
@@ -55,6 +58,11 @@ header li:first-child{
 }
 header li:last-child {
      border-width: 0 0 1px 1px;
+}
+
+footer {
+  flex-shrink: 0;
+    margin: -.75rem 0 0;
 }
 
 footer li {
@@ -73,33 +81,29 @@ footer li:last-child {
 }
 
 
-footer:before {
-    content: '_';
-    display: block;
-    color: white;
-    background: white;
-    opacity: .99;
-    margin: 0 1.6rem -.4rem;
-}
-
 .wrapper {
-    margin: 0 1.6rem;
-    background-color: lemonchiffon;
-    font: 1em Lora, Arial, sans-serif;
+    margin: -.75rem 1.4rem 0;
+    padding: 1.5rem 0;
+    background-color: white;
+    font: .65em Lora, Arial, sans-serif;
+    opacity: .99;
+    flex: 1 0 auto;
 }
 
 main {
-    margin: 0 .4rem;
+    margin: 0 1rem;
 }
 
-header h1 {
-    margin: -.4rem 1.6rem 0;
-    opacity: .99;
-    color: white;
-    background-color: red;
-}
 
 main > section {
     display: flex;
 }
+dl, dt {
+    font-weight: bold;
+}
+dd {
+    font-size: .8em;
+    font-weight: normal;
+}
+
 
