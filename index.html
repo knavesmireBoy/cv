@@ -16,7 +16,7 @@
     <ul><li></li><li>Andrew Sykes</li><li>Curriculum Vitae</li><li>May 2021</li><li></li></ul>
 
 </header>
-<div class="wrapper">
+<div class="wrapper bleed">
     <main>
         <h2>PROFILE</h2>
         <p>As part of North Wolds Printers Ltd for just over 35 years I helped develop...</p>
@@ -30,7 +30,7 @@
             <li>Maintained an interest in the skill-set required for producing web pages</li>
             <li>Researched opportunities in major investment...</li>
             <li></li>
-        </ul></section>
+        </ul><div class="board">board</div></section>
         
         <h1>Career to date</h1>
         <article><header><h2>North Wolds Printers</h2><h2>1979 - 2014</h2></header></article>
@@ -46,7 +46,7 @@
         <article>
         <header>
         <h3>Pre-Press Manager | Mac Operator | Occasional Litho Press Operator</h3><h3>1993 - 1999</h3></header>
-            <p>At <a href="https://www.printweek.com/event/article/ipex-bows-out-after-nearly-140-years">Ipex</a> in 1993 the company made its initial investment in digital kit and as the decade progressed and the pre-press landscape transitioned to a wholly digital workflow it became apparent that targeted investment would be critical to keep pace with the increasing demand for fast turnaround of print. The investment was not purely financial, there was a slew of software to learn, and in this brave new world we still had to ensure that old world values persisted on the press. An understanding of esoteric terms like bleed, spread, trap, choke, rich blacks and true blacks were crucial in delivering a quality finished product. At this stage, before the advent of the PDF format, most designers were more than happy to entrust the preparation of their files to prepress professionals. In 1998 I actually benefitted from a brief stint at a design/repro company in North Sydney, another story, and their blue-chip clients demanded the highest standards. It only reinforced the requirement of organising your assets and checking every single aspect of the job. I developed a pre-flight check-list to reflecting this discipline.</p></article>
+            <p>At <a href="https://www.printweek.com/event/article/ipex-bows-out-after-nearly-140-years">Ipex</a> in 1993 the company made its initial investment in digital kit and as the decade progressed and the pre-press landscape transitioned to a wholly digital workflow it became apparent that targeted investment would be critical to keep pace with the increasing demand for fast turnaround of print. The investment was not purely financial, there was a slew of software to learn, and in this brave new world we still had to ensure that old world values persisted on the press. An understanding of esoteric terms like <span id="bleed">bleed</span>, spread, trap, choke, rich blacks and true blacks were crucial in delivering a quality finished product. At this stage, before the advent of the PDF format, most designers were more than happy to entrust the preparation of their files to prepress professionals. In 1998 I actually benefitted from a brief stint at a design/repro company in North Sydney, another story, and their blue-chip clients demanded the highest standards. It only reinforced the requirement of organising your assets and checking every single aspect of the job. I developed a pre-flight check-list to reflecting this discipline.</p></article>
         <article><header><h3>Pre-Press Director | Mac Operator | Graphic Design | Imagesetter/CTP/Workflow Operator</h3><h3>2000 - 2010</h3></header>        
         <p>Just before the end of the millenium the firm finally invested in a imagesetter. This paid dividends when we were able to secure a contract to provide a complete repro solution for a major York based insurance company. The rip on second-hand Crosfield Magnasetter was not the fastest but we now had more control over the final output and if we had on occasion to resort to external assistance we made sure that the pdf's sent down the iSDN line were produced to exacting standards. It was the trend towards a pdf workflow that culminated, some years later, in the investment of the <a href="https://www.printweek.com/news/article/north-wolds-goes-on-200k-agfa-ctp-spree-at-northprint">Apogee X workflow</a> provided by Agfa along with the Acento, their chemistry free platesetter. A copy of Pitstop-Pro also became invaluable as the ability to safely edit client PDF files became an increasing neccesity. This period was also my most productive in design work. I could never claim that anything I produced ascended the heights of invention, you know great design when you see it and we saw plenty of it, but I had grown compentent enough in the Adobe Creative Suite to provide some decent design solutions across a range of printed products. I also took the trouble to learn some web related skills and managed to produce a few modest websites for a few of our clients.
         </p></article>
@@ -81,8 +81,15 @@
         <p>I met my girlfriend on a walking holiday and that is still our favourite kind of trip. The three of us hope to be posing by the Thames Flood Barrier within the month when we shall have completed the 189 mile journey from the source. It will only have taken four years. Happiness is a chilled white and a plate of oysters within co-ee of an ocean. I do enjoy cooking from scratch most evenings and, though I hesitate to call it a hobby, no dimly lit sheds are involved, I do enjoy producing a well made cocktail.
             I have Ian Fleming to thank for that and since you ask when it comes to those films, after all these years I still can't decide between From Russia With Love and Goldfinger.</p>
             </article>
-
     </main></div>
     <footer><ul><li></li><li>e: andrewsykes@btinternet.com</li><li>m: 07758 659222</li><li>p: SK9 7LS</li><li></li></ul></footer>
     </body>
+    <script>
+    let bleed = document.querySelector('#bleed'),
+        wrap = document.querySelector('.wrapper');
+        bleed.addEventListener('click', function(){
+            wrap.classList.toggle('bleed');
+        });
+    
+    </script>
 </html>

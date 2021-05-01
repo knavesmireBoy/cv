@@ -48,6 +48,10 @@ header li:last-child {
 }
 footer {
 	flex-shrink: 0;
+	margin:0;
+}
+
+.bleed + footer {
 	margin: -.75rem 0 0;
 }
 footer li {
@@ -65,18 +69,26 @@ footer li:last-child {
 	margin: 0;
 }
 .wrapper {
-	margin: -.75rem 1.4rem 0;
+    margin: 0 2rem;
 	padding: 1.5rem 0;
-	background-color: white;
 	font: .65em Lora, Arial, sans-serif;
 	opacity: .99;
 	flex: 1 0 auto;
+    transition: all 2s steps(3, end);
+    background-color: rgba(255, 255, 180, 1);
+
+}
+.wrapper.bleed {
+    margin: -.75rem 1.4rem 0;
+    
 }
 main {
 	margin: 0 1rem;
 }
 main>section {
 	display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 dl, dt {
 	font-weight: bold;
@@ -84,4 +96,29 @@ dl, dt {
 dd {
 	font-size: .8em;
 	font-weight: normal;
+}
+
+p span {
+    color: blue;
+}
+
+.board {
+    background: red;
+    
+}
+main > section > * {
+    border: solid 1px green;
+    flex: 1 1 50%;
+}
+main > section > ul {
+    margin: 0 .5em 0 0;
+    line-height: 1.1;
+}
+
+main > section > ul li{
+    margin: 0 0 .5em;
+}
+
+main > section > div {
+    margin: 0 0 0 .5em;
 }
