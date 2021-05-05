@@ -1,0 +1,24 @@
+
+@font-face {
+    font-family: 'Bernhard Modern Std';
+    src: url('../fonts/BernhardModernStd-Roman.eot');
+    src: url('../fonts/BernhardModernStd-Roman.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/BernhardModernStd-Roman.woff2') format('woff2'),
+        url('../fonts/BernhardModernStd-Roman.woff') format('woff'),
+        url('../fonts/BernhardModernStd-Roman.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'mycochin';
+    src: url('../fonts/Cochin.eot');
+    src: url('../fonts/Cochin.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Cochin.woff2') format('woff2'),
+        url('../fonts/Cochin.woff') format('woff'),
+        url('../fonts/Cochin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

@@ -29,11 +29,15 @@ ul {
 	display: flex;
 	justify-content: space-between;
 }
+
 ul.key {
 	display: block;
+        list-style: disc;
+    margin: 0 0 0 1em;
+
 }
 body>header {
-	font: .65em Courier, serif;
+	font: .65em Courier, "Courier New", serif;
 }
 header li:first-child, header li:last-child, footer li:first-child, footer li:last-child {
 	border: solid 1px;
@@ -71,7 +75,7 @@ footer li:last-child {
 .wrapper {
     margin: 0 2rem;
 	padding: 1.5rem 0;
-	font: .65em Lora, Arial, sans-serif;
+	font: .6em/1.4 Lora, Georgia, serif;
 	opacity: .99;
 	flex: 1 0 auto;
     transition: all 2s steps(3, end);
