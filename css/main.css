@@ -98,8 +98,15 @@ dl, dt {
 	font-weight: bold;
 }
 dd {
-	font-size: .8em;
+	font-size: .9em;
 	font-weight: normal;
+    position: absolute;
+    left: -9999px;
+}
+
+dd.show {
+    position: relative;
+    left: 0;
 }
 
 p span {
