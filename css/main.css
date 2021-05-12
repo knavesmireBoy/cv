@@ -11,6 +11,7 @@ article header {
 	display: flex;
 	justify-content: space-between;
 	color: rgb(124, 0, 124);
+	color:  teal;
 }
 article {
 	margin: 0 0 1em;
@@ -32,9 +33,14 @@ ul {
 
 ul.key {
 	display: block;
-        list-style: disc;
-    margin: 0 0 0 1em;
-
+    list-style: circle;
+    margin: 0 0 1em 1em;
+    text-align: left;
+    
+}
+.key li {
+    font-weight: bold;
+    color: teal;
 }
 body>header {
 	font: .65em Courier, "Courier New", serif;
@@ -75,16 +81,18 @@ footer li:last-child {
 .wrapper {
     margin: 0 2rem;
 	padding: 1.5rem 0;
-	font: .6em/1.4 Lora, Georgia, serif;
+	font: .6em/1.4 Palatino, Lora, Georgia, serif;
 	opacity: .99;
 	flex: 1 0 auto;
     transition: all 2s steps(3, end);
-    background-color: rgba(255, 255, 180, 1);
-
+    background-color: rgb(250, 250, 239);
 }
 .wrapper.bleed {
     margin: -.75rem 1.4rem 0;
-    
+}
+
+.key li:nth-child(odd) {
+    color: #666;
 }
 main {
 	margin: 0 1rem;
@@ -93,6 +101,10 @@ main>section {
 	display: flex;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+main h2:last-of-type {
+    line-height: 2;
 }
 dl, dt {
 	font-weight: bold;
@@ -113,13 +125,11 @@ p span {
     color: blue;
 }
 
-.board {
-    background: red;
-    
+.board {    
 }
+
 main > section > * {
-    border: solid 1px green;
-    flex: 1 1 50%;
+    flex: 2 2 1%;
 }
 main > section > ul {
     margin: 0 .5em 0 0;
@@ -127,9 +137,27 @@ main > section > ul {
 }
 
 main > section > ul li{
-    margin: 0 0 .5em;
+    margin: 0 0 .75em;
 }
 
 main > section > div {
     margin: 0 0 0 .5em;
+}
+
+a:link, a:visited, dt{
+    color: teal;
+}
+
+a:hover {
+    color: hsl(180, 95%, 17%);
+}
+
+#board {
+    border: solid 10px rgb(250, 250, 239);
+    display: block;
+}
+#pinboard {
+    width: 100%;
+    height: auto;
+    display: block;
 }
