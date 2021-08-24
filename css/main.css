@@ -36,11 +36,14 @@ ul.key {
     list-style: circle;
     margin: 0 0 1em 1em;
     text-align: left;
-    
 }
 .key li {
     font-weight: bold;
     color: teal;
+}
+
+.key li:hover {
+    color: black;
 }
 body>header {
 	font: .65em Courier, "Courier New", serif;
@@ -94,8 +97,13 @@ footer li:last-child {
 .key li:nth-child(odd) {
     color: #666;
 }
+
+.key li:nth-child(odd):hover {
+    color: black;
+}
 main {
 	margin: 0 1rem;
+    padding: 1em 2em;
 }
 main>section {
 	display: flex;
@@ -146,10 +154,11 @@ main > section > div {
 
 a:link, a:visited, dt{
     color: teal;
+    font-weight: bold;
 }
 
 a:hover {
-    color: hsl(180, 95%, 17%);
+    color: hsl(180, 90%, 39%);
 }
 
 #board {
@@ -160,4 +169,21 @@ a:hover {
     width: 100%;
     height: auto;
     display: block;
+}
+
+.design {
+    margin: 1em 5em;
+    padding: 1em 2em 2em;
+    border: solid 1px;
+    background: hsla(180, 95%, 17%, .1);
+}
+
+.design h3 {
+    margin: 1em 0 0;
+}
+
+dd {
+    padding: 1em;
+    margin: 0 0 1em;
+    background: white;
 }
