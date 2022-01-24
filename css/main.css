@@ -1,5 +1,5 @@
 html {
-	font-size: 2vw;
+	font-size: 1.65em;
 }
 body {
 	margin: 1rem;
@@ -9,6 +9,12 @@ body {
 }
 aside {
     text-align: left;
+    position: relative;
+}
+
+main {
+    
+    
 }
 section header {
 	display: flex;
@@ -16,6 +22,10 @@ section header {
 }
 section {
 	margin: 0 0 1em;
+}
+
+p {
+    margin: 0 0 .5em;
 }
 
 section:first-of-type header {
@@ -26,11 +36,14 @@ h1 {
 }
 aside {
     background-color: hsl(177, 52%, 50%);
-    font-size: 1.09em;
 }
 aside h1 {
     font: 900 3em/.75 Georgia, serif;
     color: #fff;
+}
+
+aside strong {
+    font-size: 1.1em;
 }
 
 h2, h3 {
@@ -44,6 +57,10 @@ section h2, section h3 {
 
 section h3 {
     font: 1.25em Arial, sans-serif;
+}
+
+aside h3 {
+    color: #fff;
 }
 
 
@@ -114,25 +131,24 @@ footer li:last-child {
     transition: all 2s steps(3, end);
     background-color: rgb(250, 250, 239);
     background-color: rgb(250, 250, 250);
+    background-image: url(../assets/myclock.png);
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 .wrapper.bleed {
     margin: -.75rem 1.4rem 0;
-}
-
-.key li:nth-child(odd) {
-}
-
-.key {
 }
 
 .key strong {
     font-style: normal;
 }
 .key li {
-    padding: 0 0 .4em;
-    margin: 0 0 .6em;
+    padding: 0 0 .5em;
+    margin: 0 0 .7em;
     border: dotted 0 #fff;
-    border-width: 0 0 3px;
+    border-width: 0 0 1px;
 }
 
 .key li:nth-child(odd):hover {
@@ -189,6 +205,7 @@ main > section > * {
 main > section > ul {
     margin: 0 .5em 0 0;
     line-height: 1.1;
+    background-image: none;
 }
 
 main > section > ul li{
@@ -300,10 +317,11 @@ dd {
     flex-wrap: wrap;
 }
 
-.web a {
+.web a, .him {
     flex: 1 1 33%;
     border: solid 1px teal;
-    height: 110px;
+    height: 0px;
+    padding-bottom: calc(43%);
     border-radius: 50%;
     margin: .5em;
     background-repeat: no-repeat;
@@ -326,3 +344,31 @@ dd {
     background-size: cover;
     background-position: center 30%;
 }
+
+.him {
+    width: 90%;
+    height: 0px;
+    border: solid 1px white;
+    border-radius: 50%;
+    background-image: url(../assets/IMG_0717.jpg);
+    background-size: cover;
+    margin: 1em auto;
+    background-position: center 30%;
+    position: relative;
+    padding-bottom: calc(90%/1);
+}
+/*
+aside:before {
+    content: "";
+    border-style: solid;
+    border-color: crimson;
+    border-width: 150px;
+    display: block;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 0;
+}
+*/
