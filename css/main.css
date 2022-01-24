@@ -127,7 +127,6 @@ footer li:last-child {
 
 .key strong {
     font-style: normal;
-    font-weight: bold;
 }
 .key li {
     padding: 0 0 .4em;
@@ -238,7 +237,7 @@ a:hover {
 }
 
 #content section header h3 strong {
-    font-style: normal;
+    font-weight: normal;
 }
 #content section header h3 strong:after {
     content: " | ";
