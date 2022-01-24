@@ -26,7 +26,7 @@ h1 {
 }
 aside {
     background-color: hsl(177, 52%, 50%);
-    font-size: 1.1em;
+    font-size: 1.09em;
 }
 aside h1 {
     font: 900 3em/.75 Georgia, serif;
@@ -273,4 +273,56 @@ dd {
     padding: 1em;
     margin: 0 0 1em;
     background: white;
+}
+
+.work {
+    display: flex;
+    margin: .5em 0;
+}
+
+.work a {
+    display: block;
+    flex: 1 1 33%; 
+    margin: 0 .5em;
+    border: solid 1px white;
+}
+.print a:first-child, .print a:last-child {
+    margin: 0;
+}
+
+.work img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.web {
+    flex-wrap: wrap;
+}
+
+.web a {
+    flex: 1 1 33%;
+    border: solid 1px teal;
+    height: 110px;
+    border-radius: 50%;
+    margin: .5em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-color: white;
+}
+
+.web a:nth-child(1) {
+    background-image: url(../assets/poloafrica_flower_logo.jpg);
+}
+.web a:nth-child(2) {
+    background-image: url(../assets/BN-Thermic-Logo_call_paths.jpg);
+}
+.web a:nth-child(3) {
+    background-image: url(../assets/alpacas_logo.jpg);
+}
+.web a:nth-child(4) {
+    background-image: url(../assets/fc-tmp.jpg);
+    background-size: cover;
+    background-position: center 30%;
 }
