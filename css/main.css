@@ -7,6 +7,9 @@ body {
 	display: flex;
 	flex-direction: column;
 }
+aside {
+    text-align: left;
+}
 section header {
 	display: flex;
 	justify-content: space-between;
@@ -122,7 +125,7 @@ footer li:last-child {
 .key {
 }
 
-.key em {
+.key strong {
     font-style: normal;
     font-weight: bold;
 }
@@ -234,15 +237,15 @@ a:hover {
     grid-column: 2 / 3;
 }
 
-#content section header h3 em {
+#content section header h3 strong {
     font-style: normal;
 }
-#content section header h3 em:after {
+#content section header h3 strong:after {
     content: " | ";
 }
 
 
-#content section header h3 em:last-child:after {
+#content section header h3 strong:last-child:after {
     content: none;
 }
 
