@@ -7,19 +7,19 @@ body {
 	display: flex;
 	flex-direction: column;
 }
+
+main {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em 2em;
+}
+
 aside {
     text-align: left;
     position: relative;
+    background-color: #3dc2bb;
 }
 
-main {
-    
-    
-}
-section header {
-	display: flex;
-	justify-content: space-between;
-}
 section {
 	margin: 0 0 1em;
 }
@@ -28,18 +28,42 @@ p {
     margin: 0 0 .5em;
 }
 
-section:first-of-type header {
-	color: black;
-}
 h1 {
 	text-transform: uppercase;
 }
-aside {
-    background-color: hsl(177, 52%, 50%);
+
+footer {
+	flex-shrink: 0;
+	margin:0;
 }
+
+main > * {
+    border: solid 0px red;
+    margin: 0 1em;
+}
+
 aside h1 {
     font: 900 3em/.75 Georgia, serif;
     color: #fff;
+}
+
+main > section {
+    flex: 3 1 100px;
+}
+
+
+
+main > aside {
+    flex: 1 1 100px;
+    padding: 1.5em;
+}
+
+p span {
+    color: blue;
+}
+section header {
+	display: flex;
+	justify-content: space-between;
 }
 
 aside strong {
@@ -63,6 +87,10 @@ aside h3 {
     color: #fff;
 }
 
+footer li {
+	opacity: .99;
+	margin: 1em 0 0;
+}
 
 section header:first-child h2 {
     color: #fff;
@@ -73,130 +101,10 @@ section header:first-child {
     margin: .7em 0;
 }
 
-header ul, footer ul{
+header ul, footer ul {
 	display: flex;
 	justify-content: space-between;
     font: .65em Courier, "Courier New", serif;
-}
-
-ul.key {
-    margin: 1em 0;
-    text-align: left;
-}
-
-.key li:hover {
-    color: black;
-}
-body>header {
-}
-header li:first-child, header li:last-child, footer li:first-child, footer li:last-child {
-	border: solid 1px;
-	width: 2rem;
-	height: 2rem;
-}
-header li:first-child {
-	border-width: 0 1px 1px 0;
-}
-header li:last-child {
-	border-width: 0 0 1px 1px;
-}
-footer {
-	flex-shrink: 0;
-	margin:0;
-}
-
-.bleed + footer {
-	margin: -.75rem 0 0;
-}
-footer li {
-	opacity: .99;
-	margin: 1em 0 0;
-}
-footer li:first-child {
-	border-width: 1px 1px 0 0;
-	opacity: 1;
-	margin: 0;
-}
-footer li:last-child {
-	border-width: 1px 0 0 1px;
-	opacity: 1;
-	margin: 0;
-}
-.wrapper {
-    margin: 0 2rem;
-	padding: 1.5rem 0;
-	font: .6em/1.4 Palatino, Lora, Georgia, serif;
-	opacity: .99;
-	flex: 1 0 auto;
-    transition: all 2s steps(3, end);
-    background-color: rgb(250, 250, 239);
-    background-color: rgb(250, 250, 250);
-    background-image: url(../assets/myclock.png);
-    background-image: none;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}
-.wrapper.bleed {
-    margin: -.75rem 1.4rem 0;
-}
-
-.key strong {
-    font-style: normal;
-}
-.key li {
-    padding: 0 0 .5em;
-    margin: 0 0 .7em;
-    border: dotted 0 #fff;
-    border-width: 0 0 1px;
-}
-
-.key li:nth-child(odd):hover {
-}
-main {
-    padding: 1em 2em;
-}
-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-main > section {
-    flex: 3 1 100px;
-}
-
-main > * {
-    border: solid 0px red;
-    margin: 0 1em;
-}
-
-main > aside {
-    flex: 1 1 100px;
-    padding: 1.5em;
-}
-
-
-dl, dt {
-	font-weight: bold;
-}
-dd {
-	font-size: .9em;
-	font-weight: normal;
-    position: absolute;
-    left: -9999px;
-}
-
-dd.show {
-    position: relative;
-    left: 0;
-}
-
-p span {
-    color: blue;
-}
-
-.board {    
 }
 
 main > section > * {
@@ -212,13 +120,73 @@ main > section > ul li{
     margin: 0 0 .75em;
 }
 
-a:link, a:visited, dt{
-    color: teal;
+.wrapper {
+    margin: 0 2rem;
+	padding: 1.5rem 0;
+	font: .6em/1.4 Palatino, Lora, Georgia, serif;
+	opacity: .99;
+	flex: 1 0 auto;
+    transition: all 2s steps(3, end);
+    background-color: rgb(247, 247, 239);
+    background-color: rgb(247, 247, 247);
+    background-image: url(../assets/myclock.png);
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+ul.key {
+    margin: 1em 0;
+    text-align: left;
+}
+.bleed + footer {
+	margin: -.75rem 0 0;
+}
+
+a:link, a:visited {
+    color: #26827e;
     font-weight: bold;
 }
 
 a:hover {
-    color: hsl(180, 90%, 39%);
+    color: #0abdbd;
+}
+
+header li:first-child, header li:last-child, footer li:first-child, footer li:last-child {
+	border: solid 1px;
+	width: 2rem;
+	height: 2rem;
+}
+header li:first-child {
+	border-width: 0 1px 1px 0;
+}
+header li:last-child {
+	border-width: 0 0 1px 1px;
+}
+
+footer li:first-child {
+	border-width: 1px 1px 0 0;
+	opacity: 1;
+	margin: 0;
+}
+footer li:last-child {
+	border-width: 1px 0 0 1px;
+	opacity: 1;
+	margin: 0;
+}
+
+.key strong {
+    font-style: normal;
+}
+.key li {
+    padding: 0 0 .5em;
+    margin: 0 0 .7em;
+    border: dotted 0 #fff;
+    border-width: 0 0 1px;
+}
+.wrapper.bleed {
+    margin: -.75rem 1.4rem 0;
 }
 
 #content section {
@@ -260,36 +228,18 @@ a:hover {
     content: " | ";
 }
 
-
 #content section header h3 strong:last-child:after {
     content: none;
 }
 
 #board {
-    border: solid 10px rgb(250, 250, 250);
+    border: solid 10px rgb(247, 247, 247);
     display: block;
 }
 #pinboard {
     width: 100%;
     height: auto;
     display: block;
-}
-
-.design {
-    margin: 1em 5em;
-    padding: 1em 2em 2em;
-    border: solid 1px;
-    background: hsla(180, 95%, 17%, .1);
-}
-
-.design h3 {
-    margin: 1em 0 0;
-}
-
-dd {
-    padding: 1em;
-    margin: 0 0 1em;
-    background: white;
 }
 
 .work {
@@ -345,6 +295,10 @@ dd {
     background-position: center 30%;
 }
 
+.work a:hover {
+    border-color: cyan;
+}
+
 .him {
     width: 90%;
     height: 0px;
@@ -355,7 +309,7 @@ dd {
     margin: 1em auto;
     background-position: center 30%;
     position: relative;
-    padding-bottom: calc(90%/1);
+    padding-bottom: 90%;
 }
 /*
 aside:before {
@@ -372,3 +326,27 @@ aside:before {
     top: 0;
 }
 */
+
+footer ul li {
+    top: 1em;
+    position: relative;
+}
+footer ul li:first-child, footer ul li:last-child {
+    top: 0;
+    position: relative;
+    z-index: -1;
+}
+#content header h2, #content header h3 {
+    text-align: left;
+}
+#content strong, #content header h2:last-child {
+    position: absolute;
+    left: -999px;
+}
+#content strong:first-of-type {
+    position: relative;
+    left: 0;
+}
+#content strong:first-of-type:after {
+    content: none;
+}
