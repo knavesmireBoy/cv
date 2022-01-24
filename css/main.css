@@ -7,40 +7,44 @@ body {
 	display: flex;
 	flex-direction: column;
 }
-article header {
+section header {
 	display: flex;
 	justify-content: space-between;
-	color: rgb(124, 0, 124);
-	color:  teal;
 }
-article {
+section {
 	margin: 0 0 1em;
 }
-article:first-of-type {
+section:first-of-type {
 	margin: .5em 0;
 	border-bottom: solid 1px;
 }
-article:first-of-type header {
+section:first-of-type header {
 	color: black;
 }
 h1 {
 	text-transform: uppercase;
 }
+aside {
+    background-color: hsl(177, 52%, 50%);
+}
+aside h1 {
+    font: 900 3em/.75 Georgia, serif;
+    color: #fff;
+}
+
+aside h2 {
+    font: 1.5em Arial, sans-serif;
+}
 ul {
-	display: flex;
+	display: flexx;
 	justify-content: space-between;
 }
 
 ul.key {
-	display: block;
-    list-style: circle;
-    margin: 0 0 1em 1em;
+    margin: 1em 0;
     text-align: left;
 }
-.key li {
-    font-weight: bold;
-    color: teal;
-}
+
 
 .key li:hover {
     color: black;
@@ -95,25 +99,48 @@ footer li:last-child {
 }
 
 .key li:nth-child(odd) {
-    color: #666;
+}
+
+.key {
+}
+
+.key em {
+    font-style: normal;
+    font-weight: bold;
+}
+.key li {
+    padding: 0 0 .4em;
+    margin: 0 0 .6em;
+    border: dotted 0 #fff;
+    border-width: 0 0 3px;
 }
 
 .key li:nth-child(odd):hover {
-    color: black;
 }
 main {
-	margin: 0 1rem;
     padding: 1em 2em;
 }
-main>section {
-	display: flex;
+main {
+    display: flex;
     justify-content: space-between;
     align-items: flex-start;
 }
 
-main h2:last-of-type {
-    line-height: 2;
+main > section {
+    flex: 3 1 100px;
 }
+
+main > * {
+    border: solid 1px red;
+    margin: 0 1em;
+}
+
+main > aside {
+    flex: 1 1 100px;
+    padding: 1.5em;
+}
+
+
 dl, dt {
 	font-weight: bold;
 }
@@ -159,6 +186,51 @@ a:link, a:visited, dt{
 
 a:hover {
     color: hsl(180, 90%, 39%);
+}
+
+#content section {
+    display: grid;
+    grid-auto-columns: 60px auto;
+    column-gap: 1em;
+}
+
+#content section header:first-child {
+    grid-column: 1 / 3;
+}
+#content section header {
+    grid-column: 2 / 3;
+}
+#content > section > ul {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    border: solid 0px red;
+    font: 1.75em Georgia, serif;
+    line-height: 1;
+}
+
+#content > section > ul li {
+    text-align: center;
+}
+#content > section > ul li:first-child {
+    padding: 0 0 0.2em;
+    margin: 0 0 0em;
+        border-bottom: dotted 1px;
+
+}
+#content section article {
+    grid-column: 2 / 3;
+}
+
+#content section header h3 em {
+    font-style: normal;
+}
+#content section header h3 em:after {
+    content: " | ";
+}
+
+
+#content section header h3 em:last-child:after {
+    content: none;
 }
 
 #board {
