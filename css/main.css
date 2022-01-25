@@ -5,216 +5,177 @@ body {
 	margin: 1rem;
 	text-align: justify;
 }
-
 main {
-    padding: 1em 2em;
+	padding: 1em 2em;
 }
-
 main {
-    display: table;
-    vertical-align: top;
-    border-collapse: separate;
-    border-spacing: 3em;
+	display: table;
+	vertical-align: top;
+	border-collapse: separate;
+	border-spacing: 3em;
 }
-
 aside {
-    text-align: left;
-    position: relative;
-    background-color: #3dc2bb;
+	text-align: left;
+	position: relative;
+	background-color: #3dc2bb;
 }
-
-main > aside {
-    width: 30%;
-    display: table-cell;
-    vertical-align: top;
+main>aside {
+	width: 30%;
+	display: table-cell;
+	vertical-align: top;
 }
-
-main > section {
-    width: 65%;
-    display: table-cell;
-    vertical-align: top;
+main>section {
+	width: 65%;
+	display: table-cell;
+	vertical-align: top;
 }
-
-
 section {
 	margin: 0 0 1em;
 }
-
 footer {
 	flex-shrink: 0;
-	margin:0;
+	margin: 0;
 }
-
 p {
-    margin: 0 0 .5em;
+	margin: 0 0 .5em;
 }
-
 h1 {
 	text-transform: uppercase;
 }
-
 h2, h3 {
-    font: 1.5em Arial, sans-serif;
-    text-transform: uppercase;
+	font: 1.5em Arial, sans-serif;
+	text-transform: uppercase;
 }
-
 img {
-    width: 100%;
-    height: auto;
-    display: block;
+	width: 100%;
+	height: auto;
+	display: block;
 }
-
-main > * {
-    border: solid 0px red;
-    margin: 0 1em;
+main>* {
+	border: solid 0px red;
+	margin: 0 1em;
 }
-
-main > aside {
-    padding: 1.5em;
+main>aside {
+	padding: 1.5em;
 }
-
 aside h1 {
-    font: 900 3em/.75 Georgia, serif;
-    color: #fff;
+	font: 900 3em/.75 Georgia, serif;
+	color: #fff;
 }
-
 aside h3 {
-    color: #fff;
+	color: #fff;
 }
-
 aside strong {
-    font-size: 1.1em;
+	font-size: 1.1em;
 }
-
 section header {
 	display: flex;
 	justify-content: space-between;
 }
-
 section h2, section h3 {
-    color: crimson;
+	color: crimson;
 }
-
 section h3 {
-    font: 1.25em Arial, sans-serif;
+	font: 1.25em Arial, sans-serif;
 }
-
 footer li {
 	opacity: .99;
 	margin: 1em 0 0;
 }
-
 header ul, footer ul {
-    font: .65em Courier, "Courier New", serif;
+	font: .65em Courier, "Courier New", serif;
 }
-
 header ul, footer ul {
-    display: table;
-    width: 100%;
-    border-collapse: separate;
-    table-layout: fixed;
-    text-align: center;
+	display: table;
+	width: 100%;
+	border-collapse: separate;
+	table-layout: fixed;
+	text-align: center;
 }
-
-header ul li, footer ul li{
-    display: table-cell;
+header ul li, footer ul li {
+	display: table-cell;
 }
-
-
-main > section > ul {
-    margin: 0 .5em 0 0;
-    line-height: 1.1;
-    background-image: none;
+main>section>ul {
+	margin: 0 .5em 0 0;
+	line-height: 1.1;
+	background-image: none;
 }
 footer ul li {
-    top: 1em;
-    position: relative;
+	top: 1em;
+	position: relative;
 }
-main > section > ul li{
-    margin: 0 0 .75em;
+main>section>ul li {
+	margin: 0 0 .75em;
 }
-
 .wrapper {
-    margin: 0 2rem;
+	margin: 0 2rem;
 	padding: 1.5rem 0;
 	font: .6em/1.4 Palatino, Lora, Georgia, serif;
 	opacity: .99;
-    transition: all 2s steps(3, end);
-    background-color: rgb(247, 247, 247);
+	transition: all 2s steps(3, end);
+	background-color: rgb(247, 247, 247);
 }
-
 .him {
-    width: 80%;
-    padding-bottom: 80%;
-    border: solid 1px teal;
-    margin: 1em auto;
-    border-radius: 50%;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: url(../assets/IMG_0717_lr.jpg);
+	width: 80%;
+	padding-bottom: 80%;
+	border: solid 1px teal;
+	margin: 1em auto;
+	border-radius: 50%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(../assets/IMG_0717_lr.jpg);
 }
-
 .school {
-    visibility: hidden;
+	visibility: hidden;
 }
-
 .work {
-    margin: .5em 0;
+	margin: .5em 0;
 }
-
 ul.key {
-    margin: 1em 0;
-    text-align: left;
+	margin: 1em 0;
+	text-align: left;
 }
-.bleed + footer {
+.bleed+footer {
 	margin: -.75rem 0 0;
 }
-
 a:link, a:visited {
-    color: #26827e;
-    font-weight: bold;
+	color: #26827e;
+	font-weight: bold;
 }
-
 a:hover {
-    color: #0abdbd;
+	color: #0abdbd;
 }
-
 .key strong {
-    font-style: normal;
+	font-style: normal;
 }
 .key li {
-    padding: 0 0 .5em;
-    margin: 0 0 .7em;
-    border: dotted 0 #fff;
-    border-width: 0 0 1px;
+	padding: 0 0 .5em;
+	margin: 0 0 .7em;
+	border: dotted 0 #fff;
+	border-width: 0 0 1px;
 }
 .work a {
-    margin: 0 .5em;
-    border: solid 1px white;
+	margin: 0 .5em;
+	border: solid 1px white;
 }
-
-
-.work > a {
-    float: left;
-    width: 30%;
+.work>a {
+	float: left;
+	width: 30%;
 }
-
 .work:after {
-    content: "";
-    display: table;
-    clear: both;
-    border-collapse: collapse;
+	content: "";
+	display: table;
+	clear: both;
+	border-collapse: collapse;
 }
-
 section header:first-child {
-    background-color: black;
-    padding: .2em;
-    margin: .7em 0;
+	background-color: black;
+	padding: .2em;
+	margin: .7em 0;
 }
 .work a:hover {
-    border-color: cyan;
+	border-color: cyan;
 }
-
 header li:first-child, header li:last-child, footer li:first-child, footer li:last-child {
 	border: solid 1px;
 	width: 2rem;
@@ -226,7 +187,6 @@ header li:first-child {
 header li:last-child {
 	border-width: 0 0 1px 1px;
 }
-
 footer li:first-child {
 	border-width: 1px 1px 0 0;
 	opacity: 1;
@@ -237,17 +197,14 @@ footer li:last-child {
 	opacity: 1;
 	margin: 0;
 }
-
 section header:first-child h2 {
-    color: #fff;
+	color: #fff;
 }
-
 footer ul li:first-child, footer ul li:last-child {
-    top: 0;
-    position: relative;
-    z-index: -1;
+	top: 0;
+	position: relative;
+	z-index: -1;
 }
-
 /*
 #board {
     border: solid 10px rgb(247, 247, 247);
@@ -259,65 +216,57 @@ footer ul li:first-child, footer ul li:last-child {
     display: block;
 }
 */
+
 .wrapper.bleed {
-    margin: -.75rem 1.4rem 0;
+	margin: -.75rem 1.4rem 0;
 }
-
 .print a:first-child, .print a:last-child {
-    margin: 0;
+	margin: 0;
 }
-
-#content > section > ul {
-    border: solid 0px red;
-    font: 1.75em Georgia, serif;
-    line-height: 1;
+#content>section>ul {
+	border: solid 0px red;
+	font: 1.75em Georgia, serif;
+	line-height: 1;
 }
-
-#content > section > ul li {
-    text-align: center;
+#content>section>ul li {
+	text-align: center;
 }
-#content > section > ul li:first-child {
-    padding: 0 0 0.2em;
-    margin: 0 0 0em;
-    border-bottom: dotted 1px;
+#content>section>ul li:first-child {
+	padding: 0 0 0.2em;
+	margin: 0 0 0em;
+	border-bottom: dotted 1px;
 }
-
 #content section header h3 strong {
-    font-weight: normal;
+	font-weight: normal;
 }
 #content section header h3 strong:after {
-    content: " | ";
+	content: " | ";
 }
-
 #content section header h3 strong:last-child:after {
-    content: none;
+	content: none;
 }
-
 .web a {
-    width: 44%;
-    padding-bottom: 160px;
-    margin: 0.5em;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: white;
-    border-radius: 50%;
+	width: 44%;
+	padding-bottom: 160px;
+	margin: 0.5em;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: white;
+	border-radius: 50%;
 }
-
 .web a:nth-child(1) {
-    background-image: url(../assets/poloafrica_flower_logo_lr.jpg);
+	background-image: url(../assets/poloafrica_flower_logo_lr.jpg);
 }
 .web a:nth-child(2) {
-    background-image: url(../assets/BN-Thermic-Logo_call_lr.jpg);
+	background-image: url(../assets/BN-Thermic-Logo_call_lr.jpg);
 }
 .web a:nth-child(3) {
-    background-image: url(../assets/alpacas_logo_lr.jpg);
+	background-image: url(../assets/alpacas_logo_lr.jpg);
 }
 .web a:nth-child(4) {
-    background-image: url(../assets/fc-tmp-lr.jpg);
-    background-size: cover;
-    background-position: center 30%;
+	background-image: url(../assets/fc-tmp-lr.jpg);
+	background-position: center 30%;
 }
-
 /*
 aside:before {
     content: "";
@@ -335,21 +284,20 @@ aside:before {
 */
 
 #content header h2, #content header h3 {
-    text-align: left;
+	text-align: left;
 }
 #content header strong, #content header h2:last-child {
-    position: absolute;
-    left: -999px;
+	position: absolute;
+	left: -999px;
 }
 #content strong:first-of-type {
-    position: relative;
-    left: 0;
+	position: relative;
+	left: 0;
 }
 #content strong:first-of-type:after {
-    content: none;
+	content: none;
 }
-
-#content > section > ul {
-    float: left;
-    margin: 0 1em 2em 0;
+#content>section>ul {
+	float: left;
+	margin: 0 1em 2em 0;
 }
