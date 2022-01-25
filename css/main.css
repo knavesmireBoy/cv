@@ -118,10 +118,6 @@ main>section>ul li {
 	padding: 1.5rem 0;
 	font: .6em/1.4 Palatino, Lora, Georgia, serif;
 	opacity: .99;
-	-webkit-transition: all 2s steps(3, end);
-	-o-transition: all 2s steps(3, end);
-	-moz-transition: all 2s steps(3, end);
-	transition: all 2s steps(3, end);
 	background-color: rgb(247, 247, 247);
 }
 .him {
@@ -299,6 +295,7 @@ aside:before {
 #content header h2, #content header h3 {
 	text-align: left;
 }
+/*
 #content header strong, #content header h2:last-child {
 	position: absolute;
 	left: -999px;
@@ -310,7 +307,35 @@ aside:before {
 #content strong:first-of-type:after {
 	content: none;
 }
+*/
 #content>section>ul {
 	float: left;
 	margin: 0 1em 2em 0;
+}
+
+@media only screen and (max-width: 1024px) {
+    body > header li:first-child, body > header li:last-child, body > footer li:first-child, body > footer li:last-child  {
+        position: absolute;
+        left: -999px;
+    }
+    
+    body > header ul, body > footer ul {
+        padding: .75em 3em;
+        background-color: black;
+        color: white;
+        font-size: .8em;
+    }
+    footer ul li {
+        top: 0;
+    }
+
+    .wrapper {
+        margin: 0;
+    }
+    .wrapper.bleed, body {
+        margin: 0;
+    }
+    main {
+        padding: 0;
+    }
 }
