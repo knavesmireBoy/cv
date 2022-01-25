@@ -1,0 +1,104 @@
+@supports (column-gap:10px) {
+    #content section {
+    display: grid;
+    grid-auto-columns: 50px auto;
+    column-gap: 1em;
+}
+    
+    #content section header:first-child {
+    grid-column: 1 / 3;
+}
+#content section header {
+    grid-column: 2 / 3;
+}
+#content > section > ul {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+}
+    
+    #content section article {
+    grid-column: 2 / 3;
+}
+
+
+}
+@supports (background-size: cover) {
+.web a:nth-child(1) {
+    background-image: url(../assets/poloafrica_flower_logo.jpg);
+}
+.web a:nth-child(2) {
+    background-image: url(../assets/BN-Thermic-Logo_call_paths.jpg);
+}
+.web a:nth-child(3) {
+    background-image: url(../assets/alpacas_logo.jpg);
+}
+.web a:nth-child(4) {
+    background-image: url(../assets/fc-tmp.jpg);
+    background-size: cover;
+    background-position: center 30%;
+}
+    
+    .him {
+    width: 90%;
+    height: 0px;
+    border: solid 1px white;
+    border-radius: 50%;
+    background-image: url(../assets/IMG_0717.jpg);
+    background-size: cover;
+    margin: 1em auto;
+    background-position: center 30%;
+    position: relative;
+    padding-bottom: 90%;
+}
+}
+
+@supports (display: flex) {
+    body {
+	display: flex;
+	flex-direction: column;
+}
+    main {
+    display: flex;
+    justify-content: space-between;
+}
+    main > section {
+    flex: 3 1 100px;
+}
+
+main > aside {
+    flex: 1 1 100px;
+}
+    header ul, footer ul {
+	display: flex;
+	justify-content: space-between;
+}
+    main > section > * {
+    flex: 2 2 1%;
+}
+    .wrapper {
+	flex: 1 0 auto;
+}
+    .work a {
+    flex: 1 1 33%; 
+}
+}
+@supports (flex-wrap: wrap) and (background-size: cover) {
+.work {
+    display: flex;
+}
+
+.web {
+    flex-wrap: wrap;
+}
+    .web a, .him {
+    flex: 1 1 33%;
+    border: solid 1px teal;
+    height: 0px;
+    padding-bottom: 43%;
+    border-radius: 50%;
+    margin: .5em;
+    background-size: contain;
+    background-color: white;
+}
+
+}
