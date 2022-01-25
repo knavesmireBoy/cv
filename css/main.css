@@ -339,3 +339,15 @@ aside:before {
         padding: 0;
     }
 }
+
+a.resume {
+    position: absolute;
+    bottom: 1em;
+    font: .75em Arial, serif;
+    color: white;
+    background-image: url('../assets/pdf.png');
+    background-repeat: no-repeat;
+    padding: 1em 0 1em 4em;
+    width: 80%;
+    display: block;
+}

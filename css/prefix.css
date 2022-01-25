@@ -287,6 +287,12 @@
      body > footer {
         font-size: .75em;
     }
+    
+    a.resume {
+        padding:3em 4em 0 0;
+        display: block;
+        background-image: none;
+    }
 }
 @media only screen and (max-width: 600px) {
     body > footer ul {
