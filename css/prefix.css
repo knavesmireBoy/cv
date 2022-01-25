@@ -91,19 +91,6 @@
 		    -ms-flex-pack: justify;
 		        justify-content: space-between;
 	}
-    
-    section header {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
-	   -moz-box-pack: justify;
-	    -ms-flex-pack: justify;
-	        justify-content: space-between;
-}
 	main>section {
 		-webkit-box-flex: 3;
 		-webkit-flex: 3 1 100px;

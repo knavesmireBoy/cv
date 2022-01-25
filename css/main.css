@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.3.6,
+* Autoprefixer: v10.3.1
+* Browsers: last 1000 version
+*/
+
 html {
 	font-size: 1.65em;
 }
@@ -33,7 +40,9 @@ section {
 	margin: 0 0 1em;
 }
 footer {
-	flex-shrink: 0;
+	-webkit-flex-shrink: 0;
+	    -ms-flex-negative: 0;
+	        flex-shrink: 0;
 	margin: 0;
 }
 p {
@@ -68,10 +77,7 @@ aside h3 {
 aside strong {
 	font-size: 1.1em;
 }
-section header {
-	display: flex;
-	justify-content: space-between;
-}
+
 section h2, section h3 {
 	color: crimson;
 }
@@ -112,6 +118,9 @@ main>section>ul li {
 	padding: 1.5rem 0;
 	font: .6em/1.4 Palatino, Lora, Georgia, serif;
 	opacity: .99;
+	-webkit-transition: all 2s steps(3, end);
+	-o-transition: all 2s steps(3, end);
+	-moz-transition: all 2s steps(3, end);
 	transition: all 2s steps(3, end);
 	background-color: rgb(247, 247, 247);
 }
@@ -120,7 +129,9 @@ main>section>ul li {
 	padding-bottom: 80%;
 	border: solid 1px teal;
 	margin: 1em auto;
-	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+	        border-radius: 50%;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-image: url(../assets/IMG_0717_lr.jpg);
@@ -252,7 +263,9 @@ footer ul li:first-child, footer ul li:last-child {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-color: white;
-	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+	        border-radius: 50%;
 }
 .web a:nth-child(1) {
 	background-image: url(../assets/poloafrica_flower_logo_lr.jpg);
