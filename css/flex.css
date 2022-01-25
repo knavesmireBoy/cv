@@ -39,16 +39,8 @@
 }
     
     .him {
-    width: 90%;
-    height: 0px;
-    border: solid 1px white;
-    border-radius: 50%;
     background-image: url(../assets/IMG_0717.jpg);
     background-size: cover;
-    margin: 1em auto;
-    background-position: center 30%;
-    position: relative;
-    padding-bottom: 90%;
 }
 }
 
@@ -79,7 +71,7 @@ main > aside {
 	flex: 1 0 auto;
 }
     .work a {
-    flex: 1 1 33%; 
+    flex: 1 1 33%;
 }
 }
 @supports (flex-wrap: wrap) and (background-size: cover) {
@@ -100,5 +92,16 @@ main > aside {
     background-size: contain;
     background-color: white;
 }
+    .him {
+                    width: 90%;
+    height: 0px;
+    border: solid 1px white;
+    border-radius: 50%;
+    margin: 1em auto;
+    position: relative;
+    padding-bottom: 90%;
+        background-size: cover;
+    }
+
 
 }
