@@ -231,7 +231,7 @@
 
 @media only screen and (max-width: 1000px) {
 
-    #content section:nth-of-type(3) strong:last-child, #content section:nth-of-type(4) strong:nth-child(3), #content section:nth-of-type(5) strong:nth-child(2) {
+    #content section:nth-of-type(3) header strong:last-child, #content section:nth-of-type(4) header strong:nth-child(3), #content section:nth-of-type(5) header strong:nth-child(2) {
         position: absolute;
         left: -999px;
     }
@@ -239,19 +239,74 @@
         content: none;
     }
 }
+
+@media only screen and (max-width: 900px) {
+    body > footer ul {
+        padding: 0.75em;
+    }
+} 
 @media only screen and (max-width: 800px) {
     #content section header h2+h2 {
         position: absolute;
         left: -999px;
     }
+    body > footer ul {
+        padding: 0.75em 1.5em;
+    }
 }
 
 @media only screen and (max-width: 768px) {
-     #content section:nth-of-type(4) strong:nth-child(2), #content section:nth-of-type(5) strong:nth-child(3){
+     #content section:nth-of-type(4) strong:nth-child(2), #content section:nth-of-type(5) strong:nth-child(3), .him{
         position: absolute;
         left: -999px;
     }
     #content section:nth-of-type(n+4) strong:first-child:after {
         content: none;
+    }
+    main > section, main > aside {
+        flex: 1 1 100%;
+    }
+    main > aside {
+        order: 2;
+    }
+    main {
+        flex-wrap: wrap;
+    }
+    .web {
+        flex-wrap: nowrap;
+    }
+    .web a {
+        padding-bottom: 100px;
+    }
+    .print {
+        display: block;
+    }
+    .work a {
+        max-width: 100px;
+    }
+     body > footer {
+        font-size: .75em;
+    }
+}
+@media only screen and (max-width: 600px) {
+    body > footer ul {
+        display: block;
+    }
+    body > footer ul li {
+        display: block;
+    }
+    
+    body, main, .wrapper {
+        background-color: rgb(19, 19, 19);
+        color: white;
+    }
+    aside {
+        background-color: hsl(177, 52%, 50%, 0.5);
+    }
+   #content > section:first-of-type > header {
+       background-color: transparent;
+    }
+    aside h3 {
+        color: black;
     }
 }
