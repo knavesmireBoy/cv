@@ -1,0 +1,11 @@
+.output {
+    font-family: monospace;
+    margin: .5em 0;
+    line-height: 1;
+}
+
+.output p {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    width: 100%;
+}

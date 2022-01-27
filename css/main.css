@@ -9,11 +9,11 @@ html {
 	font-size: 1.65em;
 }
 body {
-	margin: 1rem;
+	margin: 1vw;
 	text-align: justify;
 }
 main {
-	padding: 1em 2em;
+	padding: 0 2vw;
 }
 main {
 	display: table;
@@ -27,12 +27,12 @@ aside {
 	background-color: #3dc2bb;
 }
 main>aside {
-	width: 30%;
+	width: 30vw;
 	display: table-cell;
 	vertical-align: top;
 }
 main>section {
-	width: 65%;
+	width: 6vw;
 	display: table-cell;
 	vertical-align: top;
 }
@@ -62,7 +62,7 @@ img {
 }
 main>* {
 	border: solid 0px red;
-	margin: 0 1em;
+	margin: 0 1vw;
 }
 main>aside {
 	padding: 1.5em;
@@ -138,6 +138,12 @@ main>section>ul li {
 .work {
 	margin: .5em 0;
 }
+
+aside .output {
+    position: absolute;
+    left: -999px;
+}
+
 ul.key {
 	margin: 1em 0;
 	text-align: left;
@@ -162,8 +168,9 @@ a:hover {
 	border-width: 0 0 1px;
 }
 .work a {
-	margin: 0 .5em;
+	margin: 0 .5vw;
 	border: solid 1px white;
+    display: block;
 }
 .work>a {
 	float: left;
@@ -212,20 +219,9 @@ footer ul li:first-child, footer ul li:last-child {
 	position: relative;
 	z-index: -1;
 }
-/*
-#board {
-    border: solid 10px rgb(247, 247, 247);
-    display: block;
-}
-#pinboard {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-*/
 
 .wrapper.bleed {
-	margin: -.75rem 1.4rem 0;
+	margin: -.75rem 2.5vw 0;
 }
 .print a:first-child, .print a:last-child {
 	margin: 0;
@@ -292,6 +288,18 @@ aside:before {
 }
 */
 
+/*
+#board {
+    border: solid 10px rgb(247, 247, 247);
+    display: block;
+}
+#pinboard {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+*/
+
 #content header h2, #content header h3 {
 	text-align: left;
 }
@@ -314,7 +322,7 @@ aside:before {
 }
 
 @media only screen and (max-width: 1024px) {
-    body > header li:first-child, body > header li:last-child, body > footer li:first-child, body > footer li:last-child  {
+    body > header li:first-child, body > header li:last-child, body > footer li:first-child, body > footer li:last-child {
         position: absolute;
         left: -999px;
     }
@@ -351,3 +359,4 @@ a.resume {
     width: 80%;
     display: block;
 }
+
