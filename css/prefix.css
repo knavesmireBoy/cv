@@ -4,6 +4,14 @@
 * Autoprefixer: v10.3.1
 * Browsers: last 1000 version
 */
+@supports ((-webkit-column-gap: 10px) or (-moz-column-gap: 10px) or (column-gap: 10px)){
+ aside:before {
+     border-color: crimson;
+     border-width: calc(134px + (26) * (100vw - 1024px) / (1280 - 1024));
+     border-right-color: transparent;
+     border-bottom-color: transparent;
+    }
+}
 
 @supports ((-webkit-column-gap: 10px) or (-moz-column-gap: 10px) or (column-gap: 10px)) {
 	#content section {
@@ -229,7 +237,11 @@
     #content>section>ul {
         margin: 0;
     }
+    aside:before{
+        border-width: calc(117px + (31) * (100vw - 768px) / (1024 - 768));
+    }
 }
+    
 }
 
 @media only screen and (max-width: 1100px) and (min-width: 1024px) {
@@ -322,7 +334,7 @@
 }
 
 
-@media only screen and (min-width: 420px) {
+@media only screen and (min-width: 420px) and (max-width: 660px) {
     #content section:nth-of-type(4) header strong:nth-child(2) {
         position: absolute;
         left: -999px;
@@ -388,6 +400,10 @@
         display: block;
         background-image: none;
     }
+    aside:before {
+        border-color: transparent;
+        border-width: 0px
+    }
 }
 @media only screen and (max-width: 600px) {
     body > footer ul {
@@ -409,5 +425,8 @@
     }
     aside h3 {
         color: black;
+    }
+    .wrapper {
+        padding: 1.5rem 0 0;
     }
 }

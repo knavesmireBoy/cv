@@ -272,21 +272,17 @@ footer ul li:first-child, footer ul li:last-child {
 	background-image: url(../assets/fc-tmp-lr.jpg);
 	background-position: center 30%;
 }
-/*
+
 aside:before {
     content: "";
     border-style: solid;
-    border-color: crimson;
-    border-width: 150px;
     display: block;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
+    border-color: transparent;
     position: absolute;
     z-index: 0;
     left: 0;
     top: 0;
 }
-*/
 
 /*
 #board {
