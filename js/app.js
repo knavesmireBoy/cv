@@ -85,6 +85,7 @@ main.addEventListener('click', function(e){
         html = document.documentElement,
         reg = /.+localhost.+jpe?g$/,
         src;
+    alert(tgt.href);
     if(tgt.nodeName !== 'A'){
         if(!pass) {
             return;  
