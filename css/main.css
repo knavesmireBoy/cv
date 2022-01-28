@@ -7,9 +7,10 @@
 
 html {
 	font-size: 1.65em;
+    text-align: center;
 }
 body {
-	margin: 1vw;
+	margin: 1vw auto;
 	text-align: justify;
 }
 main {
@@ -62,7 +63,7 @@ img {
 }
 main>* {
 	border: solid 0px red;
-	margin: 0 1vw;
+	margin: 0 1.4vw;
 }
 main>aside {
 	padding: 1.5em;
@@ -123,7 +124,7 @@ main>section>ul li {
 .him {
 	width: 80%;
 	padding-bottom: 80%;
-	border: solid 1px teal;
+	border: solid 1px #26827e;
 	margin: 1em auto;
 	-webkit-border-radius: 50%;
 	   -moz-border-radius: 50%;
@@ -134,6 +135,7 @@ main>section>ul li {
 }
 .school {
 	visibility: hidden;
+    display: none;
 }
 .work {
 	margin: .5em 0;
@@ -141,7 +143,7 @@ main>section>ul li {
 
 aside .output {
     position: absolute;
-    left: -999px;
+    left: -9999px;
 }
 
 ul.key {
@@ -156,7 +158,7 @@ a, a:link, a:visited {
 	font-weight: bold;
 }
 a:hover {
-	color: #0abdbd;
+	color: #3dc2bb;
 }
 
 footer a:link, footer a:visited {
@@ -167,6 +169,9 @@ footer a:hover {
     text-decoration: underline;
 }
 
+aside a, aside a:link, aside a:visited {
+    color: black;
+}
 aside a:hover {
     color: white;
 }
@@ -264,6 +269,7 @@ footer ul li:first-child, footer ul li:last-child {
 	width: 44%;
 	padding-bottom: 160px;
 	margin: 0.5em;
+    display: block;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-color: white;
@@ -288,6 +294,7 @@ footer ul li:first-child, footer ul li:last-child {
 aside:before {
     content: "";
     border-style: solid;
+    border-width: 0;
     display: block;
     border-color: transparent;
     position: absolute;
@@ -311,10 +318,24 @@ aside:before {
 #content header h2, #content header h3 {
 	text-align: left;
 }
+#content header {
+    overflow: hidden;
+}
+#content header h2+h2 {
+    float: right;
+}
+#content header h2 {
+    float: left;
+}
+#content header: after {
+    content: "";
+    display: table;
+    clear: both;
+}
 /*
 #content header strong, #content header h2:last-child {
 	position: absolute;
-	left: -999px;
+	left: -9999px;
 }
 #content strong:first-of-type {
 	position: relative;
@@ -332,7 +353,7 @@ aside:before {
 @media only screen and (max-width: 1024px) {
     body > header li:first-child, body > header li:last-child, body > footer li:first-child, body > footer li:last-child {
         position: absolute;
-        left: -999px;
+        left: -9999px;
     }
     
     body > header ul, body > footer ul {
@@ -354,16 +375,4 @@ aside:before {
     main {
         padding: 0;
     }
-}
-
-a.resume {
-    position: absolute;
-    bottom: 1em;
-    font: .75em Arial, serif;
-    color: white;
-    background-image: url('../assets/pdf.png');
-    background-repeat: no-repeat;
-    padding: 1em 0 1em 4em;
-    width: 80%;
-    display: block;
 }

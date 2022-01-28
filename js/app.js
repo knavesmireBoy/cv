@@ -76,14 +76,14 @@ var main = document.querySelector('main'),
                 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
             },
     deferScroll = function(){
-        setTimeout(doScroll, 66);
+        setTimeout(doScroll, 333);
     };
 main.addEventListener('click', function(e){
     var tgt = e.target,
         pic = document.querySelector('.him'),
         pass = (tgt === pic),
         html = document.documentElement,
-        reg = /.+localhost.+/,
+        reg = /.+localhost.+jpe?g$/,
         src;
     if(tgt.nodeName !== 'A'){
         if(!pass) {
