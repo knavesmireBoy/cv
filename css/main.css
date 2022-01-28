@@ -151,7 +151,7 @@ ul.key {
 .bleed+footer {
 	margin: -.75rem 0 0;
 }
-a:link, a:visited {
+a, a:link, a:visited {
 	color: #26827e;
 	font-weight: bold;
 }
@@ -159,7 +159,7 @@ a:hover {
 	color: #0abdbd;
 }
 
-footer a:link, a:visited {
+footer a:link, footer a:visited {
     color: black;
     font-weight: normal;
 }
