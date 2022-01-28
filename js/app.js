@@ -83,15 +83,13 @@ main.addEventListener('click', function(e){
         pic = document.querySelector('.him'),
         pass = (tgt === pic),
         html = document.documentElement,
-        reg = /.+localhost.+jpe?g$/,
         src;
-    console.log(tgt.href.indexOf(location.href));
     if(tgt.nodeName !== 'A'){
         if(!pass) {
             return;  
         }
     }
-    if(tgt.href && !tgt.href.match(reg)){
+    if(tgt.href && tgt.href.indexOf(location.href) < 0){
        return;
     }
     e.preventDefault();
