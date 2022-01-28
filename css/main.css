@@ -158,6 +158,18 @@ a:link, a:visited {
 a:hover {
 	color: #0abdbd;
 }
+
+footer a:link, a:visited {
+    color: black;
+    font-weight: normal;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+
+aside a:hover {
+    color: white;
+}
 .key strong {
 	font-style: normal;
 }

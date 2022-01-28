@@ -437,6 +437,9 @@
      aside .web {
         display: flex;
     }
+    footer a:link, a:visited {
+    color: white;
+}
 }
 @media only screen and (max-width: 600px) {
     body > footer ul {

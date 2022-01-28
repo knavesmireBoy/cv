@@ -1,5 +1,5 @@
-   var count = 0,
-            board = document.querySelector('#board'),
+   /*var count = 0,
+            board = document.querySelector('.him'),
             bolt = document.querySelector('#bolt'),
             main = document.querySelectorAll('main')[0],
             doScroll = function(){
@@ -68,5 +68,35 @@
             tgt.classList.toggle('show');
             }            
         });
-           
+           */
+
+var main = document.querySelector('main'),
+    doScroll = function(){
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            };
+main.addEventListener('click', function(e){
+    var doc = window.document,
+        tgt = e.target,
+        pic = doc.querySelector('.him'),
+        pass = (tgt === pic),
+        html = doc.documentElement,
+        src;
+    pic.onload = doScroll;
+    if(tgt.nodeName !== 'A'){
+        if(!pass){
+            return;  
+        }
+    }
+    e.preventDefault();
+    if(html.className === 'js'){
+        pic.style.backgroundImage = null;
+        html.className = 'no-js';
+    }
+    else if(tgt.className === 'display') {
+        html.className = 'js';
+        src = tgt.getAttribute('href');
+        pic.style.backgroundImage = "url(" + src + ")";
+    }
+});
             
