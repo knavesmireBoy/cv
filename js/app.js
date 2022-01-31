@@ -132,13 +132,14 @@ var main = document.querySelector('main'),
     getTarget = curry2(getProp)('target'),
     isMan = doEquals(him),
     getNodeName = curry2(getProp)('nodeName'),
-    doReduce = function(grp, ini){
-        return grp.reduce(compose, ini);
+    doReduce = function(cb, grp, ini){
+        return grp.reduce(cb, ini);
     },
-    isLink = curryLeft(doReduce)([getTarget, getNodeName, doEquals('A')]),
-    isLocal = curryLeft(doReduce)([getTarget, notExternal]),
-    reSetPic = curryLeft(doReduce)([getStyle, doNull]),
-    driller = curryLeft(doReduce)(['dataset', 'current']),
+    doCompose = curryLeft3(doReduce)(compose),
+    isLink = doCompose([getTarget, getNodeName, doEquals('A')]),
+    isLocal = doCompose([getTarget, notExternal]),
+    reSetPic = doCompose([getStyle, doNull]),
+    //getCurrent = curryLeft3(doReduce)(drill)(['dataset', 'current']),
     getData = function(str){
         if(!str){
             return '';
@@ -147,13 +148,13 @@ var main = document.querySelector('main'),
             end = str.lastIndexOf('.');
         return str.substring(start+1, end);
     },
-    doBg = doReduce([getStyle, setPropDefer])('backgroundImage'),
-    doDataSet = doReduce([getDataSet, setPropDefer])('current'),
+    doBg = doReduce(compose, [getStyle, setPropDefer])('backgroundImage'),
+    doDataSet = doReduce(compose, [getDataSet, setPropDefer])('current'),
     getHREF = curry3(invokeProp)('href')('getAttribute'),
-    deferURL = curryLeft(doReduce)([getTarget, getHREF, doURL]),
-    deferType = curryLeft(doReduce)([getTarget, getHREF, getData]),
-    setPic = curryLeft(doReduce)([deferURL, doBg]),
-    doResetPic = curryLeft(doReduce)([getTarget, doWhen(isMan, reSetPic)]);
+    deferURL = doCompose([getTarget, getHREF, doURL]),
+    deferType = doCompose([getTarget, getHREF, getData]),
+    setPic = doCompose([deferURL, doBg]),
+    doResetPic = doCompose([getTarget, doWhen(isMan, reSetPic)]);
 
 main.addEventListener('click', function(e){
     var pass = [isLink, isLocal].every(curry2(invoke)(e)),
@@ -172,7 +173,5 @@ main.addEventListener('click', function(e){
         }
         deferScroll();
         doDataSet(current);
-           con(['dataset', 'current'].reduce(drill, him);
-
     }
 }); 
