@@ -1,108 +1,178 @@
-   /*var count = 0,
-            board = document.querySelector('.him'),
-            bolt = document.querySelector('#bolt'),
-            main = document.querySelectorAll('main')[0],
-            doScroll = function(){
-                document.body.scrollTop = 0; // For Safari
-                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-            },
-            equals = function(pass){
-                return function(a, b){
-                    return pass ? a !== b : a === b;
-                };
-            },
-            match = function(reg){
-                return function(str){
-                    return str.match(reg);
-                };
-            },
-            isSub = match(/^DT$/),
-            isLink = match(/^A$/);
-            
-        
-        main.addEventListener('click', function(e){
-            var tgt = e.target;
+/*jslint nomen: true */
+/*global window: false */
+/*global document: false */
 
-            if(tgt.nodeName !== 'A'){
-                return;
-            }
-            if(!tgt.target){
-                e.preventDefault();
-            var pin = document.getElementById('pinboard');
-            if(pin){
-                if(e.target.href !== pin.src){
-                     pin.src = e.target.href; 
-                }
-                else {
-                    board.removeChild(board.firstChild);
-                }
-            }
-            else {
-                var i = document.createElement('img');
-                board.appendChild(i);
-                i.id = 'pinboard';
-                i.src = e.target.href;
-            }
-            doScroll();
-            }            
+function curry2(fun) {
+    return function (secondArg) {
+        return function (firstArg) {
+            return fun(firstArg, secondArg);
+        };
+    };
+}
 
-        });
-        
-        board.addEventListener('click', function(e){
-            e.preventDefault();
-               if(document.getElementById('pinboard')){
-                board.removeChild(board.firstChild);
-            }
-            
-        });
-        
-        document.querySelector('dl').addEventListener('click', function(e){            
-            if(isSub(e.target.nodeName)){
-               var tgt = e.target.nextElementSibling,
-                sites = Array.prototype.slice.call(document.querySelectorAll('dd'));
-            sites.forEach(function(el){
-                if(tgt !== el){
-                    el.classList.remove('show');
-                }
-            });
-            tgt.classList.toggle('show');
-            }            
-        });
-           */
+function curry22(fun) {
+    return function (secondArg) {
+        return function (firstArg) {
+            return function(){
+                return fun(firstArg, secondArg);
+            };
+        };
+    };
+}
+
+function curry3(fun) {
+    return function (last) {
+        return function (middle) {
+            return function (first) {
+                return fun(first, middle, last);
+            };
+        };
+    };
+}
+
+function curry33(fun) {
+    return function (last) {
+        return function (middle) {
+            return function (first) {
+                return function(){
+                    return fun(first, middle, last);
+            };
+        };
+    };
+};
+}
+
+function curryLeft(fun) {
+    return function (firstArg) {
+        return function (secondArg) {
+            return fun(firstArg, secondArg);
+        };
+    };
+}
+
+
+function curryLeft3(fun) {
+    return function (firstArg) {
+        return function (secondArg) {
+            return function(thirdArg){
+                return fun(firstArg, secondArg, thirdArg);
+        };
+    };
+};
+}
+
+function compose(v, f){
+    return v = f(v);
+}
+
+function drill(o, p){
+    return o = o[p];
+}
+
+function invoke(f, arg){
+    return f(arg);
+}
+
+function always(arg){
+    return function(){
+        return arg;
+    }
+}
+
+function doWhen(pred, action){
+    return function(arg){
+        if(pred(arg)){
+            return action(arg);
+        }
+    };
+}
+
+function con(arg){
+    console.log(arg);
+    return arg;
+}
+
+
+//var compose = (...fns) => fns.reduce((f, g) => (..args) => f(g(..args)))
 
 var main = document.querySelector('main'),
+    him = document.querySelector('.him'),
     doScroll = function(){
-                document.body.scrollTop = 0; // For Safari
-                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-            },
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    },
     deferScroll = function(){
-        setTimeout(doScroll, 333);
-    };
-main.addEventListener('click', function(e){
-    var tgt = e.target,
-        pic = document.querySelector('.him'),
-        pass = (tgt === pic),
-        html = document.documentElement,
-        src;
-    if(tgt.nodeName !== 'A'){
-        if(!pass) {
-            return;  
+        window.setTimeout(doScroll, 333);
+    },
+    notExternal = function(tgt){
+        return tgt.href.indexOf(window.location.href) >= 0;
+    },
+    equals = function(a, b){
+        //console.log(a, b)
+        return a === b;
+    },
+    getProp = function(o, p){
+        return p ? o[p] : o;
+    },
+    invokeProp = function(o, p, v){
+        return o[p](v);
+    },
+    setProp = function(o,p,v){
+        o[p] = v;
+    },
+    doURL = function(src){
+        return "url(" + src + ")";
+    },
+    prevent = curry33(invokeProp)(null)('preventDefault'),
+    doNull = curry3(setProp)(null)('backgroundImage'),
+    setPropDefer = curryLeft3(setProp),
+    getStyle = curry22(getProp)('style')(him),
+    getDataSet = curry22(getProp)('dataset')(him),
+    doEquals = curryLeft(equals),
+    getTarget = curry2(getProp)('target'),
+    isMan = doEquals(him),
+    getNodeName = curry2(getProp)('nodeName'),
+    doReduce = function(grp, ini){
+        return grp.reduce(compose, ini);
+    },
+    isLink = curryLeft(doReduce)([getTarget, getNodeName, doEquals('A')]),
+    isLocal = curryLeft(doReduce)([getTarget, notExternal]),
+    reSetPic = curryLeft(doReduce)([getStyle, doNull]),
+    driller = curryLeft(doReduce)(['dataset', 'current']),
+    getData = function(str){
+        if(!str){
+            return '';
         }
-    }
-    if(tgt.href && tgt.href.indexOf(location.href) < 0){
-       return;
-    }
-    e.preventDefault();
-    if(document.documentElement.className === 'js'){
-        pic.style.backgroundImage = null;
-        html.className = 'no-js';
+        var start = str.lastIndexOf('/'),
+            end = str.lastIndexOf('.');
+        return str.substring(start+1, end);
+    },
+    doBg = doReduce([getStyle, setPropDefer])('backgroundImage'),
+    doDataSet = doReduce([getDataSet, setPropDefer])('current'),
+    getHREF = curry3(invokeProp)('href')('getAttribute'),
+    deferURL = curryLeft(doReduce)([getTarget, getHREF, doURL]),
+    deferType = curryLeft(doReduce)([getTarget, getHREF, getData]),
+    setPic = curryLeft(doReduce)([deferURL, doBg]),
+    doResetPic = curryLeft(doReduce)([getTarget, doWhen(isMan, reSetPic)]);
+
+main.addEventListener('click', function(e){
+    var pass = [isLink, isLocal].every(curry2(invoke)(e)),
+        preventer = doWhen(always(pass), prevent(e)),
+        current = deferType(e);
+        preventer(e);
+    doResetPic(e);
+    
+    if(pass){
+        if(him.dataset.current === current){
+            reSetPic();
+            current = '';
+        }
+        else {
+            setPic(e); 
+        }
         deferScroll();
+        doDataSet(current);
+           con(['dataset', 'current'].reduce(drill, him);
+
     }
-    else if(tgt.className === 'display') {
-        document.documentElement.className = 'js';
-        src = tgt.getAttribute('href');
-        pic.style.backgroundImage = "url(" + src + ")";
-        deferScroll();
-    }
-});
-     
+}); 
