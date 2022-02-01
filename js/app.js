@@ -2,7 +2,12 @@
 /*global window: false */
 /*global document: false */
 
-
+/*
+function con(arg){
+    console.log(arg);
+    return arg;
+}
+*/
 
 function defer(fun) {
     return function (a) {
@@ -83,12 +88,6 @@ function invoke(f, arg){
     return f(arg);
 }
 
-function always(arg){
-    return function(){
-        return arg;
-    }
-}
-
 function doWhen(pred, action){
     return function(arg){
         if(pred(arg)){
@@ -97,19 +96,12 @@ function doWhen(pred, action){
     };
 }
 
-function con(arg){
-    console.log(arg);
-    return arg;
-}
-
 function best(pred, actions){
     return actions.reduce(function(champ, contender){
         return champ = pred() ? champ : contender;
     });
     
 }
-
-
 //var compose = (...fns) => fns.reduce((f, g) => (..args) => f(g(..args)))
 
 var main = document.querySelector('main'),
@@ -119,13 +111,12 @@ var main = document.querySelector('main'),
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     },
     deferScroll = function(){
-        window.setTimeout(doScroll, 333);
+        window.setTimeout(doScroll, 444);
     },
     notExternal = function(tgt){
         return tgt.href.indexOf(window.location.href) >= 0;
     },
     equals = function(a, b){
-        //console.log(a, b)
         return a === b;
     },
     getProp = function(o, p){
@@ -140,6 +131,7 @@ var main = document.querySelector('main'),
     doURL = function(src){
         return "url(" + src + ")";
     },
+    each = curry33(invokeProp)(invoke)('forEach'),
     prevent = curry33(invokeProp)(null)('preventDefault'),
     doNull = curry3(setProp)(null)('backgroundImage'),
     setPropDefer = curryLeft3(setProp),
@@ -166,28 +158,25 @@ var main = document.querySelector('main'),
         return str.substring(start+1, end);
     },
     doBg = doReduce(compose, [getTargetPicStyle, setPropDefer])('backgroundImage'),
-    getBody = curry22(getProp)('body')(document),
-    getStyle = curry2(getProp)('style'),
-    doBody = doReduce(compose, [getBody, getStyle, setPropDefer])('backgroundColor'),
     doDataSet = doReduce(compose, [getDataSet, setPropDefer])('current'),
     getHREF = curry3(invokeProp)('href')('getAttribute'),
     deferURL = doCompose([getTarget, getHREF, doURL]),
     deferType = doCompose([getTarget, getHREF, getData]),
     setPic = doCompose([deferURL, doBg]),
+    doDataRESET = defer(doDataSet)(''),
+    doResetData = doCompose([getTarget, doWhen(isTargetPic, doDataRESET)]),
     doResetPic = doCompose([getTarget, doWhen(isTargetPic, reSetPic)]);
 
 main.addEventListener('click', function(e){
-    var pass = [isLink, isLocal].every(curry2(invoke)(e)),
-        so = curry33(invokeProp)(curry2(invoke)(e))('every')([isLink, isLocal]),
-        current = deferType(e),
-        each = curry33(invokeProp)(invoke)('forEach'),
-        enter = each([defer(setPic)(e), defer(doDataSet)(current)]),
-        restore = each([reSetPic, defer(doDataSet)('')]),
-        perform = each([thenInvoke, deferScroll]),
-        preventer = doWhen(always(pass), prevent(e)),
-        match = curry22(equals)(current)(getCurrent()),
-        thenInvoke = doCompose([curry22(best)([restore, enter])(match), invoke]);
+    var so = curry33(invokeProp)(curry2(invoke)(e))('every')([isLink, isLocal]),
+        preventer = doWhen(so, prevent(e)),
+        enter = each([defer(setPic)(e), defer(doDataSet)(deferType(e))]),
+        restore = each([reSetPic, doDataRESET]),
+        match = curry22(equals)(deferType(e))(getCurrent()),
+        thenInvoke = doCompose([curry22(best)([restore, enter])(match), invoke]),
+        perform = each([thenInvoke, deferScroll]);
         preventer(e);
     doResetPic(e);
-   //doWhen(so, perform)();
+    doResetData(e);
+    doWhen(so, perform)();
 }); 
