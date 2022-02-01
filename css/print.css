@@ -12,14 +12,15 @@ aside .output {
 .output p {
     white-space: pre-wrap;
     overflow-wrap: break-word;
-    width: 100%;
 }
 
  aside:before {
      border-color: transparent;
      border-width: 0;
     }
-
+aside {
+    border: solid 1px;
+}
 main {
     flex-wrap: wrap;
 }
@@ -32,11 +33,57 @@ main > aside {
     order: 2;
 }
 
-.work, .resume, .inner p, body > header li:first-child, body > header li:last-child, body > footer li:first-child, body > footer li:last-child {
+body > header li:first-child, body > header li:last-child, body > footer li:first-child, body > footer li:last-child {
+    color: white;
+}
+
+.him, .work, .resume, .inner > p, aside h3, #content > h2:first-child, footer {
         position: absolute;
         left: -9999px;
     }
 
-header ul, footer ul{
-    display: block;
+
+.wrapper.bleed {
+	margin: -.75rem 0 0;
+}
+aside .inner {
+    display: table;
+}
+aside .output {
+    display: table-cell;
+    border-collapse: collapse;
+}
+aside .output:before {
+    content: "WEB";
+}
+aside .print + .output:before {
+    content: "PRINT";
+}
+aside .inner div:last-child:before {
+    content: "CONTACT";
+}
+aside .inner {
+       border-spacing: .4em;
+}
+
+main aside {
+    padding: 0;
+}
+
+#content h2 {
+    color: black;
+}
+
+#content header, .wrapper {
+    background-color: white;
+    margin: 0;
+}
+header li:first-child, header li:last-child, footer li:first-child, footer li:last-child {
+	border: solid 1px;
+	width: 1rem;
+	height: 1.5rem;
+}
+.wrapper.bleed {
+    margin: 0;
+    padding: 0;
 }

@@ -4,6 +4,12 @@
 * Autoprefixer: v10.3.1
 * Browsers: last 1000 version
 */
+
+footer {
+	-webkit-flex-shrink: 0;
+	    -ms-flex-negative: 0;
+	        flex-shrink: 0;
+}
 @supports (column-gap: 10px){
  aside:before {
      border-color: crimson;
@@ -470,7 +476,6 @@ a:hover {
         section header:first-child {
 	padding: .2em 0;
 }
-
 }
 
 
