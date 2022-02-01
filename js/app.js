@@ -2,40 +2,50 @@
 /*global window: false */
 /*global document: false */
 
+
+
+function defer(fun) {
+    return function (a) {
+        return function () {
+            return fun(a);
+        };
+    };
+}
+
 function curry2(fun) {
-    return function (secondArg) {
-        return function (firstArg) {
-            return fun(firstArg, secondArg);
+    return function (b) {
+        return function (a) {
+            return fun(a, b);
         };
     };
 }
 
 function curry22(fun) {
-    return function (secondArg) {
-        return function (firstArg) {
+    return function (b) {
+        return function (a) {
             return function(){
-                return fun(firstArg, secondArg);
+                return fun(a, b);
             };
         };
     };
 }
 
 function curry3(fun) {
-    return function (last) {
-        return function (middle) {
-            return function (first) {
-                return fun(first, middle, last);
+    return function (c) {
+        return function (b) {
+            return function (a) {
+                return fun(a, b, c);
             };
         };
     };
 }
 
 function curry33(fun) {
-    return function (last) {
-        return function (middle) {
-            return function (first) {
+    return function (c) {
+        return function (b) {
+            return function (a) {
                 return function(){
-                    return fun(first, middle, last);
+                    return fun(a, b, c);
             };
         };
     };
@@ -43,19 +53,19 @@ function curry33(fun) {
 }
 
 function curryLeft(fun) {
-    return function (firstArg) {
-        return function (secondArg) {
-            return fun(firstArg, secondArg);
+    return function (a) {
+        return function (b) {
+            return fun(a, b);
         };
     };
 }
 
 
 function curryLeft3(fun) {
-    return function (firstArg) {
-        return function (secondArg) {
-            return function(thirdArg){
-                return fun(firstArg, secondArg, thirdArg);
+    return function (a) {
+        return function (b) {
+            return function(c){
+                return fun(a, b, c);
         };
     };
 };
@@ -92,6 +102,13 @@ function con(arg){
     return arg;
 }
 
+function best(pred, actions){
+    return actions.reduce(function(champ, contender){
+        return champ = pred() ? champ : contender;
+    });
+    
+}
+
 
 //var compose = (...fns) => fns.reduce((f, g) => (..args) => f(g(..args)))
 
@@ -126,11 +143,11 @@ var main = document.querySelector('main'),
     prevent = curry33(invokeProp)(null)('preventDefault'),
     doNull = curry3(setProp)(null)('backgroundImage'),
     setPropDefer = curryLeft3(setProp),
-    getStyle = curry22(getProp)('style')(him),
+    getTargetPicStyle = curry22(getProp)('style')(him),
     getDataSet = curry22(getProp)('dataset')(him),
     doEquals = curryLeft(equals),
     getTarget = curry2(getProp)('target'),
-    isMan = doEquals(him),
+    isTargetPic = doEquals(him),
     getNodeName = curry2(getProp)('nodeName'),
     doReduce = function(cb, grp, ini){
         return grp.reduce(cb, ini);
@@ -138,8 +155,8 @@ var main = document.querySelector('main'),
     doCompose = curryLeft3(doReduce)(compose),
     isLink = doCompose([getTarget, getNodeName, doEquals('A')]),
     isLocal = doCompose([getTarget, notExternal]),
-    reSetPic = doCompose([getStyle, doNull]),
-    //getCurrent = curryLeft3(doReduce)(drill)(['dataset', 'current']),
+    reSetPic = doCompose([getTargetPicStyle, doNull]),
+    getCurrent = defer(curryLeft3(doReduce)(drill)(['dataset', 'current']))(him),
     getData = function(str){
         if(!str){
             return '';
@@ -148,30 +165,29 @@ var main = document.querySelector('main'),
             end = str.lastIndexOf('.');
         return str.substring(start+1, end);
     },
-    doBg = doReduce(compose, [getStyle, setPropDefer])('backgroundImage'),
+    doBg = doReduce(compose, [getTargetPicStyle, setPropDefer])('backgroundImage'),
+    getBody = curry22(getProp)('body')(document),
+    getStyle = curry2(getProp)('style'),
+    doBody = doReduce(compose, [getBody, getStyle, setPropDefer])('backgroundColor'),
     doDataSet = doReduce(compose, [getDataSet, setPropDefer])('current'),
     getHREF = curry3(invokeProp)('href')('getAttribute'),
     deferURL = doCompose([getTarget, getHREF, doURL]),
     deferType = doCompose([getTarget, getHREF, getData]),
     setPic = doCompose([deferURL, doBg]),
-    doResetPic = doCompose([getTarget, doWhen(isMan, reSetPic)]);
+    doResetPic = doCompose([getTarget, doWhen(isTargetPic, reSetPic)]);
 
 main.addEventListener('click', function(e){
     var pass = [isLink, isLocal].every(curry2(invoke)(e)),
+        so = curry33(invokeProp)(curry2(invoke)(e))('every')([isLink, isLocal]),
+        current = deferType(e),
+        each = curry33(invokeProp)(invoke)('forEach'),
+        enter = each([defer(setPic)(e), defer(doDataSet)(current)]),
+        restore = each([reSetPic, defer(doDataSet)('')]),
+        perform = each([thenInvoke, deferScroll]),
         preventer = doWhen(always(pass), prevent(e)),
-        current = deferType(e);
+        match = curry22(equals)(current)(getCurrent()),
+        thenInvoke = doCompose([curry22(best)([restore, enter])(match), invoke]);
         preventer(e);
     doResetPic(e);
-    
-    if(pass){
-        if(him.dataset.current === current){
-            reSetPic();
-            current = '';
-        }
-        else {
-            setPic(e); 
-        }
-        deferScroll();
-        doDataSet(current);
-    }
+   //doWhen(so, perform)();
 }); 
