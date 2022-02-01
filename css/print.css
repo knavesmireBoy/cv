@@ -1,3 +1,8 @@
+aside .output {
+    position: relative;
+    left: 0;
+}
+
 .output {
     font-family: monospace;
     margin: .5em 0;
@@ -8,4 +13,30 @@
     white-space: pre-wrap;
     overflow-wrap: break-word;
     width: 100%;
+}
+
+ aside:before {
+     border-color: transparent;
+     border-width: 0;
+    }
+
+main {
+    flex-wrap: wrap;
+}
+main > aside, main > section {
+    width: 100%;
+    flex: 1 1 100%;
+}
+
+main > aside {
+    order: 2;
+}
+
+.work, .resume, .inner p, body > header li:first-child, body > header li:last-child, body > footer li:first-child, body > footer li:last-child {
+        position: absolute;
+        left: -9999px;
+    }
+
+header ul, footer ul{
+    display: block;
 }
