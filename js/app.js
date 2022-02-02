@@ -74,21 +74,42 @@
     function justInvoke(f){
         return f();
     }
-    
-    /*
-    function con(arg){
-    console.log(arg);
-    return arg;
-    }
-
-    let compose = (...fns) => fns.reduce( (f, g) => (..args) => f(g(..args)))
-    function compCB(v, f) {
+     function compCB(v, f) {
         var m = v.slice ? 'apply' : 'call';
         return f[m](null, v); 
     }
     function comp(fns){
        return fns.reduce(compCB, [].slice.call(arguments, 1));
     } 
+        //let compose = (...fns) => fns.reduce( (f, g) => (..args) => f(g(..args)))
+
+     function compy(fns){
+       return function(x){
+           return fns.reduce(
+               function(f, g){ return f(g(x)); }
+           );
+       };
+     }
+   
+    
+      function add (a, b) {
+        return a + b;
+    }
+    function mult (a, b) {
+        return a * b;
+    }
+     function div (a, b) {
+        return a / b;
+     }
+     function con(arg){
+    console.log(arg);
+    return arg;
+    }
+
+    
+    /*
+   
+   
  
     function underscore_compose() {
         var args = arguments,
@@ -101,14 +122,7 @@
             }
             return result;
         }
-    function add (a, b) {
-        return a + b;
-    }
-    function mult (a, b) {
-        return a * b;
-    }
-     function div (a, b) {
-        return a / b;
+  
     }
     */
 	var main = document.querySelector('main'),
@@ -123,7 +137,6 @@
         },
         best = function (pred, actions) {
             return actions.reduce(function (champ, contender) {
-                console.log(pred())
                 champ = pred() ? champ : contender;
                 return champ;
             });
@@ -149,7 +162,6 @@
 			return tgt.href.indexOf(window.location.href) >= 0;
 		},
 		equals = function (a, b) {
-            console.log(a,b);
 			return a === b;
 		},
 		getProp = function (o, p) {
@@ -169,7 +181,6 @@
 		doNull = curry3(setProp)(null)('backgroundImage'),
 		setPropDefer = curryLeft(setProp),
 		getTargetPicStyle = curry22(getProp)('style')(him),
-		getTargetBodyStyle = curry22(getProp)('style')(document.body),
 		getDataSet = curry22(getProp)('dataset')(him),
 		doEquals = curry3(equals)(null),
 		getTarget = curry2(getProp)('target'),
@@ -192,7 +203,6 @@
 			return str.substring(start + 1, end);
 		},
 		doBg = doReduce(compose, [getTargetPicStyle, setPropDefer])('backgroundImage'),
-		doCol = doReduce(compose, [getTargetBodyStyle, setPropDefer])('backgroundColor'),
 		doDataSet = doReduce(compose, [getDataSet, setPropDefer])('current'),
 		getHREF = curry3(invokeProp)('href')('getAttribute'),
 		deferURL = doCompose([getTarget, getHREF, doURL]),
@@ -213,16 +223,19 @@
 		doResetPic(e);
 		doResetData(e);
 		doWhen(validate, perform)();
-        var red = curry22(equals)('red');
-        var amber = curry22(equals)('gold');
-        var green = curry22(equals)('green');
-        var preds = [red, amber, green];
-        var actions = [defer(doCol)('green'), defer(doCol)('gold'), defer(doCol)('red')];
-        var pred = preds[Math.ceil(Math.random() * 10) % 3];
-        var colors = ['red', 'green', 'gold'];
-        var col = colors[Math.ceil(Math.random() * 10) % 3];
-        var f = doCompose([curry22(best)(actions)(amber('gold')), invoke]);
-        f();
         
-	});
+        const getUglyFirstCharacterAsLower = str => str.substr(0, 1).toLowerCase();
+        const curriedSubstring = start => length => str => str.substr(start, length);
+        const curriedLowerCase = str => str.toLowerCase();
+        const getComposedFirstCharacterAsLower = str => curriedLowerCase(curriedSubstring(0)(1)(str));
+        const compose = (...fns) =>
+  fns.reduce((f, g) => (...args) => f(g(...args))); 
+                  );
+        const fred = compose(curriedLowerCase, curriedSubstring(1)(2));
+        
+
+
+        
+        fred('KAFKA')
+    });
 }());
