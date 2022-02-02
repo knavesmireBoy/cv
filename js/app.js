@@ -4,17 +4,18 @@
 
 (function () {
 	"use strict";
-    
-    /*
-    function con(arg){
-    console.log(arg);
-    return arg;
-    }
-    */
 
 	function defer(fun) {
 		return function (a) {
 			return function () {
+				return fun(a);
+			};
+		};
+	}
+    
+    function delay(fun) {
+		return function () {
+			return function (a) {
 				return fun(a);
 			};
 		};
@@ -63,14 +64,6 @@
 	function curryLeft(fun) {
 		return function (a) {
 			return function (b) {
-				return fun(a, b);
-			};
-		};
-	}
-
-	function curryLeft3(fun) {
-		return function (a) {
-			return function (b) {
 				return function (c) {
 					return fun(a, b, c);
 				};
@@ -78,7 +71,46 @@
 		};
 	}
     
-	//var compose = (...fns) => fns.reduce((f, g) => (..args) => f(g(..args)))
+    function justInvoke(f){
+        return f();
+    }
+    
+    /*
+    function con(arg){
+    console.log(arg);
+    return arg;
+    }
+
+    let compose = (...fns) => fns.reduce( (f, g) => (..args) => f(g(..args)))
+    function compCB(v, f) {
+        var m = v.slice ? 'apply' : 'call';
+        return f[m](null, v); 
+    }
+    function comp(fns){
+       return fns.reduce(compCB, [].slice.call(arguments, 1));
+    } 
+ 
+    function underscore_compose() {
+        var args = arguments,
+            start = args.length - 1;
+        return function() {
+            var i = start,
+                result = args[start].apply(this, arguments);
+            while (i--) {
+                result = args[i].call(this, result);
+            }
+            return result;
+        }
+    function add (a, b) {
+        return a + b;
+    }
+    function mult (a, b) {
+        return a * b;
+    }
+     function div (a, b) {
+        return a / b;
+    }
+    */
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
         compose = function (v, f) {
@@ -133,22 +165,23 @@
 		},
 		each = curry33(invokeProp)(invoke)('forEach'),
 		prevent = curry33(invokeProp)(null)('preventDefault'),
+		//prevent = defer(curry3(invokeProp)(null)('preventDefault')),
 		doNull = curry3(setProp)(null)('backgroundImage'),
-		setPropDefer = curryLeft3(setProp),
+		setPropDefer = curryLeft(setProp),
 		getTargetPicStyle = curry22(getProp)('style')(him),
 		getDataSet = curry22(getProp)('dataset')(him),
-		doEquals = curryLeft(equals),
+		doEquals = curry3(equals)(null),
 		getTarget = curry2(getProp)('target'),
 		isTargetPic = doEquals(him),
 		getNodeName = curry2(getProp)('nodeName'),
 		doReduce = function (cb, grp, ini) {
 			return grp.reduce(cb, ini);
 		},
-		doCompose = curryLeft3(doReduce)(compose),
+		doCompose = curryLeft(doReduce)(compose),
 		isLink = doCompose([getTarget, getNodeName, doEquals('A')]),
 		isLocal = doCompose([getTarget, notExternal]),
 		reSetPic = doCompose([getTargetPicStyle, doNull]),
-		getCurrent = defer(curryLeft3(doReduce)(drill)(['dataset', 'current']))(him),
+		getCurrent = defer(curryLeft(doReduce)(drill)(['dataset', 'current']))(him),
 		getData = function (str) {
 			if (!str) {
 				return '';
@@ -174,7 +207,7 @@
 			match = curry22(equals)(deferType(e))(getCurrent()),
 			thenInvoke = doCompose([curry22(best)([restore, enter])(match), invoke]),
 			perform = each([thenInvoke, deferScroll]);
-		preventer(e);
+		preventer();
 		doResetPic(e);
 		doResetData(e);
 		doWhen(validate, perform)();
