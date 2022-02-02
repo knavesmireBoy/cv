@@ -123,6 +123,7 @@
         },
         best = function (pred, actions) {
             return actions.reduce(function (champ, contender) {
+                console.log(pred())
                 champ = pred() ? champ : contender;
                 return champ;
             });
@@ -137,7 +138,6 @@
                 }
             };
         },
-        
 		doScroll = function () {
 			document.body.scrollTop = 0; // For Safari
 			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
@@ -149,6 +149,7 @@
 			return tgt.href.indexOf(window.location.href) >= 0;
 		},
 		equals = function (a, b) {
+            console.log(a,b);
 			return a === b;
 		},
 		getProp = function (o, p) {
@@ -165,10 +166,10 @@
 		},
 		each = curry33(invokeProp)(invoke)('forEach'),
 		prevent = curry33(invokeProp)(null)('preventDefault'),
-		//prevent = defer(curry3(invokeProp)(null)('preventDefault')),
 		doNull = curry3(setProp)(null)('backgroundImage'),
 		setPropDefer = curryLeft(setProp),
 		getTargetPicStyle = curry22(getProp)('style')(him),
+		getTargetBodyStyle = curry22(getProp)('style')(document.body),
 		getDataSet = curry22(getProp)('dataset')(him),
 		doEquals = curry3(equals)(null),
 		getTarget = curry2(getProp)('target'),
@@ -191,6 +192,7 @@
 			return str.substring(start + 1, end);
 		},
 		doBg = doReduce(compose, [getTargetPicStyle, setPropDefer])('backgroundImage'),
+		doCol = doReduce(compose, [getTargetBodyStyle, setPropDefer])('backgroundColor'),
 		doDataSet = doReduce(compose, [getDataSet, setPropDefer])('current'),
 		getHREF = curry3(invokeProp)('href')('getAttribute'),
 		deferURL = doCompose([getTarget, getHREF, doURL]),
@@ -211,5 +213,16 @@
 		doResetPic(e);
 		doResetData(e);
 		doWhen(validate, perform)();
+        var red = curry22(equals)('red');
+        var amber = curry22(equals)('gold');
+        var green = curry22(equals)('green');
+        var preds = [red, amber, green];
+        var actions = [defer(doCol)('green'), defer(doCol)('gold'), defer(doCol)('red')];
+        var pred = preds[Math.ceil(Math.random() * 10) % 3];
+        var colors = ['red', 'green', 'gold'];
+        var col = colors[Math.ceil(Math.random() * 10) % 3];
+        var f = doCompose([curry22(best)(actions)(amber('gold')), invoke]);
+        f();
+        
 	});
 }());
