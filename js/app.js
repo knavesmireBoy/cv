@@ -15,7 +15,6 @@
             var args = slice().call(arguments, 1);
             if(f.length === args.length){
                 if(defer){
-                    con(args);
                     return function(){
                       return f.apply(null, args);  
                     };
@@ -36,24 +35,8 @@
 			};
 		};
 	}
-
-	function delay(fun) {
-		return function() {
-			return function(a) {
-				return fun(a);
-			};
-		};
-	}
-
-	function curry2(fun) {
-		return function(b) {
-			return function(a) {
-				return fun(a, b);
-			};
-		};
-	}
     
-    function curryTwo(fun) {
+	function curry2(fun) {
 		return function(b) {
 			return function(a) {
 				return fun(a, b);
@@ -106,16 +89,6 @@
     function isArray(obj) {
         return Array.isArray ? Array.isArray(obj) : Object.prototype.toString.call(obj) === '[object Array]' 
     }
-
-	function deferInvoke(f) {
-        return function(f){
-            return f();
-        };
-    }
-    
-    function invokeALL(funs, cb){
-        return funs.map(cb);
-    }
     
     function fncall(arg){
         return isArray(arg) ? 'apply' : 'call';
@@ -138,7 +111,7 @@
 			};
 		});
 	}
-    
+    /*
 	function add(a, b) {
 		return a + b;
 	}
@@ -155,23 +128,9 @@
 		console.log(arg);
 		return arg;
 	}
-
-	function underscore_compose() {
-		var args = arguments,
-			start = args.length - 1;
-		return function() {
-			var i = start,
-				result = args[start].apply(this, arguments);
-			while (i--) {
-				result = args[i].call(this, result);
-			}
-			return result;
-		}
-	}
-    
+    */
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-        partial = dopartial(),
         deferpartial = dopartial(true),
 		compose = function(v, f) {
 			v = f(v);
@@ -187,21 +146,8 @@
 				return champ;
 			});
 		},
-        bestOne = function(pred, actions, arg) {
-			return actions.reduce(function(champ, contender) {
-				champ = pred(arg) ? defer(champ)(arg) : defer(contender)(arg);
-				return champ;
-			});
-		},
 		invoke = function(f, arg) {
 			return f(arg);
-		},
-		doWhen = function(pred, action) {
-			return function(arg) {
-				if (pred(arg)) {
-					return action(arg);
-				}
-			};
 		},
 		doScroll = function() {
 			document.body.scrollTop = 0; // For Safari
@@ -229,7 +175,6 @@
 			return "url(" + src + ")";
 		},
 		each = curry33(invokeProp)(invoke)('forEach'),
-		map = curry33(invokeProp)(invoke)('map'),
 		prevent = curry33(invokeProp)(null)('preventDefault'),
 		doNull = curry3(setProp)(null)('backgroundImage'),
 		setPropDefer = curryLeft(setProp),
@@ -262,31 +207,20 @@
 		deferType = doCompose([getTarget, getHREF, getData]),
 		setPic = doCompose([deferURL, doBg]),
 		doDataRESET = defer(doDataSet)(''),
-		doResetData = doCompose([getTarget, doWhen(isTargetPic, doDataRESET)]),
-		doResetPic = doCompose([getTarget, doWhen(isTargetPic, reSetPic)]),
         validatePic = nest([isTargetPic, getTarget]),
-        //reset_actions = [nest([reSetPic, getTarget]), nest([doDataRESET, getTarget])],
-        reset_actions = [nest([reSetPic, getTarget])],
-        defer_invoke = curryTwo(invoke);
-
-    
+        reset_actions = [nest([reSetPic, getTarget]), nest([doDataRESET, getTarget])];    
 	main.addEventListener('click', function(e) {
 		var validate = curry33(invokeProp)(curry2(invoke)(e))('every')([isLink, isLocal]),
-            //resetWhen = deferpartial(invokeALL, reset_actions, curry2(invoke)(e)),
-            //resetPic = bestOne(validatePic, [prompt, alert]),            
-            doReset = deferpartial(invokeProp, [doResetPic, doResetData], 'forEach', curry2(invoke)(e)),
+            resetWhen = deferpartial(invokeProp, reset_actions, 'map', curry2(invoke)(e)),
+            resetPic = best(defer(validatePic)(e), [resetWhen, dummy]),           
             preventer = nest([invoke, deferpartial(best, validate, [prevent(e), dummy]) ]),
 			enter = each([defer(setPic)(e), defer(doDataSet)(deferType(e))]),
 			restore = each([reSetPic, doDataRESET]),
 			match = deferpartial(equals, getCurrent(), deferType(e)),
             thenInvoke = nest([invoke, deferpartial(best, match, [restore, enter])]),
-            doInvoke = nest([invoke, deferpartial(best, validate, [each([thenInvoke, deferScroll]), dummy])]);
-        
-        //resetPic(e);
-        
-
+            doSetPic = nest([invoke, deferpartial(best, validate, [each([thenInvoke, deferScroll]), dummy])]);
 		preventer();
-        doReset();
-        doInvoke();
+        doSetPic();
+        resetPic();
 	});
 }());
