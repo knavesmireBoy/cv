@@ -50,25 +50,7 @@
 			};
 		};
 	}
-	/*
-    function isArray(obj) {
-        return Array.isArray ? Array.isArray(obj) : Object.prototype.toString.call(obj) === '[object Array]' 
-    }
     
-    function fncall(arg){
-        return isArray(arg) ? 'apply' : 'call';
-    }
-
-	function compCB(v, f) {
-		var m = fncall(v);
-		return f[m](null, v);
-	}
-
-	function comp(fns) {
-		return fns.reduce(compCB, [].slice.call(arguments, 1));
-	}
-    */
-	//https://medium.com/@dtipson/creating-an-es6ish-compose-in-javascript-ac580b95104a
 	//let compose = (...fns) => fns.reduce( (f, g) => (...args) => f(g(...args)))
 	function compose(fns) {
 		return fns.reduce(function (f, g) {
@@ -77,24 +59,7 @@
 			};
 		});
 	}
-	/*
-	function add(a, b) {
-		return a + b;
-	}
 
-	function mult(a, b) {
-		return a * b;
-	}
-
-	function div(a, b) {
-		return a / b;
-	}
- 
-	function con(arg) {
-		console.log(arg);
-		return arg;
-	}
-     */
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
 		deferpartial = dopartial(true),
