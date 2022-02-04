@@ -50,7 +50,7 @@ footer {
     aside .web {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(9, 3.7vw);
+        grid-template-rows: repeat(12, 3.7vw);
     }
     aside .web.work > a {
         width: 100%;
@@ -68,9 +68,14 @@ footer {
         grid-column: 1 / 2;
         grid-row: 5 / 8;
     }
-     aside .web > a:last-child {
+     
+     aside .web > a:nth-child(4) {
         grid-column: 2 / 3;
         grid-row: 7 / 10;
+    }
+    aside .web > a:nth-child(5) {
+        grid-column: 1 / 2;
+        grid-row: 10 / 13;
     }
    
 }
@@ -85,6 +90,15 @@ footer {
 		background-image: url(../assets/alpacas_logo.jpg);
 	}
 	.web a:nth-child(4) {
+		background-image: url(../assets/loading.png);
+		-webkit-background-size: cover;
+		   -moz-background-size: cover;
+		     -o-background-size: cover;
+		        background-size: cover;
+        background-color: teal;
+		background-position: center 20%;
+	}
+    .web a:nth-child(5) {
 		background-image: url(../assets/fc-tmp.jpg);
 		-webkit-background-size: cover;
 		   -moz-background-size: cover;
