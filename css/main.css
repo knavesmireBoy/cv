@@ -76,6 +76,22 @@ aside strong {
 	font-size: 1.1em;
 }
 
+article ul {
+    list-style: disc outside;
+    margin-left: 1em;
+}
+
+article ul li {
+    margin: .2em 0;
+}
+article p:last-child {
+    font-style: italic;
+}
+
+article.refactor p{
+    font-style: normal;
+}
+
 section h2, section h3 {
 	color: crimson;
 }
