@@ -10,6 +10,13 @@ footer {
 	    -ms-flex-negative: 0;
 	        flex-shrink: 0;
 }
+
+.wrapper {
+    padding: 1.5rem 0;
+}
+main {
+	padding: 0 2vw;
+}
 @supports (column-gap: 10px){
  aside:before {
      border-color: crimson;
@@ -285,7 +292,7 @@ footer {
     aside .web {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(9, 4.2vw);
+        grid-template-rows: repeat(12, 4.2vw);
     }
     }
         footer a:link, footer a:visited {
@@ -433,7 +440,7 @@ footer {
     }
     .web a {
         padding-bottom: calc(100px + (47) * (100vw - 520px) / (768 - 520));
-        padding-bottom: 21%;       
+        padding-bottom: 16%;       
     }
     
      body > footer {
@@ -492,16 +499,6 @@ a:hover {
 }
 }
 
-
-a.resume {
-    font: .75em Arial, serif;
-    color: white;
-    background-image: url('../assets/pdf.png');
-    background-repeat: no-repeat;
-    background-position: left center;
-    padding: 2em 0 1.5em 4em;
-    border-top: dotted 1px;
-}
 main > aside {
     display: -webkit-box;
 		display: -webkit-flex;

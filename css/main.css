@@ -5,6 +5,10 @@
 * Browsers: last 1000 version
 */
 
+body:after {
+    content: url("../assets/alderley.jpg") url("../assets/bolt.jpeg") url("../assets/frank.jpg") ("../assets/minding.jpg")
+}
+
 html {
 	font-size: 1.65em;
     text-align: center;
@@ -14,13 +18,13 @@ body {
 	text-align: justify;
 }
 main {
-	padding: 0 2vw;
+	padding: 0;
 }
 main {
 	display: table;
 	vertical-align: top;
 	border-collapse: separate;
-	border-spacing: 3em;
+	border-spacing: 2em;
 }
 aside {
 	text-align: left;
@@ -28,12 +32,12 @@ aside {
 	background-color: #3dc2bb;
 }
 main>aside {
-	width: 30vw;
+	width: 34vw;
 	display: table-cell;
 	vertical-align: top;
 }
 main>section {
-	width: 6vw;
+	width: 60vw;
 	display: table-cell;
 	vertical-align: top;
 }
@@ -129,7 +133,6 @@ main>section>ul li {
 }
 .wrapper {
 	margin: 0 2rem;
-	padding: 1.5rem 0;
 	font: .6em/1.4 Palatino, Lora, Georgia, serif;
 	opacity: .99;
 	background-color: rgb(247, 247, 247);
@@ -145,6 +148,8 @@ main>section>ul li {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-image: url(../assets/IMG_0717_lr.jpg);
+    display: block;
+    border-radius: 0;
 }
 .school {
 	visibility: hidden;
@@ -281,6 +286,7 @@ footer ul li:first-child, footer ul li:last-child {
 .web a {
 	width: 44%;
 	padding-bottom: 160px;
+    padding-bottom: 44%;
 	margin: 0.5em;
     display: block;
 	background-repeat: no-repeat;
@@ -300,9 +306,27 @@ footer ul li:first-child, footer ul li:last-child {
 	background-image: url(../assets/alpacas_logo_lr.jpg);
 }
 .web a:nth-child(4) {
+	background-image: url(../assets/loading_lr.png);
+    background-color: teal;
+	background-position: center;
+}
+.web a:nth-child(5) {
 	background-image: url(../assets/fc-tmp-lr.jpg);
 	background-position: center 30%;
 }
+
+a.resume {
+    font: .75em Arial, serif;
+    color: white;
+    background-image: url('../assets/pdf.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    text-indent: 0;
+    display: block;
+    padding: 2em 0 1.5em 4em;
+    border-top: dotted 1px;
+}
+
 
 aside:before {
     content: "";
@@ -362,6 +386,10 @@ aside:before {
 	float: left;
 	margin: 0 1em 2em 0;
 }
+body > header img {
+    position: absolute;
+	left: -9999px;
+}
 
 @media only screen and (max-width: 1024px) {
     body > header li:first-child, body > header li:last-child, body > footer li:first-child, body > footer li:last-child {
@@ -388,4 +416,11 @@ aside:before {
     main {
         padding: 0;
     }
+    .web a {
+        width: 40%;
+        padding-bottom: 40%;
+    }
+    .web a:nth-child(4) {
+	background-image: url(../assets/uploading_lr.png);
+}
 }
