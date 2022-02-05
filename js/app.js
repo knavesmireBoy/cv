@@ -98,6 +98,10 @@
         negate = function(prd){
             return !prd;
         },
+        gtEq = function(a, b){
+            return a >= b;
+        },
+        notNeg = curry2(gtEq)(0),
 		invoke = function (f, arg) {
 			return f(arg);
 		},
@@ -107,9 +111,6 @@
 		},
 		deferScroll = function () {
 			window.setTimeout(doScroll, 444);
-		},
-		notExternal = function (tgt) {
-			return tgt.href.indexOf(window.location.href) >= 0;
 		},
 		equals = function (a, b) {
 			return a === b;
@@ -132,6 +133,12 @@
         add = function(a, b){
             return a + b;
         },
+        notExternal = function (tgt) {
+            var hash = window.location.href.indexOf('#'),
+                own = tgt.href.indexOf(window.location.href);
+                return [hash, own].some(notNeg);
+		},
+        resetWindow = deferpartial(setProp, window, 'location', ''),
 		foreach = curry3(invokeProp)(invoke)('forEach'),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
 		doNull = curry3(setProp)(null)('backgroundImage'),
@@ -144,7 +151,7 @@
 		getNodeName = curry2(getProp)('nodeName'),
 		isLink = compose([doEquals('A'), getNodeName, getTarget]),
 		isLocal = compose([notExternal, getTarget]),
-		//notPic = compose([negate, isTargetPic, getTarget]),
+		notPic = compose([negate, isTargetPic, getTarget]),
 		reSetPic = compose([doNull, getTargetPicStyle]),
 		getCurrent = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
 		getData = function (str) {
@@ -168,13 +175,11 @@
 		validatePic = compose([isTargetPic, getTarget]),
 		reset_actions = [compose([reSetPic, getTarget]), compose([doDataRESET, getTarget])];
 	main.addEventListener('click', function (e) {
-		var validate = defer(curry3(invokeProp)(curry2(invoke)(e))('every'))([isLink, isLocal]),
+		var validate = defer(curry3(invokeProp)(curry2(invoke)(e))('every'))([isLink, isLocal, notPic]),
 			resetWhen = deferpartial(invokeProp, reset_actions, 'map', curry2(invoke)(e)),
 			resetPic = best(defer(validatePic)(e), [resetWhen, dummy]),
 			preventer = compose([invoke, deferpartial(best, validate, [defer(prevent)(e), dummy])]),
-			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)), fromDataSet]),
-            //f = compose([invoke, deferpartial(best, compose([identity, getHREF]), [partial(add, '#'), always('')])]),
-
+			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)),fromDataSet]),
 			restore = defer(foreach)([reSetPic, doDataRESET]),
 			match = deferpartial(equals, getCurrent(), deferType(e)),
 			thenInvoke = compose([invoke, deferpartial(best, match, [restore, enter])]),
