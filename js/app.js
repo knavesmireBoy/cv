@@ -138,7 +138,7 @@
                 own = tgt.href.indexOf(window.location.href);
                 return [hash, own].some(notNeg);
 		},
-        resetWindow = deferpartial(setProp, window, 'location', ''),
+        resetWindow = deferpartial(setProp, window, 'location', '#'),
 		foreach = curry3(invokeProp)(invoke)('forEach'),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
 		doNull = curry3(setProp)(null)('backgroundImage'),
@@ -179,7 +179,7 @@
 			resetWhen = deferpartial(invokeProp, reset_actions, 'map', curry2(invoke)(e)),
 			resetPic = best(defer(validatePic)(e), [resetWhen, dummy]),
 			preventer = compose([invoke, deferpartial(best, validate, [defer(prevent)(e), dummy])]),
-			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)),fromDataSet]),
+			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)),fromDataSet, resetWindow]),
 			restore = defer(foreach)([reSetPic, doDataRESET]),
 			match = deferpartial(equals, getCurrent(), deferType(e)),
 			thenInvoke = compose([invoke, deferpartial(best, match, [restore, enter])]),
