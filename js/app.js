@@ -1,13 +1,40 @@
 /*jslint nomen: true */
 /*global window: false */
 /*global document: false */
-(function () {
+(function (slice, jpg) {
 	"use strict";
 
 	function dummy() {}
+    
+    function existy(x) {
+		return x != null;
+	}
+    
+    function cat() {
+		var head = slice.call(arguments, 0, 1);
+		if (existy(head)) {
+			return head.concat.apply(head, slice.call(arguments, 1));
+		} else {
+			return [];
+		}
+	}
+
+	function construct(head, tail) {
+		return head && cat([head], slice.call(tail));
+	}
+
+	function mapcat(fun, coll) {
+		var res = coll.map(fun);
+		return cat.apply(null, res);
+	}
+    
+    function invokeAll(funs, vals){
+        return funs.map(function(f, i){
+            return invoke(f, vals[i]);
+        });
+    }
 
 	function dopartial(defer) {
-		var slice = Array.prototype.slice;
 		return function _partial(f) {
 			var args = slice.call(arguments, 1);
 			if (f.length === args.length) {
@@ -127,6 +154,9 @@
 		setProp = function (o, p, v) {
             o[p] = v;
 		},
+        setPropBridge = function (v, o, p) {
+            o[p] = v;
+		},
 		doURL = function (src) {
 			return "url(" + src + ")";
 		},
@@ -138,6 +168,7 @@
                 own = tgt.href.indexOf(window.location.href);
                 return [hash, own].some(notNeg);
 		},
+        isJPG = curry3(invokeProp)(jpg)('match'),
         resetWindow = deferpartial(setProp, window, 'location', '#'),
 		foreach = curry3(invokeProp)(invoke)('forEach'),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
@@ -186,7 +217,21 @@
 			doSetPic = compose([invoke, deferpartial(best, validate, [defer(foreach)([thenInvoke, deferScroll]), dummy])]);
 		preventer();
 		doSetPic();
-        //fromDataSet();
 		resetPic();
 	});
-}());   
+    window.addEventListener('load', function(){
+        var links = slice.call(document.querySelectorAll('a')),
+            validate = compose([isJPG, getHREF]),
+            getId = compose([getData, getHREF]),
+            setId = curry3(setPropBridge)('id'),
+            values,
+            partials;
+        links = links.filter(notExternal).filter(getHREF).filter(validate);
+        partials = links.map(setId);
+        values = links.map(getId);
+        L = values.length;
+        invokeAll(partials, values);
+        
+     
+    });
+}(Array.prototype.slice, /jpe?g$/));   
