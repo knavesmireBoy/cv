@@ -28,9 +28,9 @@
 		return cat.apply(null, res);
 	}
     
-    function invokeAll(funs, vals){
+    function parallelInvoke(funs, vals){
         return funs.map(function(f, i){
-            return invoke(f, vals[i]);
+            return f(vals[i]);
         });
     }
 
@@ -59,6 +59,14 @@
 			};
 		};
 	}
+    
+    function curryLeft(fun) {
+		return function (a) {
+			return function (b) {
+				return fun(a, b);
+			};
+		};
+	}
 
 	function curry2(fun) {
 		return function (b) {
@@ -67,6 +75,8 @@
 			};
 		};
 	}
+    
+    
 
 	function curry3(fun) {
 		return function (c) {
@@ -79,10 +89,10 @@
 	}
     
     function curry4(fun) {
-		return function (c) {
-			return function (b) {
-				return function (a) {
-					return function(d){
+		return function (d) {
+			return function (c) {
+				return function (b) {
+					return function(a){
                         return fun(a, b, c, d);
                     };
                 };
@@ -157,7 +167,8 @@
         setPropBridge = function (v, o, p) {
             o[p] = v;
 		},
-        applyPropBridge = function(m, p, o, v){
+        applyPropBridge = function(v, o, p, m){
+            console.log(arguments)
             return applyProp(o, m, p, v);
         },
 		doURL = function (src) {
@@ -196,11 +207,12 @@
 				end = str.lastIndexOf('.');
 			return str.substring(start + 1, end);
 		},
-        setAssets = partial(add, "assets/"),
+        setAssets = curryLeft(add)("assets/"),
 		doBg = compose([curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle])(),
 		doDataSet = compose([curry2(invoke)('current'), setPropDefer, getDataSet])(),
 		getHREF = curry3(invokeProp)('href')('getAttribute'),
-        setHREF = partial(applyPropBridge, 'setAttribute','href'),
+        //setHREF = partial(applyPropBridge, 'setAttribute','href'),
+        setHREF = curry4(applyPropBridge)('setAttribute')('href'),
         setPicHref = partial(applyProp, him, 'setAttribute','href'),
         //setHREF = curry4(applyProp, him, 'setAttribute','href'),
         fromDataSet = compose([setPicHref, partial(add, '#'), deferpartial(invokeProp, him, 'getAttribute', 'data-current')]),	
@@ -226,16 +238,16 @@
 	});
     window.addEventListener('load', function(){
         var links = slice.call(document.querySelectorAll('.slide')),
-            //hrefs = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
+            hrefs = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
             getId = compose([getData, getHREF]),
             setId = curry3(setPropBridge)('id'),
             values,
             partials;
-        con(links);
+        hrefs = hrefs.map(setAssets);
+        partials = links.map(setHREF);
+        parallelInvoke(partials, hrefs);
         partials = links.map(setId);
         values = links.map(getId);
-        invokeAll(partials, values);
-        partials = links.map(setHREF);
-        invokeAll(partials, ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"]);
+        parallelInvoke(partials, values);
     });
 }(Array.prototype.slice, /jpe?g$/));   
