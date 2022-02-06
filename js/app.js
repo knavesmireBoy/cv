@@ -157,6 +157,9 @@
         setPropBridge = function (v, o, p) {
             o[p] = v;
 		},
+        applyPropBridge = function(m, p, o, v){
+            return applyProp(o, m, p, v);
+        },
 		doURL = function (src) {
 			return "url(" + src + ")";
 		},
@@ -193,12 +196,14 @@
 				end = str.lastIndexOf('.');
 			return str.substring(start + 1, end);
 		},
+        setAssets = partial(add, "assets/"),
 		doBg = compose([curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle])(),
 		doDataSet = compose([curry2(invoke)('current'), setPropDefer, getDataSet])(),
 		getHREF = curry3(invokeProp)('href')('getAttribute'),
-        setHREF = partial(applyProp, him, 'setAttribute','href'),
-		//resetHREF = deferpartial(applyProp, him, 'setAttribute','href', ''),
-        fromDataSet = compose([setHREF, partial(add, '#'), deferpartial(invokeProp, him, 'getAttribute', 'data-current')]),	
+        setHREF = partial(applyPropBridge, 'setAttribute','href'),
+        setPicHref = partial(applyProp, him, 'setAttribute','href'),
+        //setHREF = curry4(applyProp, him, 'setAttribute','href'),
+        fromDataSet = compose([setPicHref, partial(add, '#'), deferpartial(invokeProp, him, 'getAttribute', 'data-current')]),	
 		deferURL = compose([doURL, getHREF, getTarget]),
 		deferType = compose([getData, getHREF, getTarget]),
 		setPic = compose([doBg, deferURL]),
@@ -220,18 +225,17 @@
 		resetPic();
 	});
     window.addEventListener('load', function(){
-        var links = slice.call(document.querySelectorAll('a')),
-            validate = compose([isJPG, getHREF]),
+        var links = slice.call(document.querySelectorAll('.slide')),
+            //hrefs = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
             getId = compose([getData, getHREF]),
             setId = curry3(setPropBridge)('id'),
             values,
             partials;
-        links = links.filter(notExternal).filter(getHREF).filter(validate);
+        con(links);
         partials = links.map(setId);
         values = links.map(getId);
-        L = values.length;
         invokeAll(partials, values);
-        
-     
+        partials = links.map(setHREF);
+        invokeAll(partials, ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"]);
     });
 }(Array.prototype.slice, /jpe?g$/));   
