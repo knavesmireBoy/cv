@@ -5,20 +5,20 @@
 	"use strict";
 
 	function dummy() {}
-    
-    function parallelInvoke(funs, vals){
-        return funs.map(function(f, i){
-            return f(vals[i]);
-        });
-    }
+
+	function parallelInvoke(funs, vals) {
+		return funs.map(function (f, i) {
+			return f(vals[i]);
+		});
+	}
 
 	function dopartial(defer) {
 		return function _partial(f) {
 			var args = slice.call(arguments, 1);
-            /*be careful if function is a callback to an array method as
-            a: the arg count may exceed the function count
-            b: and will include wrong arguments (ie index and array expected in such callbacks), FIX with curry
-            */
+			/*be careful if function is a callback to an array method as
+			a: the arg count may exceed the function count
+			b: and will include wrong arguments (ie index and array expected in such callbacks), FIX with curry
+			*/
 			if (args.length === f.length) {
 				if (defer) {
 					return function () {
@@ -41,8 +41,8 @@
 			};
 		};
 	}
-    
-    function curryLeft(fun) {
+
+	function curryLeft(fun) {
 		return function (a) {
 			return function (b) {
 				return fun(a, b);
@@ -57,8 +57,6 @@
 			};
 		};
 	}
-    
-    
 
 	function curry3(fun) {
 		return function (c) {
@@ -69,32 +67,31 @@
 			};
 		};
 	}
-    
-    function curry4(fun) {
+
+	function curry4(fun) {
 		return function (d) {
 			return function (c) {
 				return function (b) {
-					return function(a){
-                        return fun(a, b, c, d);
-                    };
-                };
-            };
-        };
-    }
-    
+					return function (a) {
+						return fun(a, b, c, d);
+					};
+				};
+			};
+		};
+	}
 	//let compose = (...fns) => fns.reduce( (f, g) => (...args) => f(g(...args)))
+	///(?<=\/)(.*?)(?=\.)/
 	function compose() {
-        var fns = slice.call(arguments);
+		var fns = slice.call(arguments);
 		return fns.reduce(function (f, g) {
 			return function () {
 				return f(g.apply(null, arguments));
 			};
 		});
 	}
-
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-        //con = function(x){ console.log(x); return x; },
+		//con = function (x){ console.log(x); return x; },
 		deferpartial = dopartial(true),
 		partial = dopartial(),
 		drill = function (o, p) {
@@ -107,21 +104,27 @@
 				return champ;
 			});
 		},
+		bestOne = function (pred, actions, arg) {
+			return actions.reduce(function (champ, contender) {
+				champ = pred(arg) ? partial(champ, arg) : partial(contender, arg);
+				return champ;
+			});
+		},
+		always = function (x) {
+			return function () {
+				return x;
+			};
+		},
         identity = function(x){
             return x;
         },
-        always = function(x){
-            return function(){
-                return x;
-            }
-        },
-        negate = function(prd){
-            return !prd;
-        },
-        gtEq = function(a, b){
-            return a >= b;
-        },
-        notNeg = curry2(gtEq)(0),
+		negate = function (prd) {
+			return !prd;
+		},
+		gtEq = function (a, b) {
+			return a >= b;
+		},
+		notNeg = curry2(gtEq)(0),
 		invoke = function (f, arg) {
 			return f(arg);
 		},
@@ -141,30 +144,30 @@
 		invokeProp = function (o, p, v) {
 			return o[p](v);
 		},
-        applyProp = function (o, m, p, v) {
+		applyProp = function (o, m, p, v) {
 			return o[m](p, v);
 		},
 		setProp = function (o, p, v) {
-            o[p] = v;
+			o[p] = v;
 		},
-        setPropBridge = function (v, o, p) {
-            o[p] = v;
+		setPropBridge = function (v, o, p) {
+			o[p] = v;
 		},
-        applyPropBridge = function(v, o, p, m){
-            return applyProp(o, m, p, v);
-        },
+		applyPropBridge = function (v, o, p, m) {
+			return applyProp(o, m, p, v);
+		},
 		doURL = function (src) {
 			return "url(" + src + ")";
 		},
-        add = function(a, b){
-            return a + b;
-        },
-        notExternal = function (tgt) {
-            var hash = window.location.href.indexOf('#'),
-                own = tgt.href.indexOf(window.location.href);
-                return [hash, own].some(notNeg);
+		add = function (a, b) {
+			return a + b;
 		},
-        resetWindow = deferpartial(setProp, window, 'location', '#'),
+		notExternal = function (tgt) {
+			var hash = window.location.href.indexOf('#'),
+				own = tgt.href.indexOf(window.location.href);
+			return [hash, own].some(notNeg);
+		},
+		resetWindow = deferpartial(setProp, window, 'location', '#'),
 		foreach = curry3(invokeProp)(invoke)('forEach'),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
 		doNull = curry3(setProp)(null)('backgroundImage'),
@@ -180,21 +183,18 @@
 		notPic = compose(negate, isTargetPic, getTarget),
 		reSetPic = compose(doNull, getTargetPicStyle),
 		getCurrent = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
-		getData = function (str) {
-			if (!str) {
-				return '';
-			}
-			var start = str.lastIndexOf('/'),
-				end = str.lastIndexOf('.');
-			return str.substring(start + 1, end);
-		},
-        setAssets = curryLeft(add)("assets/"),
+		/*IF not empty match string after / AND before .; 
+		so an array is expected and we need the first captured group which is at index 1;
+        fallback is [null, '']
+		*/
+		getData = compose(curry2(getProp)(1), invoke, deferpartial(bestOne, identity, [curry3(invokeProp)(/\/(\w*?)\./)('match'), always('')])),
+		setAssets = curryLeft(add)("assets/"),
 		doBg = compose(curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle)(),
 		doDataSet = compose(curry2(invoke)('current'), setPropDefer, getDataSet)(),
 		getHREF = curry3(invokeProp)('href')('getAttribute'),
-        setHREF = curry4(applyPropBridge)('setAttribute')('href'),
-        setPicHref = partial(applyProp, him, 'setAttribute','href'),
-        fromDataSet = compose(setPicHref, partial(add, '#'), deferpartial(invokeProp, him, 'getAttribute', 'data-current')),	
+		setHREF = curry4(applyPropBridge)('setAttribute')('href'),
+		setPicHref = partial(applyProp, him, 'setAttribute', 'href'),
+		fromDataSet = compose(setPicHref, partial(add, '#'), deferpartial(invokeProp, him, 'getAttribute', 'data-current')),
 		deferURL = compose(doURL, getHREF, getTarget),
 		deferType = compose(getData, getHREF, getTarget),
 		setPic = compose(doBg, deferURL),
@@ -206,7 +206,7 @@
 			resetWhen = deferpartial(invokeProp, reset_actions, 'map', curry2(invoke)(e)),
 			resetPic = best(defer(validatePic)(e), [resetWhen, dummy]),
 			preventer = compose(invoke, deferpartial(best, validate, [defer(prevent)(e), dummy])),
-			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)),fromDataSet, resetWindow]),
+			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)), fromDataSet, resetWindow]),
 			restore = defer(foreach)([reSetPic, doDataRESET]),
 			match = deferpartial(equals, getCurrent(), deferType(e)),
 			thenInvoke = compose(invoke, deferpartial(best, match, [restore, enter])),
@@ -215,17 +215,17 @@
 		doSetPic();
 		resetPic();
 	});
-    window.addEventListener('load', function(){
-        var links = slice.call(document.querySelectorAll('.slide')),
-            values = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
-            getId = compose(getData, getHREF),
-            setId = curry3(setPropBridge)('id'),
-            ptl;
-        values = values.map(setAssets);
-        ptl = links.map(setHREF);
-        parallelInvoke(ptl, values);
-        ptl = links.map(setId);
-        values = links.map(getId);
-        parallelInvoke(ptl, values);
-    });
-}(Array.prototype.slice));   
+	window.addEventListener('load', function () {
+		var links = slice.call(document.querySelectorAll('.slide')),
+			values = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
+			getId = compose(getData, getHREF),
+			setId = curry3(setPropBridge)('id'),
+			ptl;
+		values = values.map(setAssets);
+		ptl = links.map(setHREF);
+		parallelInvoke(ptl, values);
+		ptl = links.map(setId);
+		values = links.map(getId);
+		parallelInvoke(ptl, values);
+	});
+}(Array.prototype.slice));
