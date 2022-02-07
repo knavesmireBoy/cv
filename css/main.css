@@ -31,22 +31,14 @@ aside {
 	position: relative;
 	background-color: #3dc2bb;
 }
-main>aside {
-	width: 34vw;
-	display: table-cell;
-	vertical-align: top;
-}
-main>section {
-	width: 60vw;
-	display: table-cell;
-	vertical-align: top;
-}
+
 section {
 	margin: 0 0 1em;
 }
 footer {
 	margin: 0;
 }
+
 p {
 	margin: 0 0 .5em;
 }
@@ -62,17 +54,31 @@ img {
 	height: auto;
 	display: block;
 }
+abbr {
+    text-decoration: none;
+    font-weight: bold;
+    color: #0e2a2a;
+}
 main>* {
 	border: solid 0px red;
 	margin: 0 1.4vw;
 }
 main>aside {
-	padding: 1.5em;
+	width: 34%;
+	display: table-cell;
+	vertical-align: top;
+    padding: 1.5em;
+}
+main>section {
+	width: 60%;
+	display: table-cell;
+	vertical-align: top;
 }
 aside h1 {
 	font: 900 3em/.75 Georgia, serif;
 	color: #fff;
 }
+
 aside h3 {
 	color: #fff;
 }
