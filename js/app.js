@@ -183,12 +183,11 @@
 		notPic = compose(negate, isTargetPic, getTarget),
 		reSetPic = compose(doNull, getTargetPicStyle),
 		getCurrent = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
-		/*IF not empty match string after / AND before .; 
+		/*IF not empty, match string after / AND before .; /assets/bolt.jpeg
 		so an array is expected and we need the first captured group which is at index 1;
-        fallback is [null, '']
+        fallback is [null, ''] for rogue clicks
 		*/
 		getData = compose(curry2(getProp)(1), invoke, deferpartial(bestOne, identity, [curry3(invokeProp)(/\/(\w*?)\./)('match'), always('')])),
-		setAssets = curryLeft(add)("assets/"),
 		doBg = compose(curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle)(),
 		doDataSet = compose(curry2(invoke)('current'), setPropDefer, getDataSet)(),
 		getHREF = curry3(invokeProp)('href')('getAttribute'),
@@ -216,12 +215,13 @@
 		resetPic();
 	});
 	window.addEventListener('load', function () {
+        /*only add links if JS enabled*/
 		var links = slice.call(document.querySelectorAll('.slide')),
 			values = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
 			getId = compose(getData, getHREF),
 			setId = curry3(setPropBridge)('id'),
 			ptl;
-		values = values.map(setAssets);
+		values = values.map(curryLeft(add)("assets/"));
 		ptl = links.map(setHREF);
 		parallelInvoke(ptl, values);
 		ptl = links.map(setId);
