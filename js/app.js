@@ -165,6 +165,7 @@
 		notExternal = function (tgt) {
 			var hash = window.location.href.indexOf('#'),
 				own = tgt.href.indexOf(window.location.href);
+            //console.log(hash, own);
 			return [hash, own].some(notNeg);
 		},
 		resetWindow = deferpartial(setProp, window, 'location', '#'),
