@@ -95,7 +95,7 @@
 	}
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		conx = function (x) { console.log(x); return x; },
+		//conx = function (x) { window.console.log(x); return x; },
 		deferpartial = dopartial(true),
 		partial = dopartial(),
 		drill = function (o, p) {
@@ -114,6 +114,7 @@
 				return champ;
 			});
 		},
+
 		negate = function (prd) {
 			return !prd;
 		},
