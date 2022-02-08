@@ -91,7 +91,7 @@
 	}
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		//con = function (x){ console.log(x); return x; },
+		//conx = function (x){ console.log(x); return x; },
 		deferpartial = dopartial(true),
 		partial = dopartial(),
 		drill = function (o, p) {
@@ -110,21 +110,9 @@
 				return champ;
 			});
 		},
-		always = function (x) {
-			return function () {
-				return x;
-			};
-		},
-        identity = function(x){
-            return x;
-        },
 		negate = function (prd) {
 			return !prd;
 		},
-		gtEq = function (a, b) {
-			return a >= b;
-		},
-		notNeg = curry2(gtEq)(0),
 		invoke = function (f, arg) {
 			return f(arg);
 		},
@@ -162,12 +150,7 @@
 		add = function (a, b) {
 			return a + b;
 		},
-		notExternal = function (tgt) {
-			var hash = window.location.href.indexOf('#'),
-				own = tgt.href.indexOf(window.location.href);
-            //console.log(hash, own);
-			return [hash, own].some(notNeg);
-		},
+        getTarget = curry2(getProp)('target'),
 		resetWindow = deferpartial(setProp, window, 'location', '#'),
 		foreach = curry3(invokeProp)(invoke)('forEach'),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
@@ -176,7 +159,7 @@
 		getTargetPicStyle = defer(curry2(getProp)('style'))(him),
 		getDataSet = defer(curry2(getProp)('dataset'))(him),
 		doEquals = curry3(equals)(null),
-		getTarget = curry2(getProp)('target'),
+        notExternal = compose(curry2(equals)('slide'), curry2(getProp)('className')),
 		isTargetPic = doEquals(him),
 		getNodeName = curry2(getProp)('nodeName'),
 		isLink = compose(doEquals('A'), getNodeName, getTarget),
@@ -184,17 +167,15 @@
 		notPic = compose(negate, isTargetPic, getTarget),
 		reSetPic = compose(doNull, getTargetPicStyle),
 		getCurrent = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
-		/*IF not empty, match string after / AND before .; /assets/bolt.jpeg
-		so an array is expected and we need the first captured group which is at index 1;
-        fallback is [null, ''] for rogue clicks
-		*/
-		getData = compose(curry2(getProp)(1), invoke, deferpartial(bestOne, identity, [curry3(invokeProp)(/\/(\w*?)\./)('match'), always('')])),
+        fromPath = curry3(invokeProp)(/\/(\w*?)\./)('match'),
+        fromHash = curry3(invokeProp)(/^#(\w+)/)('match'),
+		getData = compose(curry2(getProp)(1), invoke, deferpartial(bestOne, fromPath, [fromPath, fromHash])),
 		doBg = compose(curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle)(),
 		doDataSet = compose(curry2(invoke)('current'), setPropDefer, getDataSet)(),
 		getHREF = curry3(invokeProp)('href')('getAttribute'),
 		setHREF = curry4(applyPropBridge)('setAttribute')('href'),
 		setPicHref = partial(applyProp, him, 'setAttribute', 'href'),
-		fromDataSet = compose(/*setPicHref, partial(add, '#'), */deferpartial(invokeProp, him, 'getAttribute', 'data-current')),
+		fromDataSet = compose(setPicHref, partial(add, '#'), deferpartial(invokeProp, him, 'getAttribute', 'data-current')),
 		deferURL = compose(doURL, getHREF, getTarget),
 		deferType = compose(getData, getHREF, getTarget),
 		setPic = compose(doBg, deferURL),
@@ -206,7 +187,7 @@
 			resetWhen = deferpartial(invokeProp, reset_actions, 'map', curry2(invoke)(e)),
 			resetPic = best(defer(validatePic)(e), [resetWhen, dummy]),
 			preventer = compose(invoke, deferpartial(best, validate, [defer(prevent)(e), dummy])),
-			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)), fromDataSet/*, resetWindow*/]),
+			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)), fromDataSet, resetWindow]),
 			restore = defer(foreach)([reSetPic, doDataRESET]),
 			match = deferpartial(equals, getCurrent(), deferType(e)),
 			thenInvoke = compose(invoke, deferpartial(best, match, [restore, enter])),

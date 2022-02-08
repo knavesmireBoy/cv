@@ -37,7 +37,7 @@ body > header li:first-child, body > header li:last-child, body > footer li:firs
     color: white;
 }
 
-.him, .work, .resume, .inner > p, aside h3, #content > h2:first-child, footer {
+.him, .work, .resume, .inner > p, aside h3, #content > h2:first-child, footer, #content section:last-child {
         position: absolute;
         left: -9999px;
     }
