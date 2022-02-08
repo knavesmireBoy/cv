@@ -33,6 +33,10 @@
 			};
 		};
 	}
+    
+    function notUNDEF(arg) {
+        return typeof (arg) !== 'undefined';
+    }
 
 	function defer(fun) {
 		return function (a) {
@@ -91,7 +95,7 @@
 	}
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		//conx = function (x){ console.log(x); return x; },
+		//conx = function (x) { console.log(x); return x; },
 		deferpartial = dopartial(true),
 		partial = dopartial(),
 		drill = function (o, p) {
@@ -127,16 +131,19 @@
 			return a === b;
 		},
 		getProp = function (o, p) {
-			return p ? o[p] : o;
+            if (!o) {
+                return {};
+            }
+			return notUNDEF(p) ? o[p] : o;
 		},
 		invokeProp = function (o, p, v) {
-			return o[p](v);
+            return o[p](v);
 		},
 		applyProp = function (o, m, p, v) {
 			return o[m](p, v);
 		},
 		setProp = function (o, p, v) {
-			o[p] = v;
+            o[p] = v;
 		},
 		setPropBridge = function (v, o, p) {
 			o[p] = v;
@@ -152,6 +159,8 @@
 		},
         getTarget = curry2(getProp)('target'),
 		resetWindow = deferpartial(setProp, window, 'location', '#'),
+        notNULL = compose(curry3(invokeProp)(/#/)('match'), deferpartial(getProp, window.location, 'href')),
+        doResetWindow = compose(invoke, deferpartial(best, notNULL, [resetWindow, dummy])),
 		foreach = curry3(invokeProp)(invoke)('forEach'),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
 		doNull = curry3(setProp)(null)('backgroundImage'),
@@ -187,7 +196,7 @@
 			resetWhen = deferpartial(invokeProp, reset_actions, 'map', curry2(invoke)(e)),
 			resetPic = best(defer(validatePic)(e), [resetWhen, dummy]),
 			preventer = compose(invoke, deferpartial(best, validate, [defer(prevent)(e), dummy])),
-			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)), fromDataSet, resetWindow]),
+			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)), fromDataSet, doResetWindow]),
 			restore = defer(foreach)([reSetPic, doDataRESET]),
 			match = deferpartial(equals, getCurrent(), deferType(e)),
 			thenInvoke = compose(invoke, deferpartial(best, match, [restore, enter])),
