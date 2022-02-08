@@ -17,17 +17,46 @@ footer {
 main {
 	padding: 0 2vw;
 }
-@supports (column-gap: 10px){
- aside:before {
+
+abbr[title] {
+  position: relative;
+  /* ensure consistent styling across browsers */
+  text-decoration: none; 
+    color: teal;
+}
+
+abbr[title]:hover::after,
+abbr[title]:focus::after {
+  content: attr(title);
+  
+  /* position tooltip like the native one */
+  position: absolute;
+  left: -88px;
+  bottom: -30px;
+  width: auto;
+  white-space: nowrap;
+  
+  /* style tooltip */
+  background-color: #1e1e1e;
+  color: #fff;
+  border-radius: 3px;
+  box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
+  font-size: 14px;
+  padding: 3px 5px;
+}
+
+
+
+@supports (column-gap: 10px) {
+    
+    aside:before {
      border-color: crimson;
      border-width: calc(134px + (26) * (100vw - 1024px) / (1280 - 1024));
      border-width: calc(134px + (72) * (100vw - 1024px) / (1680 - 1024));
      border-right-color: transparent;
      border-bottom-color: transparent;
     }
-}
-
-@supports (column-gap: 10px) {
+    
 	#content section {
 		display: grid;
 		grid-auto-columns: 50px auto;
