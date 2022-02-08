@@ -19,24 +19,25 @@ main {
 }
 
 abbr[title] {
-  position: relative;
-  /* ensure consistent styling across browsers */
   text-decoration: none; 
-    color: teal;
+    color: #014848;
+}
+/*
+https://bitsofco.de/revisiting-the-abbr-element/
+abbr[title] {
+  position: relative;
+  text-decoration: none; 
+    color: #014848;
 }
 
 abbr[title]:hover::after,
 abbr[title]:focus::after {
   content: attr(title);
-  
-  /* position tooltip like the native one */
   position: absolute;
   left: -88px;
   bottom: -30px;
   width: auto;
   white-space: nowrap;
-  
-  /* style tooltip */
   background-color: #1e1e1e;
   color: #fff;
   border-radius: 3px;
@@ -44,7 +45,7 @@ abbr[title]:focus::after {
   font-size: 14px;
   padding: 3px 5px;
 }
-
+*/
 
 
 @supports (column-gap: 10px) {
