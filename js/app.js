@@ -133,7 +133,7 @@
 		getProp = function (o, p) {
             if (!o) {
                 return {};
-            }
+            }//zero etc..
 			return notUNDEF(p) ? o[p] : o;
 		},
 		invokeProp = function (o, p, v) {
@@ -151,12 +151,10 @@
 		applyPropBridge = function (v, o, p, m) {
 			return applyProp(o, m, p, v);
 		},
-		doURL = function (src) {
-			return "url(" + src + ")";
-		},
 		add = function (a, b) {
 			return a + b;
 		},
+        doURL = compose(curry2(add)(")"), partial(add, "url(")),
         getTarget = curry2(getProp)('target'),
 		resetWindow = deferpartial(setProp, window, 'location', '#'),
         notNULL = compose(curry3(invokeProp)(/#/)('match'), deferpartial(getProp, window.location, 'href')),
