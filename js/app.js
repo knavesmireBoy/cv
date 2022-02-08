@@ -95,7 +95,7 @@
 	}
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		//conx = function (x) { console.log(x); return x; },
+		conx = function (x) { console.log(x); return x; },
 		deferpartial = dopartial(true),
 		partial = dopartial(),
 		drill = function (o, p) {
@@ -137,6 +137,7 @@
 			return notUNDEF(p) ? o[p] : o;
 		},
 		invokeProp = function (o, p, v) {
+            //conx(o,p,v);
             return o[p](v);
 		},
 		applyProp = function (o, m, p, v) {
