@@ -112,22 +112,6 @@
 		};
     }
     
-	var main = document.querySelector('main'),
-		him = document.querySelector('.him'),
-		//conx = function (x) { window.console.log(x); return x; },
-		deferpartial = dopartial(true),
-		partial = dopartial(),
-		drill = function (o, p) {
-			o = o[p];
-			return o;
-     function getPropFactory(def) {
-         return function(o, p){
-             if(o && notUNDEF(p)) {
-                return getProp(o, p);
-            }
-             return o || def;
-		};
-     }
     function getBest(flag){
         var best = function (pred, actions) {
 			return actions.reduce(function (champ, contender) {
@@ -171,7 +155,6 @@
 		equals = function (a, b) {
 			return a === b;
 		},
-		getProp = getPropFactory(''),
 		invokeProp = invokePropFactory(''),
 		applyProp = function (o, m, p, v) {
 			return o[m](p, v);
@@ -194,9 +177,6 @@
             if(o && notUNDEF(p)) {
                 setProp(o, p, v);
             }
-		},
-        applyProp = function (o, m, p, v) {
-			return o[m](p, v);
 		},
 		applyPropSort = function (v, o, p, m) {
 			return applyProp(o, m, p, v);
@@ -272,9 +252,4 @@
 		values = links.map(getId);
 		parallelInvoke(ptl, values);
 	});
-    /*
-    loader.addEventListener({
-        
-    });
-    */
 }(Array.prototype.slice));
