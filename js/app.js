@@ -223,11 +223,11 @@
 		setPic = compose(doBg, deferURL),
 		doDataRESET = defer(doDataSet)(''),
 		validatePic = compose(isTargetPic, getTarget),
-		reset_actions = [compose(reSetPic, getTarget), compose(doDataRESET, getTarget)];
+		reset_actions = [compose(reSetPic, conz, getTarget), compose(doDataRESET, getTarget)];
 	main.addEventListener('click', function (e) {
 		var validate = defer(curry3(invokePropBridge)(curry2(invoke)(e))('every'))([isLink, isLocal, notPic]),
 			resetWhen = deferpartial(invokePropBridge, reset_actions, 'map', curry2(invoke)(e)),
-			resetPic = bestOne(defer(validatePic)(e), [resetWhen, dummy]),
+			resetPic = best(defer(validatePic)(e), [resetWhen, dummy]),
 			preventer = compose(invoke, deferpartial(best, validate, [defer(prevent)(e), dummy])),
 			enter = defer(foreach)([defer(setPic)(e), defer(doDataSet)(deferType(e)), fromDataSet, doResetWindow]),
 			restore = defer(foreach)([reSetPic, doDataRESET]),
