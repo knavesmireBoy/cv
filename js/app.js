@@ -165,7 +165,7 @@
                 return invokeProp(o, p, v);
             }
         },
-		setProp = function (o, p, v) {
+        setProp = function (o, p, v) {
             o[p] = v;
 		},
         setPropBridge = function(o, p, v){
@@ -190,7 +190,6 @@
             }
 		},
         doURL = compose(curry2(add)(")"), partial(add, "url(")),
-        getTarget = curry2(getPropBridge)('target'),
 		resetWindow = deferpartial(setPropBridge, window, 'location', '#'),
         notNULL = compose(curry3(invokePropBridge)(/#/)('match'), deferpartial(getPropBridge, window.location, 'href')),
         doResetWindow = compose(invoke, deferpartial(bestOne, notNULL, [resetWindow, dummy])),
@@ -203,13 +202,7 @@
 		doEquals = curry3(equals)(null),
         notExternal = compose(curry2(equals)('slide'), curry2(getPropBridge)('className')),
 		isTargetPic = doEquals(him),
-		getNodeName = curry2(getPropBridge)('nodeName'),
-		isLink = compose(doEquals('A'), getNodeName, getTarget),
-		isLocal = compose(notExternal, getTarget),
-		//isLocal = compose(notExternal, getTarget),
-		notPic = compose(negate, isTargetPic, getTarget),
 		reSetPic = compose(doNull, getTargetPicStyle),
-        
 		getCurrent = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
         fromPath = curry3(invokePropBridge)(/\/(\w*?)\./)('match'),
         fromHash = curry3(invokePropBridge)(/^#(\w+)/)('match'),
@@ -224,26 +217,25 @@
 		deferType = compose(getData, getHREF),
 		setPic = compose(doBg, deferURL),
 		doDataRESET = defer(doDataSet)(''),
-		validatePic = compose(isTargetPic, getTarget),
-		//reset_actions = [compose(reSetPic, getTarget), compose(doDataRESET, getTarget)],
 		reset_actions = [reSetPic,doDataRESET],
         listen = function(tgt){
+            var validate = defer(notExternal)(tgt),
+			enter = defer(foreach)([defer(setPic)(tgt), defer(doDataSet)(deferType(tgt)), fromDataSet, doResetWindow]),
+			restore = defer(foreach)(reset_actions),
+			match = deferpartial(equals, getCurrent(), deferType(tgt)),
+			thenInvoke = compose(invoke, deferpartial(best, match, [restore, enter])),
+			doSetPic = compose(invoke, deferpartial(best, validate, [defer(foreach)([thenInvoke, deferScroll]), dummy]));
+            doSetPic();
+		
         },
         listenBridge = function (e) {
 		var validate = defer(notExternal)(e.target),
-            preventer = compose(invoke, deferpartial(best, validate, [defer(prevent)(e), dummy])),
-			resetWhen = deferpartial(invokePropBridge, reset_actions, 'map', curry2(invoke)(e.target)),
-			//resetPic = best(defer(validatePic)(e), [resetWhen, dummy]),
+            resetWhen = deferpartial(invokePropBridge, reset_actions, 'map', curry2(invoke)(e.target)),
 			resetPic = best(defer(isTargetPic)(e.target), [resetWhen, dummy]),
-			enter = defer(foreach)([defer(setPic)(e.target), defer(doDataSet)(deferType(e.target)), fromDataSet, doResetWindow]),
-			restore = defer(foreach)(reset_actions),
-			match = deferpartial(equals, getCurrent(), deferType(e.target)),
-			thenInvoke = compose(invoke, deferpartial(best, match, [restore, enter])),
-			doSetPic = compose(invoke, deferpartial(best, validate, [defer(foreach)([thenInvoke, deferScroll]), dummy]));
-		preventer();
-		doSetPic();
-		resetPic();
-	};
+            preventer = compose(invoke, deferpartial(best, validate, [compose(defer(prevent)(e), defer(listen)(e.target)), dummy]));
+            preventer();
+            resetPic();
+        };
 	main.addEventListener('click', listenBridge);
 	window.addEventListener('load', function () {
         /*only add links if JS enabled*/
