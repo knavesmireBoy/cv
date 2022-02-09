@@ -225,7 +225,7 @@
 		validatePic = compose(isTargetPic, getTarget),
 		reset_actions = [compose(reSetPic, getTarget), compose(doDataRESET, getTarget)],
         listenBridge = function (e) {
-		var validate = defer(curry3(invokePropBridge)(curry2(invoke)(e))('every'))([isLocal, notPic]),
+		var validate = defer(curry3(invokePropBridge)(curry2(invoke)(e))('every'))([isLink, isLocal, notPic]),
 			resetWhen = deferpartial(invokePropBridge, reset_actions, 'map', curry2(invoke)(e)),
 			resetPic = best(defer(validatePic)(e), [resetWhen, dummy]),
 			preventer = compose(invoke, deferpartial(best, validate, [defer(prevent)(e), dummy])),
