@@ -133,7 +133,8 @@
 			return actions.reduce(function (champ, contender) {
 				champ = pred() ? champ : contender;
 				return champ;
-			});
+			})
+        },
 		bestOne = function (pred, actions, arg) {
 			return actions.reduce(function (champ, contender) {
 				champ = pred(arg) ? partial(champ, arg) : partial(contender, arg);
