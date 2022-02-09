@@ -121,7 +121,6 @@
 		drill = function (o, p) {
 			o = o[p];
 			return o;
-=======
      function getPropFactory(def) {
          return function(o, p){
              if(o && notUNDEF(p)) {
@@ -136,15 +135,6 @@
 				champ = pred() ? champ : contender;
 				return champ;
 			});
->>>>>>> 539904df31c1718c756cdf769a46a2d4ca004e60
-		},
-        best1 = function (pred, actions) {
-            conz(arguments);
-			return actions.reduce(function (champ, contender) {
-				champ = pred() ? champ : contender;
-				return champ;
-			});
-		},
 		bestOne = function (pred, actions, arg) {
 			return actions.reduce(function (champ, contender) {
 				champ = pred(arg) ? partial(champ, arg) : partial(contender, arg);
