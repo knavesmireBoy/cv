@@ -94,13 +94,6 @@ article ul {
 article ul li {
     margin: .2em 0;
 }
-article p:last-child {
-    font-style: italic;
-}
-
-article.refactor p{
-    font-style: normal;
-}
 
 section h2, section h3 {
 	color: crimson;
@@ -137,6 +130,8 @@ footer ul li {
 main>section>ul li {
 	margin: 0 0 .75em;
 }
+
+
 .wrapper {
 	margin: 0 2rem;
 	font: .6em/1.4 Palatino, Lora, Georgia, serif;
@@ -165,11 +160,17 @@ main>section>ul li {
 	margin: .5em 0;
 }
 
-aside .output {
+aside .output, .loader {
     position: absolute;
     left: -9999px;
 }
+article p:last-child {
+    font-style: italic;
+}
 
+article.refactor p{
+    font-style: normal;
+}
 ul.key {
 	margin: 1em 0;
 	text-align: left;
