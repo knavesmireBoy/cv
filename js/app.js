@@ -175,7 +175,7 @@
 		applyProp = function (o, m, p, v) {
 			return o[m](p, v);
 		},
-        getPropBridge = getPropFactory(''),,
+        getPropBridge = getPropFactory(''),
         invokePropBridge = function(o, p, v){
             if(o && notUNDEF(p)) {
                 return invokeProp(o, p, v);
