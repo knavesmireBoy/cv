@@ -130,7 +130,7 @@
     
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		conz = function (x) { window.console.log(x); return x; },
+		//conz = function (x) { window.console.log(x); return x; },
 		deferpartial = dopartial(true),
 		partial = dopartial(),
 		drill = function (o, p) {
@@ -139,9 +139,6 @@
 		},
 		best = getBest(),
         bestOne = getBest(true),
-		negate = function (prd) {
-			return !prd;
-		},
 		invoke = function (f, arg) {
 			return f(arg);
 		},
@@ -184,11 +181,6 @@
 		add = function (a, b) {
 			return a + b;
 		},
-        always = function (a) {
-			return function(){
-                return a;
-            }
-		},
         doURL = compose(curry2(add)(")"), partial(add, "url(")),
 		resetWindow = deferpartial(setPropBridge, window, 'location', '#'),
         notNULL = compose(curry3(invokePropBridge)(/#/)('match'), deferpartial(getPropBridge, window.location, 'href')),
@@ -217,17 +209,15 @@
 		deferType = compose(getData, getHREF),
 		setPic = compose(doBg, deferURL),
 		doDataRESET = defer(doDataSet)(''),
-		reset_actions = [reSetPic,doDataRESET],
+		reset_actions = [reSetPic, doDataRESET],
+        //deal with .slide elements
         listen = function(tgt){
-            var validate = defer(notExternal)(tgt),
-			enter = defer(foreach)([defer(setPic)(tgt), defer(doDataSet)(deferType(tgt)), fromDataSet, doResetWindow]),
-			restore = defer(foreach)(reset_actions),
-			match = deferpartial(equals, getCurrent(), deferType(tgt)),
-			thenInvoke = compose(invoke, deferpartial(best, match, [restore, enter])),
-			doSetPic = compose(invoke, deferpartial(best, validate, [defer(foreach)([thenInvoke, deferScroll]), dummy]));
-            doSetPic();
-		
+            var enter = defer(foreach)([defer(setPic)(tgt), defer(doDataSet)(deferType(tgt)), fromDataSet, doResetWindow]),
+                exit = defer(foreach)(reset_actions);
+            best(deferpartial(equals, getCurrent(), deferType(tgt)), [exit, enter])();
+            deferScroll();
         },
+        //deal with pic, external links
         listenBridge = function (e) {
 		var validate = defer(notExternal)(e.target),
             resetWhen = deferpartial(invokePropBridge, reset_actions, 'map', curry2(invoke)(e.target)),
