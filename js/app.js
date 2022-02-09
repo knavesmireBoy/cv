@@ -93,6 +93,25 @@
 			};
 		});
 	}
+    
+    function getPropFactory(def) {
+        return function(o, p){
+            if (!o) {
+                return def;
+            }//zero etc..
+			return notUNDEF(p) ? o[p] : o;
+		};
+    }
+    
+    function invokePropFactory(def) {
+        return function(o, p, v){
+            if (!o) {
+                return def;
+            }//zero etc..
+			return notUNDEF(p) ? o[p](v) : def;
+		};
+    }
+    
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
 		//conx = function (x) { window.console.log(x); return x; },
@@ -131,16 +150,8 @@
 		equals = function (a, b) {
 			return a === b;
 		},
-		getProp = function (o, p) {
-            if (!o) {
-                return {};
-            }//zero etc..
-			return notUNDEF(p) ? o[p] : o;
-		},
-		invokeProp = function (o, p, v) {
-            //conx(o,p,v);
-            return o[p](v);
-		},
+		getProp = getPropFactory(''),
+		invokeProp = invokePropFactory(''),
 		applyProp = function (o, m, p, v) {
 			return o[m](p, v);
 		},
