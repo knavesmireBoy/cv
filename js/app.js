@@ -94,7 +94,6 @@
 		});
 	}
     
-<<<<<<< HEAD
     function getPropFactory(def) {
         return function(o, p){
             if (!o) {
