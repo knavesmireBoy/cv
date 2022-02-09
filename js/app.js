@@ -93,16 +93,17 @@
 			};
 		});
 	}
-	var main = document.querySelector('main'),
-		him = document.querySelector('.him'),
-		//conx = function (x) { window.console.log(x); return x; },
-		deferpartial = dopartial(true),
-		partial = dopartial(),
-		drill = function (o, p) {
-			o = o[p];
-			return o;
-		},
-		best = function (pred, actions) {
+    
+     function getPropFactory(def) {
+         return function(o, p){
+             if(o && notUNDEF(p)) {
+                return getProp(o, p);
+            }
+             return o || def;
+		};
+     }
+    function getBest(flag){
+        var best = function (pred, actions) {
 			return actions.reduce(function (champ, contender) {
 				champ = pred() ? champ : contender;
 				return champ;
@@ -113,8 +114,21 @@
 				champ = pred(arg) ? partial(champ, arg) : partial(contender, arg);
 				return champ;
 			});
+		};
+        return flag ? bestOne : best;
+    }
+    
+	var main = document.querySelector('main'),
+		him = document.querySelector('.him'),
+		conz = function (x) { window.console.log(x); return x; },
+		deferpartial = dopartial(true),
+		partial = dopartial(),
+		drill = function (o, p) {
+			o = o[p];
+			return o;
 		},
-
+		best = getBest(),
+        bestOne = getBest(true),
 		negate = function (prd) {
 			return !prd;
 		},
@@ -131,16 +145,18 @@
 		equals = function (a, b) {
 			return a === b;
 		},
-		getProp = function (o, p) {
-            if (!o) {
-                return {};
-            }//zero etc..
-			return notUNDEF(p) ? o[p] : o;
+        getProp = function (o, p) {
+            return o[p];
 		},
-		invokeProp = function (o, p, v) {
-            //conx(o,p,v);
+        getPropBridge = getPropFactory(''),
+        invokeProp = function (o, p, v) {
             return o[p](v);
 		},
+        invokePropBridge = function(o, p, v){
+            if(o && notUNDEF(p)) {
+                return invokeProp(o, p, v);
+            }
+        },
 		applyProp = function (o, m, p, v) {
 			return o[m](p, v);
 		},
@@ -155,6 +171,11 @@
 		},
 		add = function (a, b) {
 			return a + b;
+		},
+        always = function (a) {
+			return function(){
+                return a;
+            }
 		},
         doURL = compose(curry2(add)(")"), partial(add, "url(")),
         getTarget = curry2(getProp)('target'),
@@ -176,9 +197,9 @@
 		notPic = compose(negate, isTargetPic, getTarget),
 		reSetPic = compose(doNull, getTargetPicStyle),
 		getCurrent = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
-        fromPath = curry3(invokeProp)(/\/(\w*?)\./)('match'),
-        fromHash = curry3(invokeProp)(/^#(\w+)/)('match'),
-		getData = compose(curry2(getProp)(1), invoke, deferpartial(bestOne, fromPath, [fromPath, fromHash])),
+        fromPath = curry3(invokePropBridge)(/\/(\w*?)\./)('match'),
+        fromHash = curry3(invokePropBridge)(/^#(\w+)/)('match'),
+		getData = compose(curry2(getPropBridge)(1), invoke, deferpartial(bestOne, fromPath, [fromPath, fromHash])),
 		doBg = compose(curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle)(),
 		doDataSet = compose(curry2(invoke)('current'), setPropDefer, getDataSet)(),
 		getHREF = curry3(invokeProp)('href')('getAttribute'),
