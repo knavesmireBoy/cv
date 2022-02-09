@@ -94,17 +94,16 @@
 		});
 	}
     
-	var main = document.querySelector('main'),
-		him = document.querySelector('.him'),
-		loader = document.querySelector('.loader'),
-		conz = function (x) { window.console.log(x); return x; },
-		deferpartial = dopartial(true),
-		partial = dopartial(),
-		drill = function (o, p) {
-			o = o[p];
-			return o;
-		},
-		best = function (pred, actions) {
+     function getPropFactory(def) {
+         return function(o, p){
+             if(o && notUNDEF(p)) {
+                return getProp(o, p);
+            }
+             return o || def;
+		};
+     }
+    function getBest(flag){
+        var best = function (pred, actions) {
 			return actions.reduce(function (champ, contender) {
 				champ = pred() ? champ : contender;
 				return champ;
@@ -122,8 +121,21 @@
 				champ = pred(arg) ? partial(champ, arg) : partial(contender, arg);
 				return champ;
 			});
+		};
+        return flag ? bestOne : best;
+    }
+    
+	var main = document.querySelector('main'),
+		him = document.querySelector('.him'),
+		conz = function (x) { window.console.log(x); return x; },
+		deferpartial = dopartial(true),
+		partial = dopartial(),
+		drill = function (o, p) {
+			o = o[p];
+			return o;
 		},
-
+		best = getBest(),
+        bestOne = getBest(true),
 		negate = function (prd) {
 			return !prd;
 		},
@@ -140,15 +152,10 @@
 		equals = function (a, b) {
 			return a === b;
 		},
-		getProp = function (o, p) {
+        getProp = function (o, p) {
             return o[p];
 		},
-        getPropBridge = function (o, p) {
-             if(o && notUNDEF(p)) {
-                return getProp(o, p);
-            }
-                return o || null;
-		},
+        getPropBridge = getPropFactory(''),
         invokeProp = function (o, p, v) {
             return o[p](v);
 		},
@@ -179,6 +186,11 @@
 		add = function (a, b) {
 			return a + b;
 		},
+        always = function (a) {
+			return function(){
+                return a;
+            }
+		},
         doURL = compose(curry2(add)(")"), partial(add, "url(")),
         getTarget = curry2(getPropBridge)('target'),
 		resetWindow = deferpartial(setPropBridge, window, 'location', '#'),
@@ -198,7 +210,7 @@
 		isLocal = compose(notExternal, getTarget),
 		notPic = compose(negate, isTargetPic, getTarget),
 		reSetPic = compose(doNull, getTargetPicStyle),
-		getCurrent = deferpartial(invokePropBridge, [him, 'dataset', 'current'], 'reduce', drill),
+		getCurrent = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
         fromPath = curry3(invokePropBridge)(/\/(\w*?)\./)('match'),
         fromHash = curry3(invokePropBridge)(/^#(\w+)/)('match'),
 		getData = compose(curry2(getPropBridge)(1), invoke, deferpartial(bestOne, fromPath, [fromPath, fromHash])),
