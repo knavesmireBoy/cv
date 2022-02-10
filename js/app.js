@@ -113,7 +113,7 @@
 	}
     var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		//conz = function (x) { window.console.log(x); return x; },
+		conz = function (x) { window.console.log(x); return x; },
 		deferpartial = dopartial(true),
 		partial = dopartial(),
 		drill = function (o, p) {
@@ -193,24 +193,31 @@
 		notExternal = compose(curry2(equals)('slide'), curry2(getPropBridge)('className')),
 		isTargetPic = doEquals(him),
 		reSetPic = compose(doNull, getTargetPicStyle),
-		getCurrent = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
+        getHREF = curry3(invokePropBridge)('href')('getAttribute'),
+        getHIMhref = defer(curry3(invokePropBridge)('href')('getAttribute'))(him),
+		getSub = curry3(invokePropBridge)(1)('substring'),
+		getCurrent1 = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
+		getCurrent = compose(conz, getSub, getHIMhref),
 		fromPath = curry3(invokePropBridge)(/\/(\w*?)\./)('match'),
 		fromHash = curry3(invokePropBridge)(/^#(\w+)/)('match'),
 		getData = compose(curry2(getPropBridge)(1), invoke, deferpartial(bestOne, fromPath, [fromPath, fromHash])),
 		doBg = compose(curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle)(),
 		doDataSet = compose(curry2(invoke)('current'), setPropDefer, getDataSet)(),
-		getHREF = curry3(invokePropBridge)('href')('getAttribute'),
+		
 		setHREF = curry4(applyPropSort)('setAttribute')('href'),
 		setPicHref = partial(applyProp, him, 'setAttribute', 'href'),
-		fromDataSet = compose(setPicHref, partial(add, '#'), deferpartial(invokePropBridge, him, 'getAttribute', 'data-current')),
+		fromDataSet1 = compose(setPicHref, partial(add, '#'), deferpartial(invokePropBridge, him, 'getAttribute', 'data-current')),
+		fromDataSet = compose(setPicHref, partial(add, '#'), curry2(getPropBridge)(1), fromPath, getHREF),
 		deferURL = compose(doURL, getHREF),
 		deferType = compose(getData, getHREF),
 		setPic = compose(doBg, deferURL),
 		doDataRESET = defer(doDataSet)(''),
-		reset_actions = [reSetPic, doDataRESET],
+		reset_actions = [reSetPic, doDataRESET, defer(setPicHref)('')],
 		//deal with .slide elements
 		listen = function (tgt) {
-			var enter = defer(foreach)([defer(setPic)(tgt), defer(doDataSet)(deferType(tgt)), fromDataSet, doResetWindow]),
+			var enter1 = defer(foreach)([defer(setPic)(tgt), defer(doDataSet)(deferType(tgt)), fromDataSet, doResetWindow]),
+
+                enter = defer(foreach)([defer(setPic)(tgt), defer(fromDataSet)(tgt), doResetWindow]),
 				exit = defer(foreach)(reset_actions);
 			best(deferpartial(equals, getCurrent(), deferType(tgt)), [exit, enter])();
 			deferScroll();
