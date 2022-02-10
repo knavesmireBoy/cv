@@ -210,13 +210,11 @@
 		},
 		//deal with pic, external links
 		listenBridge = function (e) {
-			var validate = defer(isLocal)(e.target),
-				preventer = compose(invoke, deferpartial(best, validate, [compose(defer(prevent)(e), defer(listen)(e.target)), dummy]));
             best(defer(matchTargetPic)(e.target), [reSetPic, dummy])();
-			preventer();
+			compose(invoke, deferpartial(best, defer(isLocal)(e.target), [compose(defer(prevent)(e), defer(listen)(e.target)), dummy]))();
 		};
 	main.addEventListener('click', listenBridge);
-	window.addEventListener('load', function () {
+	window.addEventListener('DOMContentLoaded', function () {
 		/*only add links if JS enabled*/
 		var links = slice.call(document.querySelectorAll('.slide')),
 			values = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
