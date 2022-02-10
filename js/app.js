@@ -12,22 +12,6 @@
 		});
 	}
     
-    function UNDEF(arg) {
-		return typeof (arg) === 'undefined';
-	}
-    
-    if (UNDEF(Function.prototype.wrap)) {
-        Function.prototype.wrap = function(wrapper) {
-            var _method = this;
-            return function() {
-                var args = [],
-                    i;
-                for (i = 0; i < arguments.length; i++) args.push(arguments[i]);
-                return wrapper.apply(this, [_method.bind(this)].concat(args));
-            }
-        };
-    }
-
 	function dopartial(defer) {
 		return function _ptL(f) {
 			var args = slice.call(arguments, 1);
@@ -163,17 +147,16 @@
 			return a === b;
 		},
 		invokeProp = invokePropFactory(''),
+        lazyVal = function(v, o, p){
+            conz(arguments);
+            return invokeProp(o, p, v);
+        },
 		applyProp = function (o, m, p, v) {
 			return o[m](p, v);
 		},
 		getPropBridge = getPropFactory(''),
-		invokePropBridge = function (o, p, v) {
-			if (o && notUNDEF(p) && notUNDEF(o[p])) {
-				return invokeProp(o, p, v);
-			}
-		},
 		setProp = function (o, p, v) {
-			o[p] = v;
+            o[p] = v;
 		},
 		setPropBridge = function (o, p, v) {
 			if (o && notUNDEF(p)) {
@@ -191,15 +174,15 @@
 		add = function (a, b) {
 			return a + b;
 		},
-        
 		doURL = compose(curry2(add)(")"), ptL(add, "url(")),
         mytarget = !window.addEventListener ? 'srcElement' : 'target',
         getTarget = curry2(getPropBridge)(mytarget),
 		resetWindow = deferPTL(setPropBridge, window, 'location', '#'),
-		notNULL = compose(curry3(invokePropBridge)(/#/)('match'), deferPTL(getPropBridge, window.location, 'href')),
+		notNULL = compose(curry3(invokeProp)(/#/)('match'), deferPTL(getPropBridge, window.location, 'href')),
 		doResetWindow = compose(invoke, deferPTL(bestOne, notNULL, [resetWindow, dummy])),
-		foreach = curry3(invokePropBridge)(invoke)('forEach'),
-		prevent = curry3(invokePropBridge)(null)('preventDefault'),
+		each = curry3(invokeProp)(invoke)('forEach'),
+		lazyEach = curry3(lazyVal)('forEach'),
+		prevent = curry3(invokeProp)(null)('preventDefault'),
 		doNull = curry3(setPropBridge)(null)('backgroundImage'),
 		setPropDefer = ptL(setPropBridge),
 		getTargetPicStyle = defer(curry2(getPropBridge)('style'))(him),
@@ -207,32 +190,35 @@
 		isLocal = compose(curry2(equals)('slide'), curry2(getPropBridge)('className')),
 		matchTargetPic = doEquals(him),
 		reSetPic = compose(doNull, getTargetPicStyle),
-        getHREF = curry3(invokePropBridge)('href')('getAttribute'),
-        getHIMhref = defer(curry3(invokePropBridge)('href')('getAttribute'))(him),
-		getSub = curry3(invokePropBridge)(1)('substring'),
+        getHREF = curry3(invokeProp)('href')('getAttribute'),
+        getHIMhref = defer(curry3(invokeProp)('href')('getAttribute'))(him),
+		getSub = curry3(invokeProp)(1)('substring'),
 		getCurrent = compose(getSub, getHIMhref),
-		fromPath = curry3(invokePropBridge)(/\/(\w*?)\./)('match'),
-		fromHash = curry3(invokePropBridge)(/^#(\w+)/)('match'),
+		fromPath = curry3(invokeProp)(/\/(\w*?)\./)('match'),
+		fromHash = curry3(invokeProp)(/^#(\w+)/)('match'),
 		getData = compose(curry2(getPropBridge)(1), invoke, deferPTL(bestOne, fromPath, [fromPath, fromHash])),
 		doBg = compose(curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle)(),
 		setHREF = curry4(applyPropSort)('setAttribute')('href'),
 		setPicHref = ptL(applyProp, him, 'setAttribute', 'href'),
+		resetPicHref = deferPTL(applyProp, him, 'setAttribute', 'href', '#'),
 		fromDataSet = compose(setPicHref, ptL(add, '#'), curry2(getPropBridge)(1), fromPath, getHREF),
 		deferURL = compose(doURL, getHREF),
 		deferType = compose(getData, getHREF),
 		setPic = compose(doBg, deferURL),
         matchPic = compose(matchTargetPic, getTarget),
         matchLocal = compose(isLocal, getTarget),
+        doReset = compose(resetPicHref, reSetPic),
 		//deal with .slide elements
 		listen = function (tgt) {
-			var enter = defer(foreach)([defer(setPic)(tgt), defer(fromDataSet)(tgt), doResetWindow]);
-			best(deferPTL(equals, getCurrent(), deferType(tgt)), [reSetPic, enter])();
+			var enter = defer(each)([defer(setPic)(tgt), defer(fromDataSet)(tgt), doResetWindow]);
+			best(deferPTL(equals, getCurrent(), deferType(tgt)), [doReset, enter])();
 			deferScroll();
 		},
 		//deal with pic, external links
 		listenBridge = function (e) {
-            var enter = defer(foreach)([defer(compose(listen, getTarget))(e), defer(prevent)(e)]);
-            best(defer(matchPic)(e), [reSetPic, dummy])();
+            var cb = curry2(invoke)(e),
+                enter = defer( lazyEach([compose(listen, defer(getTarget)(e)), prevent]) )(cb);
+            best(defer(matchPic)(e), [doReset, dummy])();
 			compose(invoke, deferPTL(best, defer(matchLocal)(e), [enter, dummy]))();
 		};
 	main.addEventListener('click', listenBridge);
