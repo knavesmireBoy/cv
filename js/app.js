@@ -11,9 +11,9 @@
 			return f(vals[i]);
 		});
 	}
-
+    
 	function dopartial(defer) {
-		return function _partial(f) {
+		return function _ptL(f) {
 			var args = slice.call(arguments, 1);
 			/*be careful if function is a callback to an array method as
 			a: the arg count may exceed the function count
@@ -29,14 +29,14 @@
 			}
 			return function () {
 				var _args = slice.call(arguments);
-				return _partial.apply(null, [f].concat(args, _args));
+				return _ptL.apply(null, [f].concat(args, _args));
 			};
 		};
 	}
-    
-    function notUNDEF(arg) {
-        return typeof (arg) !== 'undefined';
-    }
+
+	function notUNDEF(arg) {
+		return typeof (arg) !== 'undefined';
+	}
 
 	function defer(fun) {
 		return function (a) {
@@ -93,52 +93,46 @@
 			};
 		});
 	}
-    
-    function getPropFactory(def) {
-        return function(o, p){
-            if (!o) {
-                return def;
-            }//zero etc..
-			return notUNDEF(p) ? o[p] : o;
+
+	function getPropFactory(def) {
+		return function (o, p) {
+			if (!o) {
+				return def;
+			} //zero etc..
+			return notUNDEF(p) && notUNDEF(o[p]) ? o[p] : o;
 		};
-    }
-    
-    function invokePropFactory(def) {
-        return function(o, p, v){
-            if (!o) {
-                return def;
-            }//zero etc..
-			return notUNDEF(p) ? o[p](v) : def;
+	}
+
+	function invokePropFactory(def) {
+		return function (o, p, v) {
+			if (!o) {
+				return def;
+			} //zero etc..
+			return notUNDEF(p) && notUNDEF(o[p]) ? o[p](v) : o;
 		};
-    }
-    
-    function getBest(flag){
-        var best = function (pred, actions) {
-			return actions.reduce(function (champ, contender) {
-				champ = pred() ? champ : contender;
-				return champ;
-			})
-        },
-		bestOne = function (pred, actions, arg) {
-			return actions.reduce(function (champ, contender) {
-				champ = pred(arg) ? partial(champ, arg) : partial(contender, arg);
-				return champ;
-			});
-		};
-        return flag ? bestOne : best;
-    }
-    
-	var main = document.querySelector('main'),
+	}
+    var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		//conz = function (x) { window.console.log(x); return x; },
-		deferpartial = dopartial(true),
-		partial = dopartial(),
-		drill = function (o, p) {
-			o = o[p];
-			return o;
-		},
+		conz = function (x) { window.console.log(x); return x; },
+		deferPTL = dopartial(true),
+		ptL = dopartial(),
+        getBest = function (flag) {
+            var best = function (pred, actions) {
+                return actions.reduce(function (champ, contender) {
+					champ = pred() ? champ : contender;
+					return champ;
+				});
+			},
+                bestOne = function (pred, actions, arg) {
+                    return actions.reduce(function (champ, contender) {
+                        champ = pred(arg) ? ptL(champ, arg) : ptL(contender, arg);
+                        return champ;
+                    });
+                };
+            return flag ? bestOne : best;
+        },
 		best = getBest(),
-        bestOne = getBest(true),
+		bestOne = getBest(true),
 		invoke = function (f, arg) {
 			return f(arg);
 		},
@@ -153,27 +147,26 @@
 			return a === b;
 		},
 		invokeProp = invokePropFactory(''),
+        lazyVal = function(v, o, p){
+            conz(arguments);
+            return invokeProp(o, p, v);
+        },
 		applyProp = function (o, m, p, v) {
 			return o[m](p, v);
 		},
-        getPropBridge = getPropFactory(''),
-        invokePropBridge = function(o, p, v){
-            if(o && notUNDEF(p)) {
-                return invokeProp(o, p, v);
-            }
-        },
-        setProp = function (o, p, v) {
+		getPropBridge = getPropFactory(''),
+		setProp = function (o, p, v) {
             o[p] = v;
 		},
-        setPropBridge = function(o, p, v){
-            if(o && notUNDEF(p)) {
-                setProp(o, p, v);
-            }
-        },
-        setPropSort = function (v, o, p) {
-            if(o && notUNDEF(p)) {
-                setProp(o, p, v);
-            }
+		setPropBridge = function (o, p, v) {
+			if (o && notUNDEF(p)) {
+				setProp(o, p, v);
+			}
+		},
+		setPropSort = function (v, o, p) {
+			if (o && notUNDEF(p)) {
+				setProp(o, p, v);
+			}
 		},
 		applyPropSort = function (v, o, p, m) {
 			return applyProp(o, m, p, v);
@@ -181,54 +174,56 @@
 		add = function (a, b) {
 			return a + b;
 		},
-        doURL = compose(curry2(add)(")"), partial(add, "url(")),
-		resetWindow = deferpartial(setPropBridge, window, 'location', '#'),
-        notNULL = compose(curry3(invokePropBridge)(/#/)('match'), deferpartial(getPropBridge, window.location, 'href')),
-        doResetWindow = compose(invoke, deferpartial(bestOne, notNULL, [resetWindow, dummy])),
-		foreach = curry3(invokePropBridge)(invoke)('forEach'),
-		prevent = curry3(invokePropBridge)(null)('preventDefault'),
+		doURL = compose(curry2(add)(")"), ptL(add, "url(")),
+        mytarget = !window.addEventListener ? 'srcElement' : 'target',
+        getTarget = curry2(getPropBridge)(mytarget),
+		resetWindow = deferPTL(setPropBridge, window, 'location', '#'),
+		notNULL = compose(curry3(invokeProp)(/#/)('match'), deferPTL(getPropBridge, window.location, 'href')),
+		doResetWindow = compose(invoke, deferPTL(bestOne, notNULL, [resetWindow, dummy])),
+		each = curry3(invokeProp)(invoke)('forEach'),
+		lazyEach = curry3(lazyVal)('forEach'),
+		prevent = curry3(invokeProp)(null)('preventDefault'),
 		doNull = curry3(setPropBridge)(null)('backgroundImage'),
-		setPropDefer = partial(setPropBridge),
+		setPropDefer = ptL(setPropBridge),
 		getTargetPicStyle = defer(curry2(getPropBridge)('style'))(him),
-		getDataSet = defer(curry2(getPropBridge)('dataset'))(him),
 		doEquals = curry3(equals)(null),
-        notExternal = compose(curry2(equals)('slide'), curry2(getPropBridge)('className')),
-		isTargetPic = doEquals(him),
+		isLocal = compose(curry2(equals)('slide'), curry2(getPropBridge)('className')),
+		matchTargetPic = doEquals(him),
 		reSetPic = compose(doNull, getTargetPicStyle),
-		getCurrent = deferpartial(invokeProp, [him, 'dataset', 'current'], 'reduce', drill),
-        fromPath = curry3(invokePropBridge)(/\/(\w*?)\./)('match'),
-        fromHash = curry3(invokePropBridge)(/^#(\w+)/)('match'),
-		getData = compose(curry2(getPropBridge)(1), invoke, deferpartial(bestOne, fromPath, [fromPath, fromHash])),
+        getHREF = curry3(invokeProp)('href')('getAttribute'),
+        getHIMhref = defer(curry3(invokeProp)('href')('getAttribute'))(him),
+		getSub = curry3(invokeProp)(1)('substring'),
+		getCurrent = compose(getSub, getHIMhref),
+		fromPath = curry3(invokeProp)(/\/(\w*?)\./)('match'),
+		fromHash = curry3(invokeProp)(/^#(\w+)/)('match'),
+		getData = compose(curry2(getPropBridge)(1), invoke, deferPTL(bestOne, fromPath, [fromPath, fromHash])),
 		doBg = compose(curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle)(),
-		doDataSet = compose(curry2(invoke)('current'), setPropDefer, getDataSet)(),
-		getHREF = curry3(invokePropBridge)('href')('getAttribute'),
 		setHREF = curry4(applyPropSort)('setAttribute')('href'),
-		setPicHref = partial(applyProp, him, 'setAttribute', 'href'),
-		fromDataSet = compose(setPicHref, partial(add, '#'), deferpartial(invokePropBridge, him, 'getAttribute', 'data-current')),
+		setPicHref = ptL(applyProp, him, 'setAttribute', 'href'),
+		resetPicHref = deferPTL(applyProp, him, 'setAttribute', 'href', '#'),
+		fromDataSet = compose(setPicHref, ptL(add, '#'), curry2(getPropBridge)(1), fromPath, getHREF),
 		deferURL = compose(doURL, getHREF),
 		deferType = compose(getData, getHREF),
 		setPic = compose(doBg, deferURL),
-		doDataRESET = defer(doDataSet)(''),
-		reset_actions = [reSetPic, doDataRESET],
-        //deal with .slide elements
-        listen = function(tgt){
-            var enter = defer(foreach)([defer(setPic)(tgt), defer(doDataSet)(deferType(tgt)), fromDataSet, doResetWindow]),
-                exit = defer(foreach)(reset_actions);
-            best(deferpartial(equals, getCurrent(), deferType(tgt)), [exit, enter])();
-            deferScroll();
-        },
-        //deal with pic, external links
-        listenBridge = function (e) {
-		var validate = defer(notExternal)(e.target),
-            resetWhen = deferpartial(invokePropBridge, reset_actions, 'map', curry2(invoke)(e.target)),
-			resetPic = best(defer(isTargetPic)(e.target), [resetWhen, dummy]),
-            preventer = compose(invoke, deferpartial(best, validate, [compose(defer(prevent)(e), defer(listen)(e.target)), dummy]));
-            preventer();
-            resetPic();
-        };
+        matchPic = compose(matchTargetPic, getTarget),
+        matchLocal = compose(isLocal, getTarget),
+        doReset = compose(resetPicHref, reSetPic),
+		//deal with .slide elements
+		listen = function (tgt) {
+			var enter = defer(each)([defer(setPic)(tgt), defer(fromDataSet)(tgt), doResetWindow]);
+			best(deferPTL(equals, getCurrent(), deferType(tgt)), [doReset, enter])();
+			deferScroll();
+		},
+		//deal with pic, external links
+		listenBridge = function (e) {
+            var cb = curry2(invoke)(e),
+                enter = defer( lazyEach([compose(listen, defer(getTarget)(e)), prevent]) )(cb);
+            best(defer(matchPic)(e), [doReset, dummy])();
+			compose(invoke, deferPTL(best, defer(matchLocal)(e), [enter, dummy]))();
+		};
 	main.addEventListener('click', listenBridge);
-	window.addEventListener('load', function () {
-        /*only add links if JS enabled*/
+	window.addEventListener('DOMContentLoaded', function () {
+		/*only add links if JS enabled*/
 		var links = slice.call(document.querySelectorAll('.slide')),
 			values = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
 			getId = compose(getData, getHREF),
