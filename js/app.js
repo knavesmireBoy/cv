@@ -186,7 +186,7 @@
 		getTargetPicStyle = defer(curry2(getPropBridge)('style'))(him),
 		doEquals = curry3(equals)(null),
 		isLocal = compose(curry2(equals)('slide'), curry2(getPropBridge)('className')),
-		isTargetPic = doEquals(him),
+		matchTargetPic = doEquals(him),
 		reSetPic = compose(doNull, getTargetPicStyle),
         getHREF = curry3(invokePropBridge)('href')('getAttribute'),
         getHIMhref = defer(curry3(invokePropBridge)('href')('getAttribute'))(him),
@@ -202,23 +202,18 @@
 		deferURL = compose(doURL, getHREF),
 		deferType = compose(getData, getHREF),
 		setPic = compose(doBg, deferURL),
-		reset_actions = [reSetPic, defer(setPicHref)('')],
 		//deal with .slide elements
 		listen = function (tgt) {
-			var enter = defer(foreach)([defer(setPic)(tgt), defer(fromDataSet)(tgt), doResetWindow]),
-				exit = defer(foreach)(reset_actions);
-			best(deferpartial(equals, getCurrent(), deferType(tgt)), [exit, enter])();
+			var enter = defer(foreach)([defer(setPic)(tgt), defer(fromDataSet)(tgt), doResetWindow]);
+			best(deferpartial(equals, getCurrent(), deferType(tgt)), [reSetPic, enter])();
 			deferScroll();
 		},
 		//deal with pic, external links
 		listenBridge = function (e) {
 			var validate = defer(isLocal)(e.target),
-                //validate = deferpartial(invokePropBridge, [isLocal, isTargetPic], 'some', curry2(invoke)(e.target)),
-				resetWhen = deferpartial(invokePropBridge, reset_actions, 'map', curry2(invoke)(e.target)),
-				resetPic = best(defer(isTargetPic)(e.target), [resetWhen, dummy]),
 				preventer = compose(invoke, deferpartial(best, validate, [compose(defer(prevent)(e), defer(listen)(e.target)), dummy]));
+            best(defer(matchTargetPic)(e.target), [reSetPic, dummy])();
 			preventer();
-			resetPic();
 		};
 	main.addEventListener('click', listenBridge);
 	window.addEventListener('load', function () {
