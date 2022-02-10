@@ -113,7 +113,7 @@
 	}
     var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		conz = function (x) { window.console.log(x); return x; },
+		//conz = function (x) { window.console.log(x); return x; },
 		deferPTL = dopartial(true),
 		ptL = dopartial(),
         getBest = function (flag) {
@@ -147,8 +147,7 @@
 			return a === b;
 		},
 		invokeProp = invokePropFactory(''),
-        lazyVal = function(v, o, p){
-            conz(arguments);
+        lazyVal = function (v, o, p) {
             return invokeProp(o, p, v);
         },
 		applyProp = function (o, m, p, v) {
@@ -217,7 +216,7 @@
 		//deal with pic, external links
 		listenBridge = function (e) {
             var cb = curry2(invoke)(e),
-                enter = defer( lazyEach([compose(listen, defer(getTarget)(e)), prevent]) )(cb);
+                enter = defer(lazyEach([compose(listen, defer(getTarget)(e)), prevent]))(cb);
             best(defer(matchPic)(e), [doReset, dummy])();
 			compose(invoke, deferPTL(best, defer(matchLocal)(e), [enter, dummy]))();
 		};
