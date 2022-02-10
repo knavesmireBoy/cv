@@ -11,9 +11,25 @@
 			return f(vals[i]);
 		});
 	}
+    
+    function UNDEF(arg) {
+		return typeof (arg) === 'undefined';
+	}
+    
+    if (UNDEF(Function.prototype.wrap)) {
+        Function.prototype.wrap = function(wrapper) {
+            var _method = this;
+            return function() {
+                var args = [],
+                    i;
+                for (i = 0; i < arguments.length; i++) args.push(arguments[i]);
+                return wrapper.apply(this, [_method.bind(this)].concat(args));
+            }
+        };
+    }
 
 	function dopartial(defer) {
-		return function _partial(f) {
+		return function _ptL(f) {
 			var args = slice.call(arguments, 1);
 			/*be careful if function is a callback to an array method as
 			a: the arg count may exceed the function count
@@ -29,7 +45,7 @@
 			}
 			return function () {
 				var _args = slice.call(arguments);
-				return _partial.apply(null, [f].concat(args, _args));
+				return _ptL.apply(null, [f].concat(args, _args));
 			};
 		};
 	}
@@ -99,7 +115,7 @@
 			if (!o) {
 				return def;
 			} //zero etc..
-			return notUNDEF(p) ? o[p] : o;
+			return notUNDEF(p) && notUNDEF(o[p]) ? o[p] : o;
 		};
 	}
 
@@ -108,14 +124,14 @@
 			if (!o) {
 				return def;
 			} //zero etc..
-			return notUNDEF(p) ? o[p](v) : def;
+			return notUNDEF(p) && notUNDEF(o[p]) ? o[p](v) : o;
 		};
 	}
     var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
 		conz = function (x) { window.console.log(x); return x; },
-		deferpartial = dopartial(true),
-		partial = dopartial(),
+		deferPTL = dopartial(true),
+		ptL = dopartial(),
         getBest = function (flag) {
             var best = function (pred, actions) {
                 return actions.reduce(function (champ, contender) {
@@ -125,7 +141,7 @@
 			},
                 bestOne = function (pred, actions, arg) {
                     return actions.reduce(function (champ, contender) {
-                        champ = pred(arg) ? partial(champ, arg) : partial(contender, arg);
+                        champ = pred(arg) ? ptL(champ, arg) : ptL(contender, arg);
                         return champ;
                     });
                 };
@@ -152,7 +168,7 @@
 		},
 		getPropBridge = getPropFactory(''),
 		invokePropBridge = function (o, p, v) {
-			if (o && notUNDEF(p)) {
+			if (o && notUNDEF(p) && notUNDEF(o[p])) {
 				return invokeProp(o, p, v);
 			}
 		},
@@ -175,14 +191,17 @@
 		add = function (a, b) {
 			return a + b;
 		},
-		doURL = compose(curry2(add)(")"), partial(add, "url(")),
-		resetWindow = deferpartial(setPropBridge, window, 'location', '#'),
-		notNULL = compose(curry3(invokePropBridge)(/#/)('match'), deferpartial(getPropBridge, window.location, 'href')),
-		doResetWindow = compose(invoke, deferpartial(bestOne, notNULL, [resetWindow, dummy])),
+        
+		doURL = compose(curry2(add)(")"), ptL(add, "url(")),
+        mytarget = !window.addEventListener ? 'srcElement' : 'target',
+        getTarget = curry2(getPropBridge)(mytarget),
+		resetWindow = deferPTL(setPropBridge, window, 'location', '#'),
+		notNULL = compose(curry3(invokePropBridge)(/#/)('match'), deferPTL(getPropBridge, window.location, 'href')),
+		doResetWindow = compose(invoke, deferPTL(bestOne, notNULL, [resetWindow, dummy])),
 		foreach = curry3(invokePropBridge)(invoke)('forEach'),
 		prevent = curry3(invokePropBridge)(null)('preventDefault'),
 		doNull = curry3(setPropBridge)(null)('backgroundImage'),
-		setPropDefer = partial(setPropBridge),
+		setPropDefer = ptL(setPropBridge),
 		getTargetPicStyle = defer(curry2(getPropBridge)('style'))(him),
 		doEquals = curry3(equals)(null),
 		isLocal = compose(curry2(equals)('slide'), curry2(getPropBridge)('className')),
@@ -194,24 +213,27 @@
 		getCurrent = compose(getSub, getHIMhref),
 		fromPath = curry3(invokePropBridge)(/\/(\w*?)\./)('match'),
 		fromHash = curry3(invokePropBridge)(/^#(\w+)/)('match'),
-		getData = compose(curry2(getPropBridge)(1), invoke, deferpartial(bestOne, fromPath, [fromPath, fromHash])),
+		getData = compose(curry2(getPropBridge)(1), invoke, deferPTL(bestOne, fromPath, [fromPath, fromHash])),
 		doBg = compose(curry2(invoke)('backgroundImage'), setPropDefer, getTargetPicStyle)(),
 		setHREF = curry4(applyPropSort)('setAttribute')('href'),
-		setPicHref = partial(applyProp, him, 'setAttribute', 'href'),
-		fromDataSet = compose(setPicHref, partial(add, '#'), curry2(getPropBridge)(1), fromPath, getHREF),
+		setPicHref = ptL(applyProp, him, 'setAttribute', 'href'),
+		fromDataSet = compose(setPicHref, ptL(add, '#'), curry2(getPropBridge)(1), fromPath, getHREF),
 		deferURL = compose(doURL, getHREF),
 		deferType = compose(getData, getHREF),
 		setPic = compose(doBg, deferURL),
+        matchPic = compose(matchTargetPic, getTarget),
+        matchLocal = compose(isLocal, getTarget),
 		//deal with .slide elements
 		listen = function (tgt) {
 			var enter = defer(foreach)([defer(setPic)(tgt), defer(fromDataSet)(tgt), doResetWindow]);
-			best(deferpartial(equals, getCurrent(), deferType(tgt)), [reSetPic, enter])();
+			best(deferPTL(equals, getCurrent(), deferType(tgt)), [reSetPic, enter])();
 			deferScroll();
 		},
 		//deal with pic, external links
 		listenBridge = function (e) {
-            best(defer(matchTargetPic)(e.target), [reSetPic, dummy])();
-			compose(invoke, deferpartial(best, defer(isLocal)(e.target), [compose(defer(prevent)(e), defer(listen)(e.target)), dummy]))();
+            var enter = defer(foreach)([defer(compose(listen, getTarget))(e), defer(prevent)(e)]);
+            best(defer(matchPic)(e), [reSetPic, dummy])();
+			compose(invoke, deferPTL(best, defer(matchLocal)(e), [enter, dummy]))();
 		};
 	main.addEventListener('click', listenBridge);
 	window.addEventListener('DOMContentLoaded', function () {
