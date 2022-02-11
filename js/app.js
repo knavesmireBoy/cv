@@ -89,7 +89,7 @@
 
 	function getPropFactory(def) {
 		return function (o, p) {
-			if (!o) {
+			if (!notUNDEF(o)) {
 				return def;
 			} //zero etc..
 			return notUNDEF(p) && notUNDEF(o[p]) ? o[p] : o;
@@ -118,10 +118,14 @@
 	}
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		//conz = function (x) { window.console.log(x); return x; },
+		conz = function (x) { window.console.log(x); return x; },
 		deferPTL = dopartial(true),
 		ptL = dopartial(),
 		isArray = tagTester('Array'),
+        invoke = function (f, v) {
+            var m = isArray(v) ? 'apply' : 'call';
+            return f[m](f, v);
+        },
 		getBest = function (flag) {
 			var best = function (pred, actions) {
 					return actions.reduce(function (champ, contender) {
@@ -129,14 +133,6 @@
 						return champ;
 					});
 				},
-                /*
-				bestOne = function (pred, actions, arg) {
-					return actions.reduce(function (champ, contender) {
-						champ = pred(arg) ? ptL(champ, arg) : ptL(contender, arg);
-						return champ;
-					});
-				},
-                */
                 bestOne = function (pred, actions, arg) {
                     actions = actions.map(curry2(invoke)(arg));
 					return actions.reduce(function (champ, contender) {
@@ -148,10 +144,6 @@
 		},
 		best = getBest(),
 		bestOne = getBest(true),
-		invoke = function (f, v) {
-			var m = isArray(v) ? 'apply' : 'call';
-			return f[m](f, v);
-		},
 		doScroll = function () {
 			document.body.scrollTop = 0; // For Safari
 			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
@@ -194,15 +186,24 @@
 			return a + b;
 		},
 		doURL = compose(curry2(add)(")"), ptL(add, "url(")),
+        each = curry3(invokeProp)(invoke)('forEach'),
+        lazyEach = curry3(lazyVal)('forEach'),
+        getSub = curry3(invokeProp)(1)('substring'),
 		mytarget = !window.addEventListener ? 'srcElement' : 'target',
 		getTarget = curry2(getPropBridge)(mytarget),
-		resetWindow = deferPTL(setPropBridge, window, 'location', '#'),
-        checkNull = curry3(invokeProp)(/#/)('match'),
-        getHyper = deferPTL(getPropBridge, window.location, 'href'),
-		notNULL = compose(checkNull, getHyper),
-		doResetWindow = ptL(bestOne, notNULL, [resetWindow, dummy]),
-		each = curry3(invokeProp)(invoke)('forEach'),
-		lazyEach = curry3(lazyVal)('forEach'),
+		getID = curry2(getPropBridge)('id'),
+        resetPicHref = deferPTL(invokeProp, him, 'setAttribute', ['href', '#']),
+		resetWindow = deferPTL(setPropBridge, window.location, 'hash', '#'),
+        getHIMhref = defer(curry3(invokeProp)('href')('getAttribute'))(him),
+        getCurrent = compose(getSub, getHIMhref),
+        getHash = ptL(getPropBridge, window.location),
+        reEntry = compose(resetWindow, resetPicHref),
+        lazyMap = defer(curry3(lazyVal)('map')([getHIMhref, getHash]))(curry2(invoke)('hash')),
+        eek = function(){
+            best(compose(ptL(invoke, equals), lazyMap), [reEntry, dummy])();
+        },
+        equality = compose(invoke, deferPTL(best, compose(ptL(invoke, equals), lazyMap), [reEntry, dummy])),
+		//doResetWindow = ptL(bestOne, getHash, [resetWindow, dummy]),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
 		doNull = curry3(setPropBridge)(null)('backgroundImage'),
 		setPropDefer = ptL(setPropBridge),
@@ -212,9 +213,6 @@
 		matchTargetPic = doEquals(him),
 		reSetPic = compose(doNull, getTargetPicStyle),
 		getHREF = curry3(invokeProp)('href')('getAttribute'),
-		getHIMhref = defer(curry3(invokeProp)('href')('getAttribute'))(him),
-		getSub = curry3(invokeProp)(1)('substring'),
-		getCurrent = compose(getSub, getHIMhref),
 		fromPath = curry3(invokeProp)(/\/(\w*?)\./)('match'),
 		fromHash = curry3(invokeProp)(/^#(\w+)/)('match'),
 		getData = compose(curry2(getPropBridge)(1), invoke, deferPTL(bestOne, fromPath, [fromPath, fromHash])),
@@ -222,17 +220,18 @@
 		doHREF = curry2(doPair)('href'),
 		setHREF = curry3(lazyVal)('setAttribute;href'),
 		setPicHref = compose(ptL(invokeProp, him, 'setAttribute'), doHREF),
-		resetPicHref = deferPTL(invokeProp, him, 'setAttribute', ['href', '#']),
+		
 		fromDataSet = compose(setPicHref, ptL(add, '#'), curry2(getPropBridge)(1), fromPath, getHREF),
 		deferURL = compose(doURL, getHREF),
-		deferType = compose(getData, getHREF),
 		setPic = compose(doBg, deferURL),
 		matchPic = compose(matchTargetPic, getTarget),
 		matchLocal = compose(isLocal, getTarget),
 		//deal with .slide elements
 		listen = function (tgt) {
-			var enter = defer(each)([defer(setPic)(tgt), defer(fromDataSet)(tgt), doResetWindow]);
-			best(deferPTL(equals, getCurrent(), deferType(tgt)), [compose(resetPicHref, reSetPic), enter])();
+            //doResetWindow('hash');
+            equality();
+			var enter = defer(each)([defer(setPic)(tgt), defer(fromDataSet)(tgt)]);
+			best(deferPTL(equals, getCurrent(), getID(tgt)), [compose(resetPicHref, reSetPic), enter])();
 			deferScroll();
 		},
 		//deal with pic, external links
