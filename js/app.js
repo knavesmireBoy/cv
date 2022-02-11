@@ -129,9 +129,18 @@
 						return champ;
 					});
 				},
+                /*
 				bestOne = function (pred, actions, arg) {
 					return actions.reduce(function (champ, contender) {
 						champ = pred(arg) ? ptL(champ, arg) : ptL(contender, arg);
+						return champ;
+					});
+				},
+                */
+                bestOne = function (pred, actions, arg) {
+                    actions = actions.map(curry2(invoke)(arg));
+					return actions.reduce(function (champ, contender) {
+						champ = pred(arg) ? champ : contender;
 						return champ;
 					});
 				};
@@ -188,8 +197,10 @@
 		mytarget = !window.addEventListener ? 'srcElement' : 'target',
 		getTarget = curry2(getPropBridge)(mytarget),
 		resetWindow = deferPTL(setPropBridge, window, 'location', '#'),
-		notNULL = compose(curry3(invokeProp)(/#/)('match'), deferPTL(getPropBridge, window.location, 'href')),
-		doResetWindow = compose(invoke, deferPTL(bestOne, notNULL, [resetWindow, dummy])),
+        checkNull = curry3(invokeProp)(/#/)('match'),
+        getHyper = deferPTL(getPropBridge, window.location, 'href'),
+		notNULL = compose(checkNull, getHyper),
+		doResetWindow = ptL(bestOne, notNULL, [resetWindow, dummy]),
 		each = curry3(invokeProp)(invoke)('forEach'),
 		lazyEach = curry3(lazyVal)('forEach'),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
@@ -218,18 +229,17 @@
 		setPic = compose(doBg, deferURL),
 		matchPic = compose(matchTargetPic, getTarget),
 		matchLocal = compose(isLocal, getTarget),
-		doReset = compose(resetPicHref, reSetPic),
 		//deal with .slide elements
 		listen = function (tgt) {
 			var enter = defer(each)([defer(setPic)(tgt), defer(fromDataSet)(tgt), doResetWindow]);
-			best(deferPTL(equals, getCurrent(), deferType(tgt)), [doReset, enter])();
+			best(deferPTL(equals, getCurrent(), deferType(tgt)), [compose(resetPicHref, reSetPic), enter])();
 			deferScroll();
 		},
 		//deal with pic, external links
 		listenBridge = function (e) {
 			var cb = curry2(invoke)(e),
 				enter = defer(lazyEach([compose(listen, defer(getTarget)(e)), prevent]))(cb);
-			best(defer(matchPic)(e), [doReset, dummy])();
+			best(defer(matchPic)(e), [reSetPic, dummy])();
 			compose(invoke, deferPTL(best, defer(matchLocal)(e), [enter, dummy]))();
 		};
 	main.addEventListener('click', listenBridge);
