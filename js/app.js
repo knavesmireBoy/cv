@@ -122,6 +122,10 @@
 		deferPTL = dopartial(true),
 		ptL = dopartial(),
 		isArray = tagTester('Array'),
+        invoke = function (f, v) {
+            var m = isArray(v) ? 'apply' : 'call';
+            return f[m](f, v);
+        },
 		getBest = function (flag) {
 			var best = function (pred, actions) {
 					return actions.reduce(function (champ, contender) {
@@ -129,14 +133,6 @@
 						return champ;
 					});
 				},
-                /*
-				bestOne = function (pred, actions, arg) {
-					return actions.reduce(function (champ, contender) {
-						champ = pred(arg) ? ptL(champ, arg) : ptL(contender, arg);
-						return champ;
-					});
-				},
-                */
                 bestOne = function (pred, actions, arg) {
                     actions = actions.map(curry2(invoke)(arg));
 					return actions.reduce(function (champ, contender) {
@@ -148,10 +144,6 @@
 		},
 		best = getBest(),
 		bestOne = getBest(true),
-		invoke = function (f, v) {
-			var m = isArray(v) ? 'apply' : 'call';
-			return f[m](f, v);
-		},
 		doScroll = function () {
 			document.body.scrollTop = 0; // For Safari
 			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
