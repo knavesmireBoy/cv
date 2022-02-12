@@ -241,7 +241,7 @@ footer li:last-child {
 	margin: 0;
 }
 section header:first-child h2 {
-	color: black;
+	color: white;
 }
 footer ul li:first-child, footer ul li:last-child {
 	top: 0;
