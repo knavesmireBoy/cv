@@ -6,14 +6,14 @@
 	"use strict";
 
 	function dummy() {}
-    
-    function tagTester(name) {
+
+	function tagTester(name) {
 		var tag = '[object ' + name + ']';
 		return function (obj) {
 			return toString.call(obj) === tag;
 		};
 	}
-    
+
 	function doPair(v, p) {
 		return [p, v];
 	}
@@ -77,7 +77,7 @@
 			};
 		};
 	}
-    
+
 	function compose() {
 		var fns = slice.call(arguments);
 		return fns.reduce(function (f, g) {
@@ -97,7 +97,7 @@
 	}
 
 	function invokePropFactory(def) {
-        var isArray = tagTester('Array');
+		var isArray = tagTester('Array');
 		return function (o, p, v) {
 			if (!o) {
 				return def;
@@ -109,30 +109,29 @@
 			return o;
 		};
 	}
-    
+
 	function parallelInvoke(funs, vals) {
 		return funs.map(function (f, i) {
 			return f(vals[i]);
 		});
 	}
-    
-    function best(pred, actions) {
-        return actions.reduce(function (champ, contender) {
-            champ = pred() ? champ : contender;
-            return champ;
-        });
-    }
 
+	function best(pred, actions) {
+		return actions.reduce(function (champ, contender) {
+			champ = pred() ? champ : contender;
+			return champ;
+		});
+	}
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
 		//conz = function (x) { window.console.log(x); return x; },
 		deferPTL = dopartial(true),
 		ptL = dopartial(),
 		isArray = tagTester('Array'),
-        invoke = function (f, v) {
-            var m = isArray(v) ? 'apply' : 'call';
-            return f[m](f, v);
-        },
+		invoke = function (f, v) {
+			var m = isArray(v) ? 'apply' : 'call';
+			return f[m](f, v);
+		},
 		doScroll = function () {
 			document.body.scrollTop = 0; // For Safari
 			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
@@ -143,20 +142,20 @@
 		equals = function (a, b) {
 			return a === b;
 		},
-        //f = compose(curry2(getPropBridge)(1), curry3(invokeProp)(';')('split')),
+		//f = compose(curry2(getPropBridge)(1), curry3(invokeProp)(';')('split')),
 		invokeProp = invokePropFactory(''),
-        lazy = function (sep) {
-            return function (v, o, p) {
-                var x = p.split(sep),
-                    pp = x[1];
-            //known method and property supplied as one string ie 'setAttribute;href' args to setAttribute supplied as array
-                if (pp) {
-                    v = [pp, v];
-                    p = x[0];
-                }
-                return invokeProp(o, p, v);
-            };
-        },
+		lazy = function (sep) {
+			return function (v, o, p) {
+				var x = p.split(sep),
+					pp = x[1];
+				//known method and property supplied as one string ie 'setAttribute;href' args to setAttribute supplied as array
+				if (pp) {
+					v = [pp, v];
+					p = x[0];
+				}
+				return invokeProp(o, p, v);
+			};
+		},
 		lazyVal = lazy(';'),
 		getPropBridge = getPropFactory(''),
 		setProp = function (o, p, v) {
@@ -176,23 +175,23 @@
 			return a + b;
 		},
 		doURL = compose(curry2(add)(")"), ptL(add, "url(")),
-        each = curry3(invokeProp)(invoke)('forEach'),
-        lazyEach = curry3(lazyVal)('forEach'),
-        getSub = curry3(invokeProp)(1)('substring'),
-		mytarget = !window.addEventListener ? 'srcElement' : 'target',//IF we get around to supporting senior browsers
+		each = curry3(invokeProp)(invoke)('forEach'),
+		lazyEach = curry3(lazyVal)('forEach'),
+		getSub = curry3(invokeProp)(1)('substring'),
+		mytarget = !window.addEventListener ? 'srcElement' : 'target', //IF we get around to supporting senior browsers
 		getTarget = curry2(getPropBridge)(mytarget),
 		getID = curry2(getPropBridge)('id'),
-        resetPicHref = deferPTL(invokeProp, him, 'setAttribute', ['href', '#']),
+		resetPicHref = deferPTL(invokeProp, him, 'setAttribute', ['href', '#']),
 		resetWindow = deferPTL(setPropBridge, window.location, 'hash', '#'),
-        getHIMhref = defer(curry3(invokeProp)('href')('getAttribute'))(him),
-        getCurrent = compose(getSub, getHIMhref),
-        getHash = ptL(getPropBridge, window.location),
-        reEntry = compose(resetWindow, resetPicHref),
-        lazyMap = defer(curry3(lazyVal)('map')([getHIMhref, getHash]))(curry2(invoke)('hash')),
-        /*get window location and active internal link on him pic, if equal reset both to empty, mapped results supplied as array to invoke. Wasted time having location.hash in a closure needs to be read live. Must run prior to checking which link was clicked. Effectively reloads page*/
-        reload = compose(invoke, deferPTL(best, compose(ptL(invoke, equals), lazyMap), [reEntry, dummy])),
+		getHIMhref = defer(curry3(invokeProp)('href')('getAttribute'))(him),
+		getCurrent = compose(getSub, getHIMhref),
+		getHash = ptL(getPropBridge, window.location),
+		reEntry = compose(resetWindow, resetPicHref),
+		lazyMap = defer(curry3(lazyVal)('map')([getHIMhref, getHash]))(curry2(invoke)('hash')),
+		/*get window location and active internal link on him pic, if equal reset both to empty, mapped results supplied as array to invoke. Wasted time having location.hash in a closure needs to be read live. Must run prior to checking which link was clicked. Effectively reloads page*/
+		reload = compose(invoke, deferPTL(best, compose(ptL(invoke, equals), lazyMap), [reEntry, dummy])),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
-        //resets inline style
+		//resets inline style
 		doNull = curry3(setPropBridge)(null)('backgroundImage'),
 		setPropDefer = ptL(setPropBridge),
 		getTargetPicStyle = defer(curry2(getPropBridge)('style'))(him),
@@ -208,7 +207,7 @@
 		matchLocal = compose(isLocal, getTarget),
 		//deal with .slide elements
 		listen = function (tgt) {
-            reload();
+			reload();
 			var enter = defer(each)([defer(setPic)(tgt), defer(fromDataSet)(tgt)]);
 			best(deferPTL(equals, getCurrent(), getID(tgt)), [compose(resetPicHref, reSetPic), enter])();
 			deferScroll();
@@ -219,24 +218,28 @@
 				enter = defer(lazyEach([compose(listen, defer(getTarget)(e)), prevent]))(cb);
 			best(defer(matchPic)(e), [reSetPic, dummy])();
 			compose(invoke, deferPTL(best, defer(matchLocal)(e), [enter, dummy]))();
+		},
+		loader = function () {
+			/*only add links if JS enabled*/
+            var res = window.matchMedia("(min-width: 769px)");
+            if(res.matches){
+			var links = slice.call(document.querySelectorAll('.slide')),
+				setHREF = curry3(lazyVal)('setAttribute;href'),
+				values = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
+				getId = compose(curry2(getPropBridge)(1), fromPath, getHREF),
+				setId = curry3(setPropSort)('id'),
+				ptl;
+			values = values.map(curryLeft(add)("assets/"));
+			ptl = links.map(setHREF);
+			parallelInvoke(ptl, values);
+			ptl = links.map(setId);
+			values = links.map(getId);
+			parallelInvoke(ptl, values);
+            }
 		};
 	main.addEventListener('click', listenBridge);
-    //'load' too lazy hrefs not set in time
-	window.addEventListener('DOMContentLoaded', function () {
-		/*only add links if JS enabled*/
-		var links = slice.call(document.querySelectorAll('.slide')),
-            setHREF = curry3(lazyVal)('setAttribute;href'),
-			values = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
-			getId = compose(curry2(getPropBridge)(1), fromPath, getHREF),
-			setId = curry3(setPropSort)('id'),
-			ptl;
-		values = values.map(curryLeft(add)("assets/"));
-		ptl = links.map(setHREF);
-		parallelInvoke(ptl, values);
-		ptl = links.map(setId);
-		values = links.map(getId);
-		parallelInvoke(ptl, values);
-	});
+	//'load' too lazy hrefs not set in time
+	window.addEventListener('DOMContentLoaded', loader);
 }(Array.prototype.slice));
 //let compose = (...fns) => fns.reduce( (f, g) => (...args) => f(g(...args)))
 ///look back (?<=\/)(.*?)(?=\.)/
