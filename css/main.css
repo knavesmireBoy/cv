@@ -6,12 +6,11 @@
 */
 
 body:after {
-    content: url("../assets/alderley.jpg") url("../assets/bolt.jpeg") url("../assets/frank.jpg") ("../assets/minding.jpg")
+	content: url("../assets/alderley.jpg") url("../assets/bolt.jpeg") url("../assets/frank.jpg") ("../assets/minding.jpg")
 }
-
 html {
 	font-size: 1.65em;
-    text-align: center;
+	text-align: center;
 }
 body {
 	margin: 1vw auto;
@@ -31,14 +30,12 @@ aside {
 	position: relative;
 	background-color: #3dc2bb;
 }
-
 section {
 	margin: 0 0 1em;
 }
 footer {
 	margin: 0;
 }
-
 p {
 	margin: 0 0 .5em;
 }
@@ -55,9 +52,9 @@ img {
 	display: block;
 }
 abbr {
-    text-decoration: none;
-    font-weight: bold;
-    color: #0e2a2a;
+	text-decoration: none;
+	font-weight: bold;
+	color: #0e2a2a;
 }
 main>* {
 	border: solid 0px red;
@@ -67,7 +64,7 @@ main>aside {
 	width: 34%;
 	display: table-cell;
 	vertical-align: top;
-    padding: 1.5em;
+	padding: 1.5em;
 }
 main>section {
 	width: 60%;
@@ -78,23 +75,25 @@ aside h1 {
 	font: 900 3em/.75 Georgia, serif;
 	color: #fff;
 }
-
 aside h3 {
 	color: #fff;
 }
 aside strong {
 	font-size: 1.1em;
 }
-
 article ul {
-    list-style: disc outside;
-    margin-left: 1em;
+	list-style: disc outside;
+	margin-left: 1em;
 }
-
 article ul li {
-    margin: .2em 0;
+	margin: .2em 0;
 }
-
+article p:last-child {
+	font-style: italic;
+}
+article.refactor p {
+	font-style: normal;
+}
 section h2, section h3 {
 	color: crimson;
 }
@@ -130,8 +129,6 @@ footer ul li {
 main>section>ul li {
 	margin: 0 0 .75em;
 }
-
-
 .wrapper {
 	margin: 0 2rem;
 	font: .6em/1.4 Palatino, Lora, Georgia, serif;
@@ -144,32 +141,24 @@ main>section>ul li {
 	border: solid 1px #26827e;
 	margin: 1em auto;
 	-webkit-border-radius: 50%;
-	   -moz-border-radius: 50%;
-	        border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-image: url(../assets/IMG_0717_lr.jpg);
-    display: block;
-    border-radius: 0;
+	display: block;
+	border-radius: 0;
 }
 .school {
 	visibility: hidden;
-    display: none;
+	display: none;
 }
 .work {
 	margin: .5em 0;
 }
-
-aside .output, .loader {
-    position: absolute;
-    left: -9999px;
-}
-article p:last-child {
-    font-style: italic;
-}
-
-article.refactor p{
-    font-style: normal;
+aside .output {
+	position: absolute;
+	left: -9999px;
 }
 ul.key {
 	margin: 1em 0;
@@ -178,27 +167,25 @@ ul.key {
 .bleed+footer {
 	margin: -.75rem 0 0;
 }
-a, a:link, a:visited {
+a:link, a:visited {
 	color: #26827e;
 	font-weight: bold;
 }
 a:hover {
 	color: #3dc2bb;
 }
-
 footer a:link, footer a:visited {
-    color: black;
-    font-weight: normal;
+	color: black;
+	font-weight: normal;
 }
 footer a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
-
-aside a, aside a:link, aside a:visited {
-    color: black;
+aside a:link, aside a:visited {
+	color: black;
 }
 aside a:hover {
-    color: white;
+	color: white;
 }
 .key strong {
 	font-style: normal;
@@ -212,7 +199,7 @@ aside a:hover {
 .work a {
 	margin: 0 .5vw;
 	border: solid 1px white;
-    display: block;
+	display: block;
 }
 .work>a {
 	float: left;
@@ -254,14 +241,13 @@ footer li:last-child {
 	margin: 0;
 }
 section header:first-child h2 {
-	color: #fff;
+	color: black;
 }
 footer ul li:first-child, footer ul li:last-child {
 	top: 0;
 	position: relative;
 	z-index: -1;
 }
-
 .wrapper.bleed {
 	margin: -.75rem 2.5vw 0;
 }
@@ -293,15 +279,15 @@ footer ul li:first-child, footer ul li:last-child {
 .web a {
 	width: 44%;
 	padding-bottom: 160px;
-    padding-bottom: 44%;
+	padding-bottom: 44%;
 	margin: 0.5em;
-    display: block;
+	display: block;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-color: white;
 	-webkit-border-radius: 50%;
-	   -moz-border-radius: 50%;
-	        border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
 }
 .web a:nth-child(1) {
 	background-image: url(../assets/poloafrica_flower_logo_lr.jpg);
@@ -314,39 +300,35 @@ footer ul li:first-child, footer ul li:last-child {
 }
 .web a:nth-child(4) {
 	background-image: url(../assets/loading_lr.png);
-    background-color: teal;
+	background-color: teal;
 	background-position: center;
 }
 .web a:nth-child(5) {
 	background-image: url(../assets/fc-tmp-lr.jpg);
 	background-position: center 30%;
 }
-
 a.resume {
-    font: .75em Arial, serif;
-    color: white;
-    background-image: url('../assets/pdf.png');
-    background-repeat: no-repeat;
-    background-position: left center;
-    text-indent: 0;
-    display: block;
-    padding: 2em 0 1.5em 4em;
-    border-top: dotted 1px;
+	font: .75em Arial, serif;
+	color: white;
+	background-image: url('../assets/pdf.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	text-indent: 0;
+	display: block;
+	padding: 2em 0 1.5em 4em;
+	border-top: dotted 1px;
 }
-
-
 aside:before {
-    content: "";
-    border-style: solid;
-    border-width: 0;
-    display: block;
-    border-color: transparent;
-    position: absolute;
-    z-index: 0;
-    left: 0;
-    top: 0;
+	content: "";
+	border-style: solid;
+	border-width: 0;
+	display: block;
+	border-color: transparent;
+	position: absolute;
+	z-index: 0;
+	left: 0;
+	top: 0;
 }
-
 /*
 #board {
     border: solid 10px rgb(247, 247, 247);
@@ -363,18 +345,18 @@ aside:before {
 	text-align: left;
 }
 #content header {
-    overflow: hidden;
+	overflow: hidden;
 }
 #content header h2+h2 {
-    float: right;
+	float: right;
 }
 #content header h2 {
-    float: left;
+	float: left;
 }
 #content header: after {
-    content: "";
-    display: table;
-    clear: both;
+	content: "";
+	display: table;
+	clear: both;
 }
 /*
 #content header strong, #content header h2:last-child {
@@ -389,45 +371,43 @@ aside:before {
 	content: none;
 }
 */
+
 #content>section>ul {
 	float: left;
 	margin: 0 1em 2em 0;
 }
-body > header img {
-    position: absolute;
+body>header img {
+	position: absolute;
 	left: -9999px;
 }
-
 @media only screen and (max-width: 1024px) {
-    body > header li:first-child, body > header li:last-child, body > footer li:first-child, body > footer li:last-child {
-        position: absolute;
-        left: -9999px;
-    }
-    
-    body > header ul, body > footer ul {
-        padding: .75em 3em;
-        background-color: black;
-        color: white;
-        font-size: .8em;
-    }
-    footer ul li {
-        top: 0;
-    }
-
-    .wrapper {
-        margin: 0;
-    }
-    .wrapper.bleed, body {
-        margin: 0;
-    }
-    main {
-        padding: 0;
-    }
-    .web a {
-        width: 40%;
-        padding-bottom: 40%;
-    }
-    .web a:nth-child(4) {
-	background-image: url(../assets/uploading_lr.png);
-}
+	body>header li:first-child, body>header li:last-child, body>footer li:first-child, body>footer li:last-child {
+		position: absolute;
+		left: -9999px;
+	}
+	body>header ul, body>footer ul {
+		padding: .75em 3em;
+		background-color: black;
+		color: white;
+		font-size: .8em;
+	}
+	footer ul li {
+		top: 0;
+	}
+	.wrapper {
+		margin: 0;
+	}
+	.wrapper.bleed, body {
+		margin: 0;
+	}
+	main {
+		padding: 0;
+	}
+	.web a {
+		width: 40%;
+		padding-bottom: 40%;
+	}
+	.web a:nth-child(4) {
+		background-image: url(../assets/uploading_lr.png);
+	}
 }
