@@ -458,6 +458,9 @@ abbr[title]:focus::after {
 	aside .web {
 		display: flex;
 	}
+    aside {
+		background-color: hsl(177, 52%, 50%, 0.5);
+	}
 }
 @media only screen and (max-width: 600px) {
 	body>footer ul {
@@ -471,9 +474,6 @@ abbr[title]:focus::after {
         background-color: rgb(19, 19, 19);
         color: white;
         */
-	}
-	aside {
-		background-color: hsl(177, 52%, 50%, 0.5);
 	}
 	#content>section:first-of-type>header {
 		background-color: transparent;
@@ -493,6 +493,9 @@ abbr[title]:focus::after {
 	section header:first-child {
 		padding: .2em 0;
 	}
+    section header:first-child h2 {
+	color: black;
+}
 }
 main>aside {
 	display: -webkit-box;
