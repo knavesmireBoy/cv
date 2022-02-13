@@ -55,6 +55,19 @@
 
 
 	function dummy() {}
+    
+    function equals(a, b) {
+        return a === b;
+    }
+    function add(a, b) {
+        return a + b;
+    }
+    
+    function always(x) {
+        return function () {
+            return x;
+        };
+    }
 
 	function tagTester(name) {
 		var tag = '[object ' + name + ']';
@@ -141,6 +154,9 @@
 			};
 		});
 	}
+    function setProp(o, p, v) {
+        o[p] = v;
+    }
 
 	function getPropFactory(def) {
 		return function (o, p) {
@@ -183,8 +199,7 @@
 		/*conz = function (x) {
 			window.console.log(x);
 			return x;
-		},
-        */
+		},*/
 		deferPTL = dopartial(true),
 		ptL = dopartial(),
 		isArray = tagTester('Array'),
@@ -199,10 +214,6 @@
 		deferScroll = function () {
 			window.setTimeout(doScroll, 500);
 		},
-		equals = function (a, b) {
-			return a === b;
-		},
-		//f = compose(curry2(getPropBridge)(1), curry3(invokeProp)(';')('split')),
 		invokeProp = invokePropFactory(''),
 		lazy = function (sep) {
 			return function (v, o, p) {
@@ -218,9 +229,6 @@
 		},
 		lazyVal = lazy(';'),
 		getPropBridge = getPropFactory(''),
-		setProp = function (o, p, v) {
-			o[p] = v;
-		},
 		setPropBridge = function (o, p, v) {
 			if (o && notUNDEF(p) && notUNDEF(o[p])) {
 				setProp(o, p, v);
@@ -243,11 +251,8 @@
 				return compose(invoke, deferPTL(best, alternate(0, j), actions));
 			};
 		},
-		alternate = doAlternate(),
-		add = function (a, b) {
-			return a + b;
-		},
-		doURL = compose(curry2(add)(")"), ptL(add, "url(")),
+		doAlt = doAlternate(),
+        doURL = compose(curry2(add)(")"), ptL(add, "url(")),
 		each = curry3(invokeProp)(invoke)('forEach'),
 		lazyEach = curry3(lazyVal)('forEach'),
 		getSub = curry3(invokeProp)(1)('substring'),
@@ -314,18 +319,17 @@
 		},
 		getPredicate = compose(curry2(getPropBridge)('matches'), defer(curry3(invokeProp)(query)('matchMedia'))(window)),
 		setup = function () {
-			var actions = [loader, undo],
-				outcomes = !getPredicate() ? actions.reverse() : actions,
-				perform = alternate(outcomes),
-                doPerform = compose(invoke, deferPTL(best, getPredicate, [perform, dummy])),
+			var doReverse = ptL(lazyVal, null, [loader, undo]),
+				strategy = compose(doAlt, doReverse, invoke, deferPTL(best, getPredicate, [always('slice'), always('reverse')]))(),
+                doStrategy = compose(invoke, deferPTL(best, getPredicate, [strategy, dummy])),
 				handler = function () {
 					if (!getPredicate()) {
-						perform();
+						strategy();
 						getPredicate = negate(getPredicate);
 					}
 				};
 			window.addEventListener('resize', throttle(handler, 66));
-			doPerform();
+			doStrategy();
 		};
 	//'load' too lazy hrefs not set in time
 	window.addEventListener('DOMContentLoaded', setup);
