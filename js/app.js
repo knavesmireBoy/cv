@@ -53,7 +53,6 @@
         };
     }
 
-
 	function dummy() {}
     
     function equals(a, b) {
@@ -265,9 +264,9 @@
 		getCurrent = compose(getSub, getHIMhref),
 		getHash = ptL(getPropBridge, window.location),
 		reEntry = compose(resetWindow, resetPicHref),
-		lazyMap = defer(curry3(lazyVal)('map')([getHIMhref, getHash]))(curry2(invoke)('hash')),
+		queryHash = defer(curry3(lazyVal)('map')([getHIMhref, getHash]))(curry2(invoke)('hash')),
 		/*get window location and active internal link on him pic, if equal reset both to empty, mapped results supplied as array to invoke. Wasted time having location.hash in a closure needs to be read live. Must run prior to checking which link was clicked. Effectively reloads page*/
-		reload = compose(invoke, deferPTL(best, compose(ptL(invoke, equals), lazyMap), [reEntry, dummy])),
+		doReload = compose(invoke, deferPTL(best, compose(ptL(invoke, equals), queryHash), [reEntry, dummy])),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
 		//resets inline style
 		doNull = curry3(setPropBridge)(null)('backgroundImage'),
@@ -285,7 +284,7 @@
 		matchLocal = compose(isLocal, getTarget),
 		//deal with .slide elements
 		listen = function (tgt) {
-			reload();
+			doReload();
 			var enter = defer(each)([defer(setPic)(tgt), defer(fromDataSet)(tgt)]);
 			best(deferPTL(equals, getCurrent(), getID(tgt)), [compose(resetPicHref, reSetPic), enter])();
 			deferScroll();
@@ -331,9 +330,7 @@
 			window.addEventListener('resize', throttle(handler, 66));
 			doStrategy();
 		};
-	//'load' too lazy hrefs not set in time
 	window.addEventListener('DOMContentLoaded', setup);
 }(Array.prototype.slice, "(min-width: 769px)"));
 //let compose = (...fns) => fns.reduce( (f, g) => (...args) => f(g(...args)))
 ///look back (?<=\/)(.*?)(?=\.)/
-//actions1 = [window.prompt.bind(window, 'bolt'), window.confirm.bind(window, 'spadger')]
