@@ -2,8 +2,57 @@
 /*global window: false */
 /*global document: false */
 /*global toString: false */
-(function (slice) {
+(function (slice, query) {
 	"use strict";
+	//https://stackoverflow.com/questions/27078285/simple-throttle-in-javascript
+	// Returns a function, that, when invoked, will only be triggered at most once
+	// during a given window of time. Normally, the throttled function will run
+	// as much as it can, without ever going more than once per `wait` duration;
+	// but if you'd like to disable the execution on the leading edge, pass
+	// `{leading: false}`. To disable execution on the trailing edge, ditto.
+    
+    function throttle(func, wait, options) {
+        var later,
+            context,
+            args,
+            result,
+            timeout = null,
+            previous = 0;
+        options = options || {};
+        later = function () {
+            previous = options.leading === false ? 0 : Date.now();
+            timeout = null;
+            result = func.apply(context, args);
+			if (!timeout) {
+                context = args = null;
+            }
+		};
+		return function () {
+			var now = Date.now(),
+                remaining;
+			if (!previous && options.leading === false) {
+                previous = now;
+            }
+            remaining = wait - (now - previous);
+			context = this;
+			args = arguments;
+            if (remaining <= 0 || remaining > wait) {
+                if (timeout) {
+                    window.clearTimeout(timeout);
+					timeout = null;
+                }
+                previous = now;
+				result = func.apply(context, args);
+                if (!timeout) {
+                    context = args = null;
+                }
+            } else if (!timeout && options.trailing !== false) {
+                timeout = window.setTimeout(later, remaining);
+            }
+            return result;
+        };
+    }
+
 
 	function dummy() {}
 
@@ -14,6 +63,12 @@
 		};
 	}
 
+	function negate(f) {
+		return function () {
+			return !f();
+		};
+	}
+    
 	function doPair(v, p) {
 		return [p, v];
 	}
@@ -124,7 +179,12 @@
 	}
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
-		//conz = function (x) { window.console.log(x); return x; },
+		links = slice.call(document.querySelectorAll('.slide')),
+		/*conz = function (x) {
+			window.console.log(x);
+			return x;
+		},
+        */
 		deferPTL = dopartial(true),
 		ptL = dopartial(),
 		isArray = tagTester('Array'),
@@ -171,6 +231,19 @@
 				setProp(o, p, v);
 			}
 		},
+		doAlternate = function (j) {
+			function alternate(i, n) {
+				return function () {
+					i = (i += 1) % n;
+					return i;
+				};
+			}
+			return function (actions) {
+				j = j || 2;
+				return compose(invoke, deferPTL(best, alternate(0, j), actions));
+			};
+		},
+		alternate = doAlternate(),
 		add = function (a, b) {
 			return a + b;
 		},
@@ -220,11 +293,7 @@
 			compose(invoke, deferPTL(best, defer(matchLocal)(e), [enter, dummy]))();
 		},
 		loader = function () {
-			/*only add links if JS enabled*/
-            var res = window.matchMedia("(min-width: 769px)");
-            if(res.matches){
-			var links = slice.call(document.querySelectorAll('.slide')),
-				setHREF = curry3(lazyVal)('setAttribute;href'),
+			var setHREF = curry3(lazyVal)('setAttribute;href'),
 				values = ["minding.jpg", "alderley.jpg", "bolt.jpeg", "frank.jpg"],
 				getId = compose(curry2(getPropBridge)(1), fromPath, getHREF),
 				setId = curry3(setPropSort)('id'),
@@ -235,11 +304,31 @@
 			ptl = links.map(setId);
 			values = links.map(getId);
 			parallelInvoke(ptl, values);
-            }
+		},
+		undo = function () {
+			links.forEach(function (el) {
+				el.removeAttribute('href');
+			});
+			main.removeEventListener('click', listenBridge);
+		},
+		getPredicate = compose(curry2(getPropBridge)('matches'), defer(curry3(invokeProp)(query)('matchMedia'))(window)),
+		setup = function () {
+			var actions = [loader, undo],
+				outcomes = !getPredicate() ? actions.reverse() : actions,
+				perform = alternate(outcomes),
+                doPerform = compose(invoke, deferPTL(best, getPredicate, [perform, dummy])),
+				handler = function () {
+					if (!getPredicate()) {
+						perform();
+						getPredicate = negate(getPredicate);
+					}
+				};
+			window.addEventListener('resize', throttle(handler, 66));
+			doPerform();
 		};
-	main.addEventListener('click', listenBridge);
 	//'load' too lazy hrefs not set in time
-	window.addEventListener('DOMContentLoaded', loader);
-}(Array.prototype.slice));
+	window.addEventListener('DOMContentLoaded', setup);
+}(Array.prototype.slice, "(min-width: 769px)"));
 //let compose = (...fns) => fns.reduce( (f, g) => (...args) => f(g(...args)))
 ///look back (?<=\/)(.*?)(?=\.)/
+//actions1 = [window.prompt.bind(window, 'bolt'), window.confirm.bind(window, 'spadger')]
