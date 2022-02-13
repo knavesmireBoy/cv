@@ -304,6 +304,7 @@
 			ptl = links.map(setId);
 			values = links.map(getId);
 			parallelInvoke(ptl, values);
+            main.addEventListener('click', listenBridge);
 		},
 		undo = function () {
 			links.forEach(function (el) {
