@@ -363,19 +363,31 @@ abbr[title]:focus::after {
 	#content section:nth-of-type(5) strong:nth-child(1):after {
 		content: none;
 	}
+   
 }
-@media only screen and (max-width: 660px) {
+
+
+@media only screen and (max-width: 667px) {
+    #content section:nth-of-type(3) header strong:nth-child(2) {
+		position: absolute;
+		left: -999px;
+	}
+    
 	#content section:nth-of-type(4) header strong:nth-child(3) {
+		position: absolute;
+		left: -999px;
+	}
+    #content section:nth-of-type(4) header strong:nth-child(2) {
 		position: absolute;
 		left: -999px;
 	}
 	#content section:nth-of-type(4) strong:nth-child(2):after {
 		content: none;
 	}
-	#content section:nth-of-type(3) header strong:last-child {
-		position: absolute;
-		left: -999px;
+    #content section:nth-of-type(4) strong:nth-child(1):after {
+		content: none;
 	}
+	
 	#content section:nth-of-type(3) strong:first-child:after {
 		content: none;
 	}
@@ -398,10 +410,10 @@ abbr[title]:focus::after {
 		flex: 1 1 100%;
 	}
 }
-@media only screen and (min-width: 420px) and (max-width: 660px) {
+@media only screen and (min-width: 420px) and (max-width: 667px) {
 	#content section:nth-of-type(4) header strong:nth-child(2) {
 		position: absolute;
-		left: -999px;
+		left: -9999px;
 	}
 	#content section:nth-of-type(4) strong:nth-child(1):after {
 		content: none;
@@ -448,6 +460,7 @@ abbr[title]:focus::after {
 	}
 	a.resume {
 		padding: 3em 4em 0 0;
+		padding: 1em 0 0;
 		display: block;
 		background-image: none;
 	}
@@ -470,18 +483,8 @@ abbr[title]:focus::after {
 	body>footer ul li {
 		display: block;
 	}
-	body, main, .wrapper {
-		/*
-        background-color: rgb(19, 19, 19);
-        color: white;
-        */
-	}
-	
 	#content>section:first-of-type>header {
 		background-color: transparent;
-	}
-	aside h3 {
-		color: black;
 	}
 	.wrapper {
 		padding: 1.5rem 0 0;
@@ -493,11 +496,13 @@ abbr[title]:focus::after {
 		color: #26827e;
 	}
 	section header:first-child {
-		padding: .2em 0;
+		padding: 0;
+        margin: 0;
 	}
     section header:first-child h2 {
-	color: black;
-}
+        color: black;
+        font-size: 1.4em;
+    }
 }
 main>aside {
 	display: -webkit-box;
