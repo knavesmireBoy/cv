@@ -4,21 +4,12 @@
 /*global toString: false */
 (function (slice, query) {
 	"use strict";
-    function throttle(callback, limit) {
-        var waiting = false;                      // Initially, we're not waiting
-        return function () {                      // We return a throttled function
-            if (!waiting) {                       // If we're not waiting
-                callback.apply(this, arguments);  // Execute users function
-                waiting = true;                   // Prevent future invocations
-                window.setTimeout(function () {   // After a period of time
-                    waiting = false;              // And allow future invocations
-                }, limit);
-            }
-        };
-    }
-
-	function dummy() {}
+    function dummy() {}
     
+	function notUNDEF(arg) {
+		return typeof (arg) !== 'undefined';
+	}
+
     function equals(a, b) {
         return a === b;
     }
@@ -31,14 +22,7 @@
             return x;
         };
     }
-
-	function tagTester(name) {
-		var tag = '[object ' + name + ']';
-		return function (obj) {
-			return toString.call(obj) === tag;
-		};
-	}
-
+    
 	function negate(f) {
 		return function () {
 			return !f();
@@ -48,6 +32,10 @@
 	function doPair(v, p) {
 		return [p, v];
 	}
+    
+    function setProp(o, p, v) {
+        o[p] = v;
+    }
 
 	function dopartial(defer) {
 		return function _ptL(f) {
@@ -69,10 +57,6 @@
 				return _ptL.apply(null, [f].concat(args, _args));
 			};
 		};
-	}
-
-	function notUNDEF(arg) {
-		return typeof (arg) !== 'undefined';
 	}
 
 	function defer(fun) {
@@ -117,9 +101,13 @@
 			};
 		});
 	}
-    function setProp(o, p, v) {
-        o[p] = v;
-    }
+    
+    function tagTester(name) {
+		var tag = '[object ' + name + ']';
+		return function (obj) {
+			return toString.call(obj) === tag;
+		};
+	}
 
 	function getPropFactory(def) {
 		return function (o, p) {
@@ -163,8 +151,21 @@
     function deferScroll() {
         window.setTimeout(doScroll, 500);
     }
+    //https://stackoverflow.com/questions/27078285/simple-throttle-in-javascript
+    function throttle(callback, limit) {
+        var waiting = false;                      // Initially, we're not waiting
+        return function () {                      // We return a throttled function
+            if (!waiting) {                       // If we're not waiting
+                callback.apply(this, arguments);  // Execute users function
+                waiting = true;                   // Prevent future invocations
+                window.setTimeout(function () {   // After a period of time
+                    waiting = false;              // And allow future invocations
+                }, limit);
+            }
+        };
+    }
     
-	var main = document.querySelector('main'),
+    var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
 		links = slice.call(document.querySelectorAll('.slide')),
 		/*conz = function (x) {
@@ -180,6 +181,7 @@
 		},
 		invokeProp = invokePropFactory(''),
 		lazy = function (sep) {
+            //bit cheeky this
 			return function (v, o, p) {
 				var x = p.split(sep),
 					pp = x[1];
@@ -230,10 +232,10 @@
 		getHash = ptL(getPropBridge, window.location),
 		reEntry = compose(resetWindow, resetPicHref),
 		queryHash = defer(curry3(lazyVal)('map')([getHIMhref, getHash]))(curry2(invoke)('hash')),
-		/*get window location and active internal link on him pic, if equal reset both to empty, mapped results supplied as array to invoke. Wasted time having location.hash in a closure needs to be read live. Must run prior to checking which link was clicked. Effectively reloads page*/
+		/* get window location and active internal link on him pic, if equal reset both to empty, mapped results supplied as array to invoke. Wasted time having location.hash in a closure needs to be read live. Must run prior to checking which link was clicked. Effectively reloads the page */
 		doReload = compose(invoke, deferPTL(best, compose(ptL(invoke, equals), queryHash), [reEntry, dummy])),
 		prevent = curry3(invokeProp)(null)('preventDefault'),
-		//resets inline style
+		//resets inline style, allowing style sheet to apply rules
 		doNull = curry3(setPropBridge)(null)('backgroundImage'),
 		setPropDefer = ptL(setPropBridge),
 		getTargetPicStyle = defer(curry2(getPropBridge)('style'))(him),
@@ -296,5 +298,3 @@
         window.addEventListener('DOMContentLoaded', setup);
     }
 }(Array.prototype.slice, "(min-width: 769px)"));
-//let compose = (...fns) => fns.reduce( (f, g) => (...args) => f(g(...args)))
-///look back (?<=\/)(.*?)(?=\.)/

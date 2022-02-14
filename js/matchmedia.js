@@ -3,6 +3,15 @@
 /*global document: false */
 /*global toString: false */
 
+if(!document.querySelector){
+    document.querySelector = function(){
+        return null;
+    }
+    document.querySelectorAll = function(){
+        return [];
+    }
+}
+
 if(!window.matchMedia) {
     window.matchMedia = function() {
     "use strict";
