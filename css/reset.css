@@ -94,3 +94,9 @@ button:focus {
 ol, ul, dl {
 	list-style: none;
 }
+
+a:active, a:focus {
+  outline: 0;
+  border: none;
+  -moz-outline-style: none;
+}
