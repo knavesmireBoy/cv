@@ -154,4 +154,11 @@ window.matchMedia || (window.matchMedia = function() {
             }
             return result;
         };
+<<<<<<< HEAD
     }
+=======
+    }
+
+//let compose = (...fns) => fns.reduce( (f, g) => (...args) => f(g(...args)))
+///look back (?<=\/)(.*?)(?=\.)/
+>>>>>>> working
