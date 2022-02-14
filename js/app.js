@@ -156,6 +156,14 @@
 			return champ;
 		});
 	}
+    function doScroll() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+    function deferScroll() {
+        window.setTimeout(doScroll, 500);
+    }
+    
 	var main = document.querySelector('main'),
 		him = document.querySelector('.him'),
 		links = slice.call(document.querySelectorAll('.slide')),
@@ -169,13 +177,6 @@
 		invoke = function (f, v) {
 			var m = isArray(v) ? 'apply' : 'call';
 			return f[m](f, v);
-		},
-		doScroll = function () {
-			document.body.scrollTop = 0; // For Safari
-			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-		},
-		deferScroll = function () {
-			window.setTimeout(doScroll, 500);
 		},
 		invokeProp = invokePropFactory(''),
 		lazy = function (sep) {
@@ -274,13 +275,10 @@
 			parallelInvoke(ptl, values);
             main.addEventListener('click', listenBridge);
 		},
-		undo = function () {
-			links.forEach(function (el) {
-				el.removeAttribute('href');
-			});
-			main.removeEventListener('click', listenBridge);
-		},
-		getPredicate = compose(curry2(getPropBridge)('matches'), defer(curry3(invokeProp)(query)('matchMedia'))(window)),
+        removeAttr = deferPTL(invokeProp, links, 'forEach', curry3(invokeProp)('href')('removeAttribute')),
+        removeListener = deferPTL(invokeProp, main, 'removeEventListener', ['click', listenBridge]),
+        undo = defer(each)([removeAttr, removeListener]),
+        getPredicate = compose(curry2(getPropBridge)('matches'), defer(curry3(invokeProp)(query)('matchMedia'))(window)),
 		setup = function () {
 			var doReverse = ptL(lazyVal, null, [loader, undo]),
 				strategy = compose(doAlt, doReverse, invoke, deferPTL(best, getPredicate, [always('slice'), always('reverse')]))(),
@@ -291,10 +289,12 @@
 						getPredicate = negate(getPredicate);
 					}
 				};
-			window.addEventListener('resize', throttle(handler, 66));
-			doStrategy();
+            window.addEventListener('resize', throttle(handler, 66));
+            doStrategy();
 		};
-	window.addEventListener('DOMContentLoaded', setup);
+    if (window.addEventListener) {
+        window.addEventListener('DOMContentLoaded', setup);
+    }
 }(Array.prototype.slice, "(min-width: 769px)"));
 //let compose = (...fns) => fns.reduce( (f, g) => (...args) => f(g(...args)))
 ///look back (?<=\/)(.*?)(?=\.)/
