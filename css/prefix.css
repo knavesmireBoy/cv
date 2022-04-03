@@ -516,3 +516,5 @@ main>aside {
 	-ms-flex-pack: justify;
 	justify-content: space-between;
 }
+
+my-first-custom-element::part(header) { background: red; }
