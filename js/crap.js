@@ -9,6 +9,3 @@
 
 //drno
 //frwl
-//goldfinger
-//thunderball
-//yolt
