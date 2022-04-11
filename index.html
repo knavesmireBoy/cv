@@ -140,9 +140,12 @@
     }
         
         Function.wrap = function(){
-            var args = [].slice.call(arguments);
+            var that = this,
+                args = [].slice.call(arguments),
+                nargs;
             return function(){
-                
+                nargs = [].slice.call(arguments);
+                return [that].apply(this, args.concat(nargs));
             };
         }
 
