@@ -148,6 +148,16 @@
                 return [that].apply(this, args.concat(nargs));
             };
         }
+        
+        function wrapped(f, a, b){
+            var ret = f(a,b);
+            console.log(wrapped);
+            return ret;
+        }
+        
+        //var addme = add.wrap(wrapped, 2, 3);
+        
+        addme();
 
 
 
