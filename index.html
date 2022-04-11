@@ -142,15 +142,12 @@
                     var args = [],
                         L = arguments.length;
                     for (var i = 0; i < L; i++) {
-                    args.push(arguments[i]);
+                        args.push(arguments[i]);
+                    }
+                    return wrapper.apply(this, [method.bind(this)].concat(args));
                 }
-                return wrapper.apply(this, [method.bind(this)].concat(args));
-            }
-        };
-    }
-
-   
-       
+            };
+        }
         
         function wrapped(f, a, b){
             var ret = f(a,b);
