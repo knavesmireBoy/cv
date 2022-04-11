@@ -140,7 +140,10 @@
     }
         
         Function.wrap = function(){
-            
+            var args = [].slice.call(arguments);
+            return function(){
+                
+            };
         }
 
 
