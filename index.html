@@ -135,29 +135,38 @@
     <footer><ul><li></li><li>e: <a href="mailto: andrewsykes@btinternet.com">andrewsykes@btinternet.com</a></li><li>m: 07758 659222</li><li>p: <a href="https://www.google.com/maps/place/The+Circuit,+Alderley+Edge+SK9+7LS/@53.3083068,-2.230122,17z/data=!3m1!4b1!4m5!3m4!1s0x487a4d945266c4ad:0xc290b3f8e37ee783!8m2!3d53.3084414!4d-2.2279837" target="_blank">SK9 7LS</a></li><li></li></ul></footer>
     <script src="js/app.js"></script>
     <script>
-    function add(){
-        return a + b;
+        if (typeof Function.prototype.wrap === 'undefined') {
+            Function.prototype.wrap = function(wrapper) {
+                var method = this;
+                return function() {
+                    var args = [],
+                        L = arguments.length;
+                    for (var i = 0; i < L; i++) {
+                    args.push(arguments[i]);
+                }
+                return wrapper.apply(this, [method.bind(this)].concat(args));
+            }
+        };
     }
-        
-        Function.wrap = function(){
-            var that = this,
-                args = [].slice.call(arguments),
-                nargs;
-            return function(){
-                nargs = [].slice.call(arguments);
-                return [that].apply(this, args.concat(nargs));
-            };
-        }
+
+   
+       
         
         function wrapped(f, a, b){
             var ret = f(a,b);
-            console.log(wrapped);
+            console.log(ret);
             return ret;
         }
         
-        //var addme = add.wrap(wrapped, 2, 3);
+         function add(a, b){
+        return a + b;
+    }
         
-        addme();
+        
+        var addme = add.wrap(wrapped);
+        
+        
+        addme(2,7);
 
 
 
