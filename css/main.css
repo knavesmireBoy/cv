@@ -15,6 +15,7 @@ html {
 body {
 	margin: 1vw auto;
 	text-align: justify;
+	color: #102c3d;
 }
 main {
 	padding: 0;
@@ -100,8 +101,8 @@ article.refactor p {
 	font-style: normal;
 }
 section h2, section h3 {
-	color: crimson;
 	color:  hsl(60, 100%, 33%);
+	color: crimson;
 }
 section h3 {
 	font: 1.25em Arial, sans-serif;
@@ -139,7 +140,7 @@ main>section>ul li {
 	margin: 0 2rem;
 	font: .6em/1.4 Palatino, Lora, Georgia, serif;
 	opacity: .99;
-	background-color: rgb(247, 247, 240);
+	background-color: rgb(247, 247, 244);
 }
 .him {
 	width: 80%;
@@ -174,8 +175,8 @@ ul.key {
 	margin: -.75rem 0 0;
 }
 a:link, a:visited {
-	color: #26827e;
 	color: hsl(60, 100%, 33%);
+	color: #26827e;
 	font-weight: bold;
 }
 a:hover {
@@ -189,7 +190,8 @@ footer a:hover {
 	text-decoration: underline;
 }
 aside a:link, aside a:visited {
-	color: #DEEB52;;
+	color: black;
+	color: #DEEB52;
 }
 aside a:hover {
 	color: white;
@@ -224,8 +226,8 @@ section header:first-child {
 	margin: .7em 0;
 }
 .work a:hover {
-	border-color: cyan;
 	border-color: #DEEB52;
+	border-color: cyan;
 }
 header li:first-child, header li:last-child, footer li:first-child, footer li:last-child {
 	border: solid 1px;

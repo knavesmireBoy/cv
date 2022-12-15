@@ -47,8 +47,8 @@ abbr[title]:focus::after {
 
 @supports (column-gap: 10px) {
 	aside:before {
-		border-color: crimson;
 		border-color: #DEEB52;
+		border-color: crimson;
 		border-width: calc(134px + (26) * (100vw - 1024px) / (1280 - 1024));
 		border-width: calc(133px + (72) * (100vw - 1024px) / (1680 - 1024));
 		border-right-color: transparent;
