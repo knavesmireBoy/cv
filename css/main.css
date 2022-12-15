@@ -83,6 +83,7 @@ aside h1 {
 aside h3 {
 	color: #fff;
 	color: #DEEB52;
+	color: hsl(44, 100%, 32%);;
 }
 aside strong {
 	font-size: 1.1em;
@@ -103,6 +104,7 @@ article.refactor p {
 section h2, section h3 {
 	color:  hsl(60, 100%, 33%);
 	color: crimson;
+	color: hsl(44, 100%, 22%);
 }
 section h3 {
 	font: 1.25em Arial, sans-serif;
@@ -177,10 +179,12 @@ ul.key {
 a:link, a:visited {
 	color: hsl(60, 100%, 33%);
 	color: #26827e;
+	color: hsl(44, 100%, 30%);
 	font-weight: bold;
 }
 a:hover {
 	color: #3dc2bb;
+	color: hsl(65, 100%, 32%);
 }
 footer a:link, footer a:visited {
 	color: black;
@@ -192,6 +196,7 @@ footer a:hover {
 aside a:link, aside a:visited {
 	color: black;
 	color: #DEEB52;
+	color: hsl(44, 100%, 52%);
 }
 aside a:hover {
 	color: white;
@@ -226,8 +231,9 @@ section header:first-child {
 	margin: .7em 0;
 }
 .work a:hover {
-	border-color: #DEEB52;
 	border-color: cyan;
+	border-color: #DEEB52;
+	border-color: hsl(44, 100%, 52%);
 }
 header li:first-child, header li:last-child, footer li:first-child, footer li:last-child {
 	border: solid 1px;
