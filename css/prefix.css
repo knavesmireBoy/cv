@@ -48,6 +48,7 @@ abbr[title]:focus::after {
 @supports (column-gap: 10px) {
 	aside:before {
 		border-color: crimson;
+		border-color: #DEEB52;
 		border-width: calc(134px + (26) * (100vw - 1024px) / (1280 - 1024));
 		border-width: calc(133px + (72) * (100vw - 1024px) / (1680 - 1024));
 		border-right-color: transparent;
@@ -81,7 +82,7 @@ abbr[title]:focus::after {
 	aside .web {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		grid-template-rows: repeat(12, 3.7vw);
+		grid-template-rows: repeat(15, 3.7vw);
 	}
 	aside .web.work>a {
 		width: 100%;
@@ -105,7 +106,11 @@ abbr[title]:focus::after {
 	}
 	aside .web>a:nth-child(5) {
 		grid-column: 1 / 2;
-		grid-row: 10 / 13;
+		grid-row: 9 / 12;
+	}
+	aside .web>a:nth-child(6) {
+		grid-column: 2 / 3;
+		grid-row: 11 / 14;
 	}
 }
 @supports (background-size: cover) {
@@ -135,6 +140,15 @@ abbr[title]:focus::after {
 		background-size: cover;
 		background-position: center 30%;
 	}
+	.web a:nth-child(6) {
+		background-image: url(../assets/freelance_web_designer4.jpeg);
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		background-position: 54% 0%;
+	}
+
 	.him {
 		background-image: url(../assets/ajs.jpg);
 		-webkit-background-size: cover;
