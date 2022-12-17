@@ -179,12 +179,13 @@ ul.key {
 a:link, a:visited {
 	color: hsl(60, 100%, 33%);
 	color: #26827e;
-	color: hsl(44, 100%, 30%);
+	color: hsl(177, 52%, 40%);
+
 	font-weight: bold;
 }
 a:hover {
-	color: #3dc2bb;
 	color: hsl(65, 100%, 32%);
+	color: hsl(44, 100%, 30%);
 }
 footer a:link, footer a:visited {
 	color: black;
