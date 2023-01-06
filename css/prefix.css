@@ -466,8 +466,8 @@ abbr[title]:focus::after {
 		justify-content: space-around;
 	}
 	.web a {
-		padding-bottom: calc(100px + (47) * (100vw - 520px) / (768 - 520));
-		padding-bottom: 16%;
+		padding-bottom: calc(100px + 47 * ((100vw - 520px) / (768 - 520)));
+		padding-bottom: 12%;
 	}
 	body>footer {
 		font-size: .75em;
@@ -485,9 +485,7 @@ abbr[title]:focus::after {
 	aside .web {
 		display: flex;
 	}
-    aside {
-		background-color: hsl(177, 52%, 50%, 0.5);
-	}
+ 
 
 }
 @media only screen and (max-width: 600px) {
