@@ -466,7 +466,7 @@ abbr[title]:focus::after {
 		justify-content: space-around;
 	}
 	.web a {
-		padding-bottom: calc(100px + 47 * ((100vw - 520px) / (768 - 520)));
+		padding-bottom: calc(30px + 54 * ((100vw - 320px) / (768 - 320)));
 		padding-bottom: 12%;
 	}
 	body>footer {
