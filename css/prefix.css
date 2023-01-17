@@ -322,8 +322,6 @@ abbr[title]:focus::after {
 		}
 		aside .web {
 			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			grid-template-rows: repeat(12, 4.2vw);
 		}
 	}
 	footer a:link, footer a:visited {
