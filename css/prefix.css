@@ -82,11 +82,11 @@ abbr[title]:focus::after {
 	aside .web {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		grid-template-rows: repeat(15, 3.7vw);
+		grid-template-rows: repeat(15, 3.6vw);
 	}
 	aside .web.work>a {
 		width: 100%;
-		height: auto;
+		height: 100%;
 	}
 	aside .web>a:first-child {
 		grid-column: 1 / 2;
@@ -321,7 +321,7 @@ abbr[title]:focus::after {
 			border-width: calc(111px + (30) * (100vw - 768px) / (1024 - 768));
 		}
 		aside .web {
-			display: grid;
+			grid-template-rows: repeat(15, 3.8vw);
 		}
 	}
 	footer a:link, footer a:visited {
