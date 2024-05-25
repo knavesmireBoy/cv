@@ -15,6 +15,7 @@ html {
 body {
 	margin: 1vw auto;
 	text-align: justify;
+	color: #102c3d;
 }
 main {
 	padding: 0;
@@ -29,6 +30,8 @@ aside {
 	text-align: left;
 	position: relative;
 	background-color: #3dc2bb;
+	background-color: #102c3d;
+	color: #fff;
 }
 section {
 	margin: 0 0 1em;
@@ -74,9 +77,13 @@ main>section {
 aside h1 {
 	font: 900 3em/.75 Georgia, serif;
 	color: #fff;
+	
+
 }
 aside h3 {
 	color: #fff;
+	color: #DEEB52;
+	color: hsl(44, 100%, 32%);;
 }
 aside strong {
 	font-size: 1.1em;
@@ -95,7 +102,9 @@ article.refactor p {
 	font-style: normal;
 }
 section h2, section h3 {
+	color:  hsl(60, 100%, 33%);
 	color: crimson;
+	color: hsl(44, 100%, 22%);
 }
 section h3 {
 	font: 1.25em Arial, sans-serif;
@@ -133,7 +142,7 @@ main>section>ul li {
 	margin: 0 2rem;
 	font: .6em/1.4 Palatino, Lora, Georgia, serif;
 	opacity: .99;
-	background-color: rgb(247, 247, 247);
+	background-color: rgb(247, 247, 244);
 }
 .him {
 	width: 80%;
@@ -168,11 +177,15 @@ ul.key {
 	margin: -.75rem 0 0;
 }
 a:link, a:visited {
+	color: hsl(60, 100%, 33%);
 	color: #26827e;
+	color: hsl(177, 52%, 40%);
+
 	font-weight: bold;
 }
 a:hover {
-	color: #3dc2bb;
+	color: hsl(65, 100%, 32%);
+	color: hsl(44, 100%, 30%);
 }
 footer a:link, footer a:visited {
 	color: black;
@@ -183,6 +196,8 @@ footer a:hover {
 }
 aside a:link, aside a:visited {
 	color: black;
+	color: #DEEB52;
+	color: hsl(44, 100%, 52%);
 }
 aside a:hover {
 	color: white;
@@ -212,12 +227,14 @@ aside a:hover {
 	border-collapse: collapse;
 }
 section header:first-child {
-	background-color: black;
+	background-color:  #102c3d;
 	padding: .2em;
 	margin: .7em 0;
 }
 .work a:hover {
 	border-color: cyan;
+	border-color: #DEEB52;
+	border-color: hsl(44, 100%, 52%);
 }
 header li:first-child, header li:last-child, footer li:first-child, footer li:last-child {
 	border: solid 1px;
