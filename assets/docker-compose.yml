@@ -1,0 +1,49 @@
+# Services
+version: "3.8"
+services:
+  php:
+    container_name: php-apache
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    ports:
+      - "80:80" 
+    depends_on:
+      - polodb
+    environment:
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+    networks:
+      - frontnet
+      - backnet
+  polodb:
+    container_name: polodb
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      - backnet
+  adminer:
+    image: adminer
+    depends_on:
+      - polodb
+    restart: always
+    ports:
+      - 8080:8080   
+    networks:
+      - frontnet
+      - backnet     
+volumes:
+  mysqldata: {}
+  app: {}
+networks:
+  frontnet:
+    driver: bridge
+  backnet:
+    driver: bridge  
