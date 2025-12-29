@@ -1,7 +1,0 @@
-                    <section>
-                    <header><h3><strong>Interests</strong></h3>
-                    </header>
-                    <article>
-                        <p>I met my partner on a walking holiday, still our favourite kind of trip. Mostly on the continent. The <a class="slide">dog</a> is happier on home turf however and now that he would not be able were wer glad that lockdown aloowed us to finally completed the Thames Path, a project started in a stint down south in 2016. I enjoy cooking from scratch most evenings and have long enjoyed stirring or shaking but inevitably imbibing a properly prepared cocktail. We don't have to travel too far to find <a class="slide">exotic booze</a> these days. No longer do I need to contact New York for options on orange bitters or blindly roam the streets of London in a vain attempt to secure a bottle of creme-de-menthe blanc.</p>
-                    </article>
-                </section>
